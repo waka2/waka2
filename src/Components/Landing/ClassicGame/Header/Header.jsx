@@ -24,7 +24,7 @@ class Header extends Component {
     }
 
     die = () => {
-        this.setState({lives: lives - 1})
+        this.setState({lives: this.state.lives - 1})
     }
 
 

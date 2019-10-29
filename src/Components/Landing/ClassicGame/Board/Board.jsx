@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import PacMan from './PacMan/PacMan'
-import Ghosts from './Ghosts/Ghosts'
+// import PacMan from './PacMan/PacMan'
+// import Ghosts from './Ghosts/Ghosts'
 import './board.scss'
 
 class Board extends Component {
@@ -17,7 +17,7 @@ class Board extends Component {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
-                [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
+                [1,3,1,0,0,1,2,1,0,0,0,1,2,1,1,2,1,0,0,0,1,2,1,0,0,1,3,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],         
@@ -50,20 +50,21 @@ class Board extends Component {
     }
 
     render(){
-        let boardMapped = this.state.board.map((el, i) => {
+        let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
-              <div key={i} className={`row row${i}`}>
-                {el.map((ele, ind) => {
-                  if (ele === 0) {
-                        return <div key={ind + i} className="path"/>
-                  } else if (ele === 1){
-                        return <div key={ind + i} className="wall"/>
-                  } else if (ele === 2) {
-                        return <div key={ind + i} className="pellet"/>
-                  } else if (ele === 3) {
-                        return <div key={ind + i} className="power-pellet"/>
-                  } else if (ele === 4) {
-                        return <div key={ind + i} className="ghost-door"/>
+              <div key={rowInd} className={`row row${rowInd}`}>
+                {row.map((block, blockInd, blockArr) => {
+                    // console.log(rowArr[rowInd + 1][blockInd])
+                  if (block === 0) {
+                        return <div key={rowInd + blockInd} className="path"/>
+                  } else if (block === 1){
+                        return <div key={rowInd + blockInd} className="wall"/>
+                  } else if (block === 2) {
+                        return <div key={rowInd + blockInd} className="pellet"/>
+                  } else if (block === 3) {
+                        return <div key={rowInd + blockInd} className="power-pellet"/>
+                  } else if (block === 4) {
+                        return <div key={rowInd + blockInd} className="ghost-door"/>
                   }
                 })}
               </div>
@@ -71,9 +72,9 @@ class Board extends Component {
           })
         return(
             <div className="board">
-                <p>This is Board</p>
+                {/* <p>This is Board</p>
                 <PacMan />
-                <Ghosts />
+                <Ghosts /> */}
                 {boardMapped}
             </div>
         )

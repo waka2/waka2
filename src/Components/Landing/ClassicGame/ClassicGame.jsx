@@ -12,8 +12,8 @@ class ClassicGame extends Component {
         return(
             <div className="classicgame">
                 <p>This is ClassicGame</p>
-                <Board />
                 <Header />
+                <Board />
             </div>
         )
     }

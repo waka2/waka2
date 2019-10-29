@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
 import Ghosts from './Ghosts/Ghosts'
+import './board.scss'
 
 class Board extends Component {
     constructor(){

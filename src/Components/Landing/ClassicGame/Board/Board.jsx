@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import PacMan from './PacMan/PacMan'
+import Ghosts from './Ghosts/Ghosts'
 
 class Board extends Component {
     constructor(){
@@ -10,6 +12,8 @@ class Board extends Component {
         return(
             <div className="board">
                 <p>This is Board</p>
+                <PacMan />
+                <Ghosts />
             </div>
         )
     }                           

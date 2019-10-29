@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import Board from './Board/Board'
+import Header from './Header/Header'
 
 class ClassicGame extends Component {
     constructor(){
@@ -8,8 +10,10 @@ class ClassicGame extends Component {
 
     render(){
         return(
-            <div className="classicgame">
+            <div id="classicgame">
                 <p>This is ClassicGame</p>
+                <Header />
+                <Board />
             </div>
         )
     }

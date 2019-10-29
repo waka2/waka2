@@ -7,10 +7,9 @@ class PacMan extends Component {
     }
 
     render(){
+        let style = {top: `${this.props.y * 20}px`, left: `${this.props.x * 20}px`, transition: '.2s linear'}
         return(
-            <div className="pacman">
-                <p>This is PacMan</p>
-            </div>
+            <div className="pacman" style={style}/>
         )
     }                           
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import PacMan from './PacMan/PacMan'
-import Ghosts from './Ghosts/Ghosts'
+// import PacMan from './PacMan/PacMan'
+// import Ghosts from './Ghosts/Ghosts'
 import './board.scss'
 
 class Board extends Component {
@@ -17,7 +17,7 @@ class Board extends Component {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
-                [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
+                [1,3,1,0,0,1,2,1,0,0,0,1,2,1,1,2,1,0,0,0,1,2,1,0,0,1,3,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],         
@@ -72,9 +72,9 @@ class Board extends Component {
           })
         return(
             <div className="board">
-                <p>This is Board</p>
+                {/* <p>This is Board</p>
                 <PacMan />
-                <Ghosts />
+                <Ghosts /> */}
                 {boardMapped}
             </div>
         )

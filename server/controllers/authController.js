@@ -3,7 +3,7 @@ module.exports = {
     async register(req, res) {
         const db = req.app.get('db')
         const {username, password, email, highscore} = req.body
-        console.log(req.body)
+
         // Check to see if the user has already registered.
         const user = await db.find_user(username)
 

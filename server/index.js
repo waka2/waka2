@@ -4,6 +4,7 @@ const session = require('express-session')
 const massive = require('massive')
 
 const authCtrl = require('./controllers/authController')
+const scoreCtrl = require('./controllers/scoreController')
 
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 
@@ -16,9 +17,7 @@ app.use(session({
     secret: SESSION_SECRET
 }))
 
-// User Login - /auth/login
-// User Register - /auth/register
-// User Logout - /auth/logout
+
 // Get Score - /api/score
 // Put Score - /api/score
 // Get HighScores - /api/highscores
@@ -26,6 +25,10 @@ app.use(session({
 app.post('/auth/register', authCtrl.register)
 app.post('/auth/login', authCtrl.login)
 app.delete('/auth/logout', authCtrl.logout)
+
+app.get('/api/score', scoreCtrl.singleScore)
+app.get('/api/highscores', scoreCtrl.allScores)
+app.put('/api/score', scoreCtrl.editScore)
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db)

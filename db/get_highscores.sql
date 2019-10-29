@@ -1,2 +1,2 @@
-SELECT highscore FROM users
+SELECT highscore, username FROM users
 ORDER BY highscore DESC;

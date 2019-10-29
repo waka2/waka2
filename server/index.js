@@ -16,9 +16,7 @@ app.use(session({
     secret: SESSION_SECRET
 }))
 
-// User Login - /auth/login
-// User Register - /auth/register
-// User Logout - /auth/logout
+
 // Get Score - /api/score
 // Put Score - /api/score
 // Get HighScores - /api/highscores

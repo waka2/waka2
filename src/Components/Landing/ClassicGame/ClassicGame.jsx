@@ -10,10 +10,10 @@ class ClassicGame extends Component {
 
     render(){
         return(
-            <div className="classicgame">
+            <div id="classicgame">
                 <p>This is ClassicGame</p>
-                <Board />
                 <Header />
+                <Board />
             </div>
         )
     }

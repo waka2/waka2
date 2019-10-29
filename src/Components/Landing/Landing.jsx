@@ -7,7 +7,7 @@ function Landing() {
         <div className="landing">
             <div className="outer-container">
                 <div className="classic-button">
-                    <button>Play Classic</button>
+                    <button><a href="#classicgame">Play Classic</a></button>
                 </div>
                 <div className="inner-container">
                     <ClassicGame />

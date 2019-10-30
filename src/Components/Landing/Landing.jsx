@@ -1,19 +1,25 @@
 import React from 'react'
 import './landing.scss'
-import ClassicGame from './ClassicGame/ClassicGame'
+import {Switch, Route, Link} from 'react-router-dom';
+import ClassicGame from './ClassicGame/ClassicGame';
+import Multiplayer from './Multiplayer/ghostPact';
 
 function Landing() {
+
     return(
         <div className="landing">
             <div className="outer-container">
                 <div className="classic-button">
-                    <button><a href="#classicgame">Play Classic</a></button>
+                    <button><Link to="/classic">Play Classic</Link></button>
                 </div>
                 <div className="inner-container">
-                    <ClassicGame />
+                    <Switch>
+                        <Route path="/classic" component={ClassicGame} />
+                        <Route path="/ghostPact" component={Multiplayer} />
+                    </Switch>
                 </div>
                 <div className="br-button">
-                    <button>Play Battle Royale</button>
+                    <button><Link to="/ghostPact">Play Multiplayer</Link></button>
                 </div>
             </div>
 

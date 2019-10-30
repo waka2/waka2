@@ -1,9 +1,39 @@
+// .pacman {
+//     width: 20px;
+//     height: 20px;
+//     border-radius: 50%;
+//     background: black;
+//     position: absolute;
+//     z-index: 2;
+// }
 
 .pacman {
-    width: 20px;
+    background: yellow;
     height: 20px;
+    width: 20px;
     border-radius: 50%;
-    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     z-index: 2;
+    // transform: rotate(270deg);
+    .triangle {
+        border-color: transparent black transparent transparent;
+        border-style: solid;
+        border-width: 10px 20px 10px 0px;
+        height: 0px;
+        width: 0px;
+        margin-left: 20px;
+        animation-name: mouth;
+        animation-duration: .3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        clip-path: inset(0px 10px 0px 0px);
+    }
+}
+@keyframes mouth {
+    0% {border-width: 20px 20px 20px 0px;};
+    50% {border-width: 0px 20px 0px 0px;};
+    100% {border-width: 20px 20px 20px 0px;}
 }

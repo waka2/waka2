@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import "./pacman.scss"
 
 class PacMan extends Component {
     constructor(){

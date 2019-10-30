@@ -208,7 +208,7 @@ class MPBoard extends Component {
             )
           })
         return(
-            <div className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
+            <div className="mpboard" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacmanDirection} x={this.state.pacmanCoordsX} y={this.state.pacmanCoordsY}/>
                 {/* <Ghosts /> */}

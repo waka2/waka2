@@ -1,5 +1,90 @@
 @import '../../../../App.scss';
 
 .header {
-    font-family: $pixelFont;   
+    font-family: $pixelFont;
+    height: 10%;
+    width: 100%;
+
+    start {
+        -webkit-animation: 1s linear infinite condemned_blink_effect;
+        animation: 1s linear infinite condemned_blink_effect;
+      }
+      @-webkit-keyframes condemned_blink_effect {
+        0% {
+          visibility: hidden;
+        }
+        50% {
+          visibility: hidden;
+        }
+        100% {
+          visibility: visible;
+        }
+      }
+      @keyframes condemned_blink_effect {
+        0% {
+          visibility: hidden;
+        }
+        50% {
+          visibility: hidden;
+        }
+        100% {
+          visibility: visible;
+        }
+      }
+
+      .parent {
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        background: black;
+        color: white;
+      }
+
+      
 }
+
+.normalheader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.press-start {
+    font-size: 1.5rem;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+.username {
+    display: flex;
+    flex-direction: column;
+    font-size: .5rem;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+
+
+.points {
+    font-size: .75rem;
+    margin: 0
+}
+
+.highscore {
+    text-align: center;
+    font-size: .6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logo{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+

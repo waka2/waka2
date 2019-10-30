@@ -32,26 +32,34 @@ class Header extends Component {
         this.setState({playing: true})
     }
 
+    componentDidMount = () => {
+        window.addEventListener('keydown',() => this.startGame() )
+    }
+
 
 
     render(){
         return(
             <div className="header">
+                <div className="parent">
                 {this.state.playing === false ? 
-                <h1 tabIndex="0" onKeyDown={() => this.startGame()} >Press any key to start</h1> :
+                <h6 className='press-start' tabIndex="0" /* onKeyPress={() => this.startGame()} */ ><start>Press any key to start</start></h6> :
                 <div className="normalheader">
-                    <span className="top">
-                        <h2>Points: {this.state.points}</h2>
-                        <h1>Waka<sup>2</sup></h1>
+                    <span className="username">
+                        <p>username</p>
+                        <h2 className='points'>Points:</h2>
+                        <p> {this.state.points}</p>
                     </span>
                     <span className="highscore">
                         <h1>Highscore</h1>
                         <p>their highscore</p>
                     </span>
-                    <span className="username">
-                        <p>username</p>
+                    <span className="logo">
+                    <h5>Waka<sup>2</sup></h5>
                     </span>
+
                 </div> }
+                </div>
                 <section className='lives'>
                     <div>livessss</div>
                 </section>

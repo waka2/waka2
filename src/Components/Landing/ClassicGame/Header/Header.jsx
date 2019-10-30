@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './header.scss'
 
 class Header extends Component {
     constructor(){
@@ -12,7 +13,7 @@ class Header extends Component {
 
     pointsIncrease = () => {
         if (this.state.playing === true) {
-            let currentPoints = this.state.point + 100
+            let currentPoints = this.state.points + 100
             this.setState({points: currentPoints})
         }
     }
@@ -24,7 +25,11 @@ class Header extends Component {
     }
 
     die = () => {
-        this.setState({lives: lives - 1})
+        this.setState({lives: this.state.lives - 1})
+    }
+
+    startGame = () => {
+        this.setState({playing: true})
     }
 
 
@@ -32,12 +37,12 @@ class Header extends Component {
     render(){
         return(
             <div className="header">
-                {!this.state.playing ? 
-                <button>Press Start</button> :
+                {this.state.playing === false ? 
+                <h1 tabIndex="0" onKeyDown={() => this.startGame()} >Press any key to start</h1> :
                 <div className="normalheader">
                     <span className="top">
                         <h2>Points: {this.state.points}</h2>
-                        <h1>Waka</h1>
+                        <h1>Waka<sup>2</sup></h1>
                     </span>
                     <span className="highscore">
                         <h1>Highscore</h1>

@@ -9,7 +9,7 @@ class Board extends Component {
         this.state = {
             pacmanCoordsX: 13,
             pacmanCoordsY: 23,
-            pacmanDirection: 'LEFT',
+            pacmanDirection: 'RIGHT',
             interval: null,
             // 0 = path
             // 1 = wall
@@ -17,7 +17,6 @@ class Board extends Component {
             // 3 = power-pellet
             // 4 = ghost spawn door
             board: [
-
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
@@ -49,7 +48,6 @@ class Board extends Component {
                 [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-                
             ]
         }
     }
@@ -212,7 +210,7 @@ class Board extends Component {
         return(
             <div className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
-                <PacMan x={this.state.pacmanCoordsX} y={this.state.pacmanCoordsY}/>
+                <PacMan direction={this.state.pacmanDirection} x={this.state.pacmanCoordsX} y={this.state.pacmanCoordsY}/>
                 {/* <Ghosts /> */}
                 {boardMapped}
             </div>

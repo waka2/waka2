@@ -10,12 +10,14 @@ class Board extends Component {
             pacmanCoordsX: 13,
             pacmanCoordsY: 23,
             pacmanDirection: 'LEFT',
+            interval: null,
             // 0 = path
             // 1 = wall
             // 2 = pellet
             // 3 = power-pellet
             // 4 = ghost spawn door
             board: [
+
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
@@ -47,12 +49,13 @@ class Board extends Component {
                 [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+                
             ]
         }
     }
 
     componentDidMount() {
-        setInterval(() => {
+        const interval = setInterval(() => {
             if (this.state.pacmanDirection === 'UP'){
               this.movePacMan({keyCode: 38})
             }
@@ -66,45 +69,69 @@ class Board extends Component {
               this.movePacMan({keyCode: 39})
             }
           }, 200)
+          this.setState({
+              interval: interval
+          })
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval)
     }
 
     eatPellet(direction){
-        if (direction === 'UP'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2) {
-                this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
-            }
-        } else if (direction === 'DOWN'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
-                this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
-            }
-        } else if (direction === 'LEFT'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
-                this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
-            }
-        } else if (direction === 'RIGHT'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
-                this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
-            }
+        switch(direction){
+            case 'UP':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2) {
+                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                }
+                break
+            case 'DOWN':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                }
+                break
+            case 'LEFT':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                }
+                break
+            case 'RIGHT':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                } 
+                break
+            default:
+                break
         }
     }
     
     checkCollision(direction) {
-        if (direction === 'UP'){
-            if (this.state.board[this.state.pacmanCoordsY - 1][this.state.pacmanCoordsX] === 1) {
-                return false
-            }
-        } else if (direction === 'DOWN'){
-            if (this.state.board[this.state.pacmanCoordsY + 1][this.state.pacmanCoordsX] === 1){
-                return false
-            }
-        } else if (direction === 'LEFT'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX - 1] === 1){
-                return false
-            }
-        } else if (direction === 'RIGHT'){
-            if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX + 1] === 1){
-                return false
-            }
+        switch(direction){
+            case 'UP':
+                if (this.state.board[this.state.pacmanCoordsY - 1][this.state.pacmanCoordsX] === 1) {
+                    return false
+                }
+                break
+            case 'DOWN':
+                if (this.state.board[this.state.pacmanCoordsY + 1][this.state.pacmanCoordsX] === 1){
+                    return false
+                }
+                if (this.state.board[this.state.pacmanCoordsY + 1][this.state.pacmanCoordsX] === 4){
+                    return false
+                }
+                break
+            case 'LEFT':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX - 1] === 1){
+                    return false
+                }
+                break
+            case 'RIGHT':
+                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX + 1] === 1){
+                    return false
+                }
+                break
+            default:
+                break
         }
     }
 
@@ -133,6 +160,8 @@ class Board extends Component {
                 if (this.checkCollision('RIGHT') === false) break
                 this.eatPellet('RIGHT')
                 this.setState({pacmanCoordsX: this.state.pacmanCoordsX + 1, pacmanDirection: 'RIGHT'})
+                break
+            default:
                 break
         }
     }

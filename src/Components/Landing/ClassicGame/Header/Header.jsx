@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './header.scss'
 
 class Header extends Component {
     constructor(){
@@ -12,7 +13,7 @@ class Header extends Component {
 
     pointsIncrease = () => {
         if (this.state.playing === true) {
-            let currentPoints = this.state.point + 100
+            let currentPoints = this.state.points + 100
             this.setState({points: currentPoints})
         }
     }
@@ -27,29 +28,41 @@ class Header extends Component {
         this.setState({lives: this.state.lives - 1})
     }
 
+    startGame = () => {
+        this.setState({playing: true})
+    }
+
+    componentDidMount = () => {
+        window.addEventListener('keydown',() => this.startGame() )
+    }
+
 
 
     render(){
         return(
             <div className="header">
-                {!this.state.playing ? 
-                <button>Press Start</button> :
+                <div className="parent">
+                {this.state.playing === false ? 
+                <div className="another-div">
+                <h6 className='press-start' tabIndex="0" /* onKeyPress={() => this.startGame()} */ ><start>Press any key to start</start></h6> 
+                </div> :
                 <div className="normalheader">
-                    <span className="top">
-                        <h2>Points: {this.state.points}</h2>
-                        <h1>Waka</h1>
+                    <span className="username">
+                        <p>username</p>
+                        <h2 className='points'>Points:</h2>
+                        <p> {this.state.points}</p>
                     </span>
                     <span className="highscore">
                         <h1>Highscore</h1>
                         <p>their highscore</p>
                     </span>
-                    <span className="username">
-                        <p>username</p>
+                    <span className="logo">
+                    <h5>Waka<sup>2</sup></h5>
                     </span>
+
                 </div> }
-                <section className='lives'>
-                    <div>livessss</div>
-                </section>
+                </div>
+
             </div>
         )
     }

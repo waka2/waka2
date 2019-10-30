@@ -42,10 +42,12 @@ io.on('connection', socket => {
     // Join Room
     socket.on('join room', data => {
         socket.join(data.room)
+        console.log(data)
     })
 
     // Blast to room
     socket.on('blast to room socket', data => {
+        console.log(data)
         console.log(`blast to room ${data.room}`)
         io.to(data.room).emit('room response', data)
     })

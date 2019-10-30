@@ -2,30 +2,11 @@ import React, {Component} from 'react'
 import './header.scss'
 
 class Header extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            points: 0,
             playing: false,
-            lives: 3
         }
-    }
-
-    pointsIncrease = () => {
-        if (this.state.playing === true) {
-            let currentPoints = this.state.points + 100
-            this.setState({points: currentPoints})
-        }
-    }
-
-    gameOver = () => {
-        if (this.state.lives === 0) {            
-            this.setState({playing: false})
-        }
-    }
-
-    die = () => {
-        this.setState({lives: this.state.lives - 1})
     }
 
     startGame = () => {
@@ -33,12 +14,11 @@ class Header extends Component {
     }
 
     componentDidMount = () => {
-        window.addEventListener('keydown',() => this.startGame() )
+        window.addEventListener('keydown', () => this.startGame() )
     }
 
-
-
     render(){
+        // console.log(this.props.addPoints)
         return(
             <div className="header">
                 <div className="parent">
@@ -50,7 +30,7 @@ class Header extends Component {
                     <span className="username">
                         <p>username</p>
                         <h2 className='points'>Points:</h2>
-                        <p> {this.state.points}</p>
+                        <p> {this.props.score}</p>
                     </span>
                     <span className="highscore">
                         <h1>Highscore</h1>

@@ -8,9 +8,7 @@ class Board extends Component {
     constructor(props){
         super(props)
         this.state = {
-            pacmanCoordsX: 13,
-            pacmanCoordsY: 23,
-            pacmanDirection: 'RIGHT',
+            pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
             // 0 = path
             // 1 = wall
@@ -21,7 +19,7 @@ class Board extends Component {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
-                [1,3,1,0,0,1,2,1,0,0,0,1,2,1,1,2,1,0,0,0,1,2,1,0,0,1,3,1],
+                [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],         
@@ -55,16 +53,16 @@ class Board extends Component {
 
     componentDidMount() {
         const interval = setInterval(() => {
-            if (this.state.pacmanDirection === 'UP'){
+            if (this.state.pacman[0].direction === 'UP'){
               this.movePacMan({keyCode: 38})
             }
-            if (this.state.pacmanDirection === 'DOWN'){
+            if (this.state.pacman[0].direction === 'DOWN'){
               this.movePacMan({keyCode: 40})
             }
-            if (this.state.pacmanDirection === 'LEFT'){
+            if (this.state.pacman[0].direction === 'LEFT'){
               this.movePacMan({keyCode: 37})
             }
-            if (this.state.pacmanDirection === 'RIGHT'){
+            if (this.state.pacman[0].direction === 'RIGHT'){
               this.movePacMan({keyCode: 39})
             }
           }, 200)
@@ -77,7 +75,7 @@ class Board extends Component {
         clearInterval(this.state.interval)
     }
 
-    eatPellet(direction){
+    eatPellet(direction, id){
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2) {
@@ -108,28 +106,28 @@ class Board extends Component {
         }
     }
     
-    checkCollision(direction) {
+    checkCollision(direction, id) {
         switch(direction){
             case 'UP':
-                if (this.state.board[this.state.pacmanCoordsY - 1][this.state.pacmanCoordsX] === 1) {
+                if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
                     return false
                 }
                 break
             case 'DOWN':
-                if (this.state.board[this.state.pacmanCoordsY + 1][this.state.pacmanCoordsX] === 1){
+                if (this.state.board[this.state.pacman[id].y + 1][this.state.pacman[id].x] === 1){
                     return false
                 }
-                if (this.state.board[this.state.pacmanCoordsY + 1][this.state.pacmanCoordsX] === 4){
+                if (this.state.board[this.state.pacman[id].y + 1][this.state.pacman[id].x] === 4){
                     return false
                 }
                 break
             case 'LEFT':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX - 1] === 1){
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
                     return false
                 }
                 break
             case 'RIGHT':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX + 1] === 1){
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     return false
                 }
                 break
@@ -138,31 +136,48 @@ class Board extends Component {
         }
     }
 
-    movePacMan(e) {
+    movePacMan(e, id) {
+        if (!id) id = 0
         switch (e.keyCode){
             case 38:
                 // UP
-                if (this.checkCollision('UP') === false) break
-                this.eatPellet('UP')
-                this.setState({pacmanCoordsY: this.state.pacmanCoordsY - 1, pacmanDirection: 'UP'})
+                if (this.checkCollision('UP', id) === false) break
+                this.eatPellet('UP', id)
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
+                    }),
+                })
                 break
             case 40:
                 // DOWN
-                if (this.checkCollision('DOWN') === false) break
-                this.eatPellet('DOWN')
-                this.setState({pacmanCoordsY: this.state.pacmanCoordsY + 1, pacmanDirection: 'DOWN'})
+                if (this.checkCollision('DOWN', id) === false) break
+                this.eatPellet('DOWN', id)
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, y: el.y + 1, direction: 'DOWN'} : el
+                    }),
+                })
                 break
             case 37:
                 // LEFT
-                if (this.checkCollision('LEFT') === false) break
-                this.eatPellet('LEFT')
-                this.setState({pacmanCoordsX: this.state.pacmanCoordsX - 1, pacmanDirection: 'LEFT'})
+                if (this.checkCollision('LEFT', id) === false) break
+                this.eatPellet('LEFT', id)
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, x: el.x - 1, direction: 'LEFT'} : el
+                    }),
+                })
                 break
             case 39:
                 // RIGHT
-                if (this.checkCollision('RIGHT') === false) break
-                this.eatPellet('RIGHT')
-                this.setState({pacmanCoordsX: this.state.pacmanCoordsX + 1, pacmanDirection: 'RIGHT'})
+                if (this.checkCollision('RIGHT', id) === false) break
+                this.eatPellet('RIGHT', id)
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el
+                    }),
+                })
                 break
             default:
                 break
@@ -216,7 +231,7 @@ class Board extends Component {
         return(
             <div className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
-                <PacMan direction={this.state.pacmanDirection} x={this.state.pacmanCoordsX} y={this.state.pacmanCoordsY}/>
+                <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
                 {/* <Ghosts /> */}
                 {boardMapped}
             </div>

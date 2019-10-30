@@ -5,15 +5,24 @@ import Header from './Header/Header'
 class ClassicGame extends Component {
     constructor(){
         super()
-        this.state = {}
+        this.state = {
+            points: 0
+        }
+    }
+
+    addPoints = (num) => {
+       const score = this.state.points + num
+        this.setState({
+            points: score
+        })
     }
 
     render(){
         return(
             <div id="classicgame">
              
-                <Header />
-                <Board />
+                <Header addPoints = { this.addPoints } score={this.state.points} />
+                <Board addPoints = { this.addPoints } />
             </div>
         )
     }

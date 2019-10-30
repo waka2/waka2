@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
 // import Ghosts from './Ghosts/Ghosts'
 import './board.scss'
+import { throwStatement } from '@babel/types';
 
 class Board extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             pacmanCoordsX: 13,
             pacmanCoordsY: 23,
@@ -80,21 +81,25 @@ class Board extends Component {
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2) {
+                    this.props.addPoints(10)
                     this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
                 }
                 break
             case 'DOWN':
                 if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.props.addPoints(10)
                     this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
                 }
                 break
             case 'LEFT':
                 if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.props.addPoints(10)
                     this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
                 }
                 break
             case 'RIGHT':
                 if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                    this.props.addPoints(10)
                     this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
                 } 
                 break
@@ -177,6 +182,7 @@ class Board extends Component {
     //     break
 
     render(){
+        // console.log(this.props.addPoints)
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>

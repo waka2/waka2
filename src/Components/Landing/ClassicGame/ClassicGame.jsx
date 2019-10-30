@@ -11,7 +11,6 @@ class ClassicGame extends Component {
     render(){
         return(
             <div id="classicgame">
-             
                 <Header />
                 <Board />
             </div>

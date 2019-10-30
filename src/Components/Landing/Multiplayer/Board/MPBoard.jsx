@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import "./MPboard.scss"
+import "../../ClassicGame/Board/board.scss"
 
 class MPBoard extends Component {
     constructor(){
@@ -69,7 +69,7 @@ class MPBoard extends Component {
             )
           })
         return (
-            <div className="board">
+            <div className="mpboard">
                 {boardMapped}
             </div>
         )

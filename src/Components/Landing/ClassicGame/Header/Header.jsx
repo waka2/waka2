@@ -43,7 +43,9 @@ class Header extends Component {
             <div className="header">
                 <div className="parent">
                 {this.state.playing === false ? 
-                <h6 className='press-start' tabIndex="0" /* onKeyPress={() => this.startGame()} */ ><start>Press any key to start</start></h6> :
+                <div className="another-div">
+                <h6 className='press-start' tabIndex="0" /* onKeyPress={() => this.startGame()} */ ><start>Press any key to start</start></h6> 
+                </div> :
                 <div className="normalheader">
                     <span className="username">
                         <p>username</p>
@@ -60,9 +62,7 @@ class Header extends Component {
 
                 </div> }
                 </div>
-                <section className='lives'>
-                    <div>livessss</div>
-                </section>
+
             </div>
         )
     }

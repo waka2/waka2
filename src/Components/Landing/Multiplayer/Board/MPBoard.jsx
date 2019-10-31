@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
-import "../../ClassicGame/Board/board.scss"
+import io from 'socket.io-client'
+const {REACT_APP_SOCKET_CONNECT} = process.env
 
 class MPBoard extends Component {
-    constructor(){
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            pacmanCoords: {x: 0, y: 0},
+            pacman: [{id: 0, x: 13, y: 23, direction: ''}],
+            interval: null,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -15,7 +17,7 @@ class MPBoard extends Component {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
-                [1,3,1,0,0,1,2,1,0,0,0,1,2,1,1,2,1,0,0,0,1,2,1,0,0,1,3,1],
+                [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
                 [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
                 [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
                 [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],         
@@ -24,11 +26,11 @@ class MPBoard extends Component {
                 [1,1,1,1,1,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,1,1,1,1,1],
                 [1,1,1,1,1,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,1,1,1,1,1],
                 [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
-                [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
-                [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
-                [0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],
-                [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
-                [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
+                [1,1,1,1,1,1,2,1,1,0,1,1,1,4,4,1,1,1,0,1,1,2,1,1,1,1,1,1],
+                [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+                [0,0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0],
+                [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+                [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
                 [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
                 [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
                 [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
@@ -45,35 +47,36 @@ class MPBoard extends Component {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ]
         }
+        this.socket = io.connect(REACT_APP_SOCKET_CONNECT)
+        this.socket.on('room response', data => this.updateGame(data))
+    }
+
+    componentDidMount = () => {
+        this.socket.emit('join room', 1)
+    }
+
+    blastGame = () => {
+        this.socket.emit(
+            'blast to room socket',
+            {
+                room: 1,
+                board: this.state.board
+            }
+        )
+    }
+
+    updateGame = (data) => {
+        console.log(data)
     }
 
     render() {
-        let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
-            return (
-              <div key={rowInd} className={`row row${rowInd}`}>
-                {row.map((block, blockInd, blockArr) => {
-                    // console.log(rowArr[rowInd + 1][blockInd])
-                  if (block === 0) {
-                        return <div key={rowInd + blockInd} className="path"/>
-                  } else if (block === 1){
-                        return <div key={rowInd + blockInd} className="wall"/>
-                  } else if (block === 2) {
-                        return <div key={rowInd + blockInd} className="pellet"/>
-                  } else if (block === 3) {
-                        return <div key={rowInd + blockInd} className="power-pellet"/>
-                  } else if (block === 4) {
-                        return <div key={rowInd + blockInd} className="ghost-door"/>
-                  }
-                })}
-              </div>
-            )
-          })
         return (
-            <div className="mpboard">
-                {boardMapped}
+            <div className="MPboard">
+                <h1>Multiplayer Board</h1>
+                <button onClick={() => this.blastGame()}>Send</button>
             </div>
         )
     }
 }
 
-export default MPBoard
+export default MPBoard;

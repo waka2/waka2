@@ -8,7 +8,8 @@ class ClassicGame extends Component {
     constructor(){
         super()
         this.state = {
-            lives: [1, 2, 3]
+            lives: [1, 2, 3],
+            points: 0
         }
         this.subtractLife.bind(this)
     }
@@ -17,13 +18,20 @@ class ClassicGame extends Component {
         let newLives = this.state.lives
         newLives.pop()
         this.setState({lives: newLives})
-    }
-
+            
+        }
+    addPoints = (num) => {
+            const score = this.state.points + num
+             this.setState({
+                 points: score
+             })
+         }
+    
     render(){
         return(
             <div id="classicgame">
-                <Header />
-                <Board />
+                <Header addPoints = { this.addPoints } score={this.state.points}/>
+                <Board addPoints = { this.addPoints }/>
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

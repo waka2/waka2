@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
+import axios from 'axios';
 const {REACT_APP_SOCKET_CONNECT} = process.env
 
 class MPBoard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pacman: [{id: 0, x: 13, y: 23, direction: ''}],
+            pacman: [],
             interval: null,
             // 0 = path
             // 1 = wall
@@ -53,6 +54,15 @@ class MPBoard extends Component {
 
     componentDidMount = () => {
         this.socket.emit('join room', 1)
+        this.socket.on('room response', data => this.updateGame(data))
+        // Call the database to get a unique id assigned.
+        axios.get('/api/newplayer').then(res => {
+            const { player_id, usera, userb } = res.data.player;
+            const pacArr = [{id: player_id, x: 13, y: 23, user: `${usera} ${userb}`, direction: ''}]
+            this.setState({
+                pacman: pacArr
+            })
+        })
     }
 
     blastGame = () => {
@@ -60,13 +70,20 @@ class MPBoard extends Component {
             'blast to room socket',
             {
                 room: 1,
-                board: this.state.board
+                board: this.state.board,
+                pacman: this.state.pacman
             }
         )
     }
 
     updateGame = (data) => {
-        console.log(data)
+        const newBoard = data.board;
+        const newPac = this.state.pacman;
+        newPac.push(data)
+
+        this.setState({
+
+        })
     }
 
     render() {

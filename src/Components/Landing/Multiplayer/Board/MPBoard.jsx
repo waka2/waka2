@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
 import axios from 'axios';
+import './MPboard.scss'
 const {REACT_APP_SOCKET_CONNECT} = process.env
+
 
 class MPBoard extends Component {
     constructor(props) {

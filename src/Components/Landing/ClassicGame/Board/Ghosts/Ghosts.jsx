@@ -48,6 +48,8 @@ class Ghosts extends Component {
                 case 3:
                     direction = 'RIGHT'
                     break
+                default:
+                    break
             }
             // if (direction === currentDirection) {
             //     console.log('same direction')
@@ -107,6 +109,8 @@ class Ghosts extends Component {
                     }
                     return false
                 }
+                break
+            default:
                 break
         }
     }
@@ -201,6 +205,8 @@ class Ghosts extends Component {
                     x: this.state.x + 1,
                     direction: 'RIGHT'
                 })
+                break
+            default:
                 break
         }
     }

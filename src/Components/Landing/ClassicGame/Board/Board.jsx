@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
 // import Ghosts from './Ghosts/Ghosts'
 import './board.scss'
-import { throwStatement } from '@babel/types';
 
 class Board extends Component {
     constructor(props){
@@ -78,27 +77,27 @@ class Board extends Component {
     eatPellet(direction, id){
         switch(direction){
             case 'UP':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2) {
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
                     this.props.addPoints(10)
-                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
                 }
                 break
             case 'DOWN':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
                     this.props.addPoints(10)
-                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
                 }
                 break
             case 'LEFT':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
                     this.props.addPoints(10)
-                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
                 }
                 break
             case 'RIGHT':
-                if (this.state.board[this.state.pacmanCoordsY][this.state.pacmanCoordsX] === 2){
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
                     this.props.addPoints(10)
-                    this.state.board[this.state.pacmanCoordsY].splice(this.state.pacmanCoordsX, 1, 0)
+                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
                 } 
                 break
             default:

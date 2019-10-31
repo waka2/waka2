@@ -1,19 +1,33 @@
 import React, {Component} from 'react'
 import Board from './Board/Board'
 import Header from './Header/Header'
+import Footer from './Footer/Footer'
+import './classicgame.scss'
 
 class ClassicGame extends Component {
     constructor(){
         super()
-        this.state = {}
+        this.state = {
+            lives: [1, 2, 3]
+        }
+        this.subtractLife.bind(this)
+    }
+
+    subtractLife = () => {
+        let newLives = this.state.lives
+        newLives.pop()
+        this.setState({lives: newLives})
     }
 
     render(){
         return(
             <div id="classicgame">
-             
                 <Header />
                 <Board />
+                <Footer
+                lives={this.state.lives}
+                subtractLife={this.subtractLife}
+                />
             </div>
         )
     }

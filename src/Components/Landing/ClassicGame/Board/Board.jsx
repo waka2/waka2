@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
-// import Ghosts from './Ghosts/Ghosts'
+import Ghosts from './Ghosts/Ghosts'
 import './board.scss'
 import { throwStatement } from '@babel/types';
 
@@ -52,6 +52,7 @@ class Board extends Component {
     }
 
     componentDidMount() {
+        document.getElementById('board').focus();
         const interval = setInterval(() => {
             if (this.state.pacman[0].direction === 'UP'){
               this.movePacMan({keyCode: 38})
@@ -76,33 +77,9 @@ class Board extends Component {
     }
 
     eatPellet(direction, id){
-        switch(direction){
-            case 'UP':
-                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
-                    this.props.addPoints(10)
-                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
-                }
-                break
-            case 'DOWN':
-                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
-                    this.props.addPoints(10)
-                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
-                }
-                break
-            case 'LEFT':
-                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
-                    this.props.addPoints(10)
-                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
-                }
-                break
-            case 'RIGHT':
-                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2){
-                    this.props.addPoints(10)
-                    this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
-                } 
-                break
-            default:
-                break
+        if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
+            this.props.addPoints(10)
+            this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         }
     }
     
@@ -229,10 +206,10 @@ class Board extends Component {
             )
           })
         return(
-            <div className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
+            <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                {/* <Ghosts /> */}
+                <Ghosts pacman={this.state.pacman} board={this.state.board}/>
                 {boardMapped}
             </div>
         )

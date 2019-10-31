@@ -6,6 +6,7 @@ const massive = require('massive')
 
 const authCtrl = require('./controllers/authController')
 const scoreCtrl = require('./controllers/scoreController')
+const pactCtrl = require('./controllers/pactController')
 
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 
@@ -31,6 +32,9 @@ app.get('/api/score', scoreCtrl.singleScore)
 app.get('/api/highscores', scoreCtrl.allScores)
 app.put('/api/score', scoreCtrl.editScore)
 
+app.get('/api/newplayer', pactCtrl.assignPlayer)
+app.put('/api/release', pactCtrl.releasePlayer)
+
 const server = app.listen(SERVER_PORT, () => console.log(`${SERVER_PORT} on station!`))
 
 // Sockets for Ghost Pact Update
@@ -42,14 +46,13 @@ io.on('connection', socket => {
     // Join Room
     socket.on('join room', data => {
         socket.join(data.room)
-        console.log(data)
     })
 
     // Blast to room
     socket.on('blast to room socket', data => {
-        console.log(data)
         console.log(`blast to room ${data.room}`)
-        io.to(data.room).emit('room response', data)
+        // io.to(data.room).emit('room response', data)
+        socket.emit('room response', data)
     })
 
     // Emit to room

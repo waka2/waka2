@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import MPBoard from './Board/MPBoard'
+import MPBoard from './Board/MPBoard.jsx'
 // import Header from './Header/Header'
 
 class Multiplayer extends Component {

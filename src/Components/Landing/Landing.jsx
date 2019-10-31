@@ -34,7 +34,7 @@ class Landing extends React.Component {
         screenshot.classList.add('screenshot-active')
         
         setTimeout(() => {
-            this.props.history.push('/ghostPac')
+            this.props.history.push('/ghostPact')
             this.setState({
                 arcadeImg: false
             })

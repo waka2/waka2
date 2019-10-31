@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
 import axios from 'axios';
+import PacMan from './PacMan/PacMan'
 import './MPboard.scss';
 const {REACT_APP_SOCKET_CONNECT} = process.env
 
@@ -57,20 +58,23 @@ class MPBoard extends Component {
         this.socket.on('room response', data => this.updateGame(data))
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.socket.emit('join room', 1)
         this.socket.on('room response', data => this.updateGame(data))
 
         // Call the database to get a unique id assigned.
-        axios.get('/api/newplayer').then(res => {
-            const { player_id, usera, userb } = res.data.player;
-            const pacArr = [{id: player_id, x: 13, y: 23, user: `${usera} ${userb}`, direction: '', interval: null}]
-            this.setState({
-                pacman: pacArr
-            })
+        const result = await axios.get('/api/newplayer')
+        const { player_id, usera, userb } = result.data.player;
+        const stateArr = this.state.pacman;
+        stateArr.push({id: player_id, x: 13, y: 23, user: `${usera} ${userb}`, direction: '', interval: null})
+        stateArr.push({id: 36, x: 14, y: 23, user: `${usera} ${userb}`, direction: '', interval: null})
+        this.setState({
+            pacman: stateArr
         })
 
+
         const newPac = this.state.pacman;
+        document.getElementById('MPboard').focus()
         const interval = setInterval(() => {
             if (this.state.pacman[0].direction === 'UP'){
                 this.movePacMan({keyCode: 38})
@@ -149,54 +153,58 @@ class MPBoard extends Component {
     }
 
     movePacMan(e, id) {
-        if (!id) id = 0
-        switch (e.keyCode){
-            case 38:
-                // UP
-                if (this.checkCollision('UP', id) === false) break
-                this.eatPellet('UP', id)
-                this.setState({
-                    pacman: this.state.pacman.map(el => {
-                        return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
-                    }),
-                })
-                break
-            case 40:
-                // DOWN
-                if (this.checkCollision('DOWN', id) === false) break
-                this.eatPellet('DOWN', id)
-                this.setState({
-                    pacman: this.state.pacman.map(el => {
-                        return el.id === id ? {...el, y: el.y + 1, direction: 'DOWN'} : el
-                    }),
-                })
-                break
-            case 37:
-                // LEFT
-                if (this.checkCollision('LEFT', id) === false) break
-                this.eatPellet('LEFT', id)
-                this.setState({
-                    pacman: this.state.pacman.map(el => {
-                        return el.id === id ? {...el, x: el.x - 1, direction: 'LEFT'} : el
-                    }),
-                })
-                break
-            case 39:
-                // RIGHT
-                if (this.checkCollision('RIGHT', id) === false) break
-                this.eatPellet('RIGHT', id)
-                this.setState({
-                    pacman: this.state.pacman.map(el => {
-                        return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el
-                    }),
-                })
-                break
-            default:
-                break
-        }
-    }
 
-    render() {
+        if (!id) id = 0
+        for (let i = 0; i < this.state.pacman.length; i++) {
+            switch (e.keyCode){
+                case 38:
+                    // UP
+                    if (this.checkCollision('UP', i) === false) break
+                    // this.eatPellet('UP', i)
+                    this.setState({
+                        pacman: this.state.pacman.map(el => {
+                            return {...el, y: el.y - 1, direction: 'UP'}
+                        }),
+                    })
+                    break
+                    case 40:
+                        // DOWN
+                        if (this.checkCollision('DOWN', i) === false) break
+                        // this.eatPellet('DOWN', i)
+                        this.setState({
+                            pacman: this.state.pacman.map(el => {
+                                return {...el, y: el.y + 1, direction: 'DOWN'}
+                            }),
+                        })
+                        break
+                        case 37:
+                            // LEFT
+                            if (this.checkCollision('LEFT', i) === false) break
+                            // this.eatPellet('LEFT', i)
+                            this.setState({
+                                pacman: this.state.pacman.map(el => {
+                                    return  {...el, x: el.x - 1, direction: 'LEFT'}
+                                }),
+                            })
+                            break
+                            case 39:
+                                // RIGHT
+                                if (this.checkCollision('RIGHT', i) === false) break
+        
+                                // this.eatPellet('RIGHT', i)
+                                this.setState({
+                                    pacman: this.state.pacman.map(el => {
+                                        return {...el, x: el.x + 1, direction: 'RIGHT'}
+                                    }),
+                                })
+                                break
+                                default:
+                                    break
+                                }
+                            }
+                            }
+                            
+                            render() {
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>
@@ -227,10 +235,13 @@ class MPBoard extends Component {
               </div>
             )
           })
+          console.log(this.state.pacman)
         return (
-            <div className="MPboard">
+            <div tabIndex="0" id='MPboard' className="MPboard" onKeyDown={(e) => this.movePacMan(e)}>
                 {/* <h1>Multiplayer Board</h1>
                 <button onClick={() => this.blastGame()}>Send</button> */}
+                {this.state.pacman.length !== 0 ?<div> <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/> 
+                <PacMan direction={this.state.pacman[1].direction} x={this.state.pacman[1].x} y={this.state.pacman[1].y}/> </div> : null}
                 {boardMapped}
             </div>
         )

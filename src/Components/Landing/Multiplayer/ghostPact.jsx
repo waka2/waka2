@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import MPBoard from './Board/MPBoard.jsx'
-// import Header from './Header/Header'
+// import Header from '../../Landing/ClassicGame/Header/Header'
 
 class Multiplayer extends Component {
     constructor(){

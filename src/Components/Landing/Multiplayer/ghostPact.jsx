@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import MPBoard from './Board/MPBoard.jsx'
-// import Header from '../../Landing/ClassicGame/Header/Header'
+import Header from '../ClassicGame/Header/Header'
+import Footer from '../ClassicGame/Footer/Footer'
 
 class Multiplayer extends Component {
     constructor(){
@@ -11,7 +12,7 @@ class Multiplayer extends Component {
     render(){
         return(
             <div id="multiplayer">
-                {/* <Header /> */}
+                <Header />
                 <MPBoard />
             </div>
         )

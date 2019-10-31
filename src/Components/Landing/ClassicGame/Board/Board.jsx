@@ -65,9 +65,9 @@ class Board extends Component {
               this.movePacMan({keyCode: 39})
             }
           }, 200)
-          this.setState({
-              interval: interval
-          })
+            this.setState({
+                interval: interval
+            })
     }
 
     componentWillUnmount() {

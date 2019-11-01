@@ -9,15 +9,16 @@
 
 body{ background: #000; }
 
-.blinky{ background-color: red;}
-.clyde{ background-color: orange;}
-.inky{ background-color: cyan;}
-.pinky{ background-color: pink;}
+.blinky{ background-color: rgb(231, 51, 35);}
+.clyde{ background-color: rgb(240, 180, 103);}
+.inky{ background-color: rgb(114, 251, 253);}
+.pinky{ background-color: rgb(241, 185, 251);}
+.scared{ background-color: #2020F8;}
 
 .ghost{
     position: absolute;
     width: 20px;
-    height: 20px;
+    height: 18px;
     z-index: 2;
     border-radius: 100% 100% 0 0;
 }
@@ -39,10 +40,11 @@ body{ background: #000; }
 }
 
 .iris{
-  background: blue;
+  background: #1A1CB8;
   border-radius: 50%;
   height: 3px;
   width: 3px;
+
 }
 
 .ghostTail{
@@ -55,28 +57,84 @@ body{ background: #000; }
 
 .pinky .ghostTail{
   background:
-    linear-gradient(-45deg, transparent 75%, pink 75%) 0 50%,
-    linear-gradient( 45deg, transparent 75%, pink 75%) 0 50%;
+    linear-gradient(-45deg, transparent 75%, rgb(241, 185, 251)75%) 50% 0%,
+    linear-gradient( 45deg, transparent 75%, rgb(241, 185, 251)75%) 50% 0%;
   background-size:5px, 5px, 5px 5px;
 }
 
 .inky .ghostTail{
   background:
-    linear-gradient(-45deg, transparent 75%, cyan 75%) 0 50%,
-    linear-gradient( 45deg, transparent 75%, cyan 75%) 0 50%;
+    linear-gradient(-45deg, transparent 75%, rgb(114, 251, 253) 75%) 50% 0%,
+    linear-gradient( 45deg, transparent 75%, rgb(114, 251, 253) 75%) 50% 0%;
   background-size:5px, 5px, 5px 5px;
 }
 
 .blinky .ghostTail{
   background:
-    linear-gradient(-45deg, transparent 75%, red 75%) 0 50%,
-    linear-gradient( 45deg, transparent 75%, red 75%) 0 50%;
+    linear-gradient(-45deg, transparent 75%, rgb(231, 51, 35) 75%) 50% 0%,
+    linear-gradient( 45deg, transparent 75%, rgb(231, 51, 35) 75%) 50% 0%;
   background-size:5px, 5px, 5px 5px;
+  animation-name: feet;
+  animation-duration: .3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 .clyde .ghostTail{
   background:
-    linear-gradient(-45deg, transparent 75%, orange 75%) 0 50%,
-    linear-gradient( 45deg, transparent 75%, orange 75%) 0 50%;
+    linear-gradient(-45deg, transparent 75%, rgb(240, 180, 103) 75%) 50% 0%,
+    linear-gradient( 45deg, transparent 75%, rgb(240, 180, 103) 75%) 50% 0%;
   background-size:5px, 5px, 5px 5px;
 }
+
+.scared .ghostTail{
+  background:
+    linear-gradient(-45deg, transparent 75%, #2020F8 75%) 50% 0%,
+    linear-gradient( 45deg, transparent 75%, #2020F8 75%) 50% 0%;
+  background-size:5px, 5px, 5px 5px;
+  animation-name: feet;
+  animation-duration: .3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.scared .iris {
+  background: white;
+}
+
+
+html, body { 
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+body { 
+  align-items: center; 
+  display: flex; 
+}
+
+.smallLine {
+  position: absolute;
+  height: 10px;
+  width: 55px;
+  transform: translate(-25%) scale(0.25)
+}
+
+.smallLine1 {
+  background: linear-gradient(45deg, transparent, transparent 49%, white 49%, transparent 51%);
+}
+.smallLine2 {
+  background: linear-gradient(-45deg, transparent, transparent 49%, white 49%, transparent 51%);
+}
+
+.smallLine {
+  background-size: 20px 20px;
+}
+
+// @keyframes feet {
+//   0% {  background:
+//     linear-gradient(-45deg, transparent 75%, rgb(231, 51, 35) 75%) 0% 50%,
+//     linear-gradient( 45deg, transparent 75%, rgb(231, 51, 35) 75%) 0% 50%;}
+
+// }

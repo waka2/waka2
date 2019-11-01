@@ -9,6 +9,7 @@ class Board extends Component {
         this.state = {
             pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
+            ghostsAfraid: false,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -81,6 +82,21 @@ class Board extends Component {
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         }
     }
+
+    ghostsAfraid = () => {
+        this.setState({
+            ghostsAfraid: true
+        })
+    }
+
+    eatPowerPellet(id){
+        if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
+            this.props.addPoints(50)
+            this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
+            this.ghostsAfraid()
+        }
+        
+    }
     
     checkCollision(direction, id) {
         switch(direction){
@@ -119,6 +135,7 @@ class Board extends Component {
                 // UP
                 if (this.checkCollision('UP', id) === false) break
                 this.eatPellet('UP', id)
+                this.eatPowerPellet(id)
                 this.setState({
                     pacman: this.state.pacman.map(el => {
                         return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
@@ -129,6 +146,7 @@ class Board extends Component {
                 // DOWN
                 if (this.checkCollision('DOWN', id) === false) break
                 this.eatPellet('DOWN', id)
+                this.eatPowerPellet(id)
                 this.setState({
                     pacman: this.state.pacman.map(el => {
                         return el.id === id ? {...el, y: el.y + 1, direction: 'DOWN'} : el
@@ -139,6 +157,7 @@ class Board extends Component {
                 // LEFT
                 if (this.checkCollision('LEFT', id) === false) break
                 this.eatPellet('LEFT', id)
+                this.eatPowerPellet(id)
                 this.setState({
                     pacman: this.state.pacman.map(el => {
                         return el.id === id ? {...el, x: el.x - 1, direction: 'LEFT'} : el
@@ -149,6 +168,7 @@ class Board extends Component {
                 // RIGHT
                 if (this.checkCollision('RIGHT', id) === false) break
                 this.eatPellet('RIGHT', id)
+                this.eatPowerPellet(id)
                 this.setState({
                     pacman: this.state.pacman.map(el => {
                         return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el

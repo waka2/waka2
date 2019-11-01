@@ -15,6 +15,7 @@ class MPBoard extends Component {
         this.state = {
             pacman: [],
             interval: [],
+            currentPlayerId: 0,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -65,15 +66,16 @@ class MPBoard extends Component {
         // Call the database to get a unique id assigned.
         const result = await axios.get('/api/newplayer')
         const { player_id, usera, userb } = result.data.player;
+        console.log(`player id: ${player_id}`)
         const stateArr = this.state.pacman;
         stateArr.push({id: player_id, x: 13, y: 23, user: `${usera} ${userb}`, direction: '', interval: null})
-        stateArr.push({id: 36, x: 14, y: 23, user: `${usera} ${userb}`, direction: '', interval: null})
+        // stateArr.push({id: 36, x: 14, y: 23, user: `${usera} ${userb}`, direction: '', interval: null})
         this.setState({
             pacman: stateArr
         })
 
+        this.checkInterval();
         if (this.pacman) {
-
             this.checkInterval()
         }
     }
@@ -82,7 +84,6 @@ class MPBoard extends Component {
         const newPac = this.state.pacman;
         for (let i = 0; i < this.state.pacman.length; i++) {
             const index = newPac[i].id
-            console.log(index)
             document.getElementById('MPboard').focus()
 
             const interval = setInterval(() => {
@@ -120,12 +121,18 @@ class MPBoard extends Component {
     }
 
     updateGame = (data) => {
+        console.log(data)
         const newBoard = data.board;
         const statePac = this.state.pacman;
 
         const newPac = data.pacman;
-        const index = statePac.findIndex(newPac[0].player_id)
-        statePac[index] = newPac;
+        const index = statePac.map(function(x) {return x.id; }).indexOf(newPac.id);
+
+        if (index) {
+            statePac[index] = newPac;
+        } else {
+            statePac.push(newPac);
+        }
 
         this.setState({
             pacman: statePac,
@@ -134,9 +141,7 @@ class MPBoard extends Component {
     }
 
     checkCollision(direction, id) {
-        console.log(id)
-        const index = 36
-        console.log(index)
+        const index = this.state.pacman.map(function(x) {return x.id; }).indexOf(id);
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[index].y - 1][this.state.pacman[index].x] === 1) {
@@ -167,7 +172,6 @@ class MPBoard extends Component {
     }
 
     movePacMan(e, id) {
-        console.log(id)
             switch (e.keyCode){
                 case 38:
                     // UP
@@ -178,6 +182,7 @@ class MPBoard extends Component {
                             return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
                         }),
                     })
+                    this.blastGame()
                     break
                     case 40:
                         // DOWN
@@ -202,7 +207,6 @@ class MPBoard extends Component {
                             case 39:
                                 // RIGHT
                                 if (this.checkCollision('RIGHT', id) === false) break
-        
                                 // this.eatPellet('RIGHT', i)
                                 this.setState({
                                     pacman: this.state.pacman.map(el => {
@@ -214,26 +218,15 @@ class MPBoard extends Component {
                                     break
                                 }
                             }
-                            
+
                             render() {
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>
                 {row.map((block, blockInd, blockArr) => {
-                    // console.log(rowArr[rowInd + 1][blockInd])
-                    // className: wallBottom, wall
                   if (block === 0) {
                         return <div key={rowInd + blockInd} className="path"/>
                   } else if (block === 1){
-                    // if (blockArr[blockInd - 1]) {
-                    //     if (blockArr[blockInd - 1] !== 1)
-                    //         return <div key={rowInd + blockInd} className="wall-left"/>
-                    //     else {
-                    //         return <div key={rowInd + blockInd} className="wall"/>
-                    //     }
-                    // } else {
-                    //     return <div key={rowInd + blockInd} className="wall"/>
-                    // }
                         return <div key={rowInd + blockInd} className="wall"/>
                   } else if (block === 2) {
                         return <div key={rowInd + blockInd} className="pellet"/>
@@ -246,14 +239,21 @@ class MPBoard extends Component {
               </div>
             )
           })
-          console.log(this.state.pacman)
+          let pacMap = this.state.pacman.map((el, index) => {
+              console.log(this.state.pacman)
+              return (
+                  <div>
+                  <PacMan direction={el.direction} x={el.x} y={el.y} />
+              </div>
+                  )
+          })
         return (
-            <div tabIndex="0" id='MPboard' className="MPboard" onKeyDown={(e) => this.movePacMan(e, 36)}>
-                {/* <h1>Multiplayer Board</h1>
-                <button onClick={() => this.blastGame()}>Send</button> */}
-                {this.state.pacman.length !== 0 ?<div> <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/> 
-                <PacMan direction={this.state.pacman[1].direction} x={this.state.pacman[1].x} y={this.state.pacman[1].y}/> </div> : null}
+            <div tabIndex="0" id='MPboard' className="MPboard" onKeyDown={(e) => this.movePacMan(e, this.state.pacman[0].id)}>
+                {/* {this.state.pacman.length !== 0 ?<PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/> 
+                : null}
+                {this.state.pacman[1] ?  <PacMan direction={this.state.pacman[1].direction} x={this.state.pacman[1].x + 1} y={this.state.pacman[1].y}/> : null } */}
                 {boardMapped}
+                {pacMap}
             </div>
         )
     }

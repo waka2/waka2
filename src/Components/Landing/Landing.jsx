@@ -41,6 +41,14 @@ class Landing extends React.Component {
         }, 3000)
     }
 
+    componentDidMount() {
+        if (this.props.location.pathname !== '/'){
+            this.setState({
+                arcadeImg: false
+            })
+        }
+    }
+
     render(){
     return(
         <div className="landing">

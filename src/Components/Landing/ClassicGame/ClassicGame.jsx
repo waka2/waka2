@@ -9,7 +9,8 @@ class ClassicGame extends Component {
         super()
         this.state = {
             lives: [1, 2, 3],
-            points: 0
+            points: 0,
+            hiddenPoints: 0
         }
         this.subtractLife.bind(this)
     }
@@ -26,12 +27,24 @@ class ClassicGame extends Component {
                  points: score
              })
          }
+
+    addHiddenPoints = (num) => {
+        const hiddenScore = this.state.hiddenPoints + num
+        this.setState({
+            hiddenPoints: hiddenScore
+        })
+    }
     
     render(){
         return(
             <div id="classicgame">
-                <Header addPoints = { this.addPoints } score={this.state.points}/>
-                <Board addPoints = { this.addPoints }/>
+                <Header 
+                addPoints={ this.addPoints } 
+                score={ this.state.points } 
+                addHiddenPoints={ this.addHiddenPoints } 
+                hiddenScore={ this.hiddenScore }
+                />
+                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

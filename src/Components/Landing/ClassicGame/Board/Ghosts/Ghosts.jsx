@@ -313,8 +313,81 @@ class Ghosts extends Component {
 
     render(){
         return(
-            <div className="ghosts" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, /* transition: '.2s linear' */}}>
-                {/* <p>This is Ghosts</p> */}
+            <div className="ghosts" >
+                <div className="ghost blinky" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
+                    <div className="eyes">
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                    </div>
+                    <div className="ghostTail"></div>
+                </div>
+
+                {/* <div className="ghost clyde">
+                    <div className="eyes">
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                    </div>
+                    <div className="ghostTail"></div>
+                </div>
+
+                <div className="ghost inky">
+                    <div className="eyes">
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                    </div>
+                    <div className="ghostTail"></div>
+                </div>
+
+                <div className="ghost pinky">
+                    <div className="eyes">
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                        <div className="eye">
+                            <div className="iris"></div>
+                        </div>
+                    </div>
+                    <div className="ghostTail"></div>
+                </div> */}
+                
+                {/* <div className="ghost scared" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
+                    <div className="eyes">
+                       
+                            <div className="iris"></div>
+                        
+                        
+                            <div className="iris"></div>
+                        
+                    </div>
+                    <div class="holder">
+                        <div class="smallLine smallLine1"></div>
+                        <div class="smallLine smallLine2"></div>
+                    </div>
+                    <div className="ghostTail"></div>
+                </div> */}
+
+                {/* <div class="ghost only-eyes">
+                    <div class="eyes">
+                        <div class="eye">
+                            <div class="iris"></div>
+                        </div>
+                        <div class="eye">
+                            <div class="iris"></div>
+                        </div>
+                    </div>
+                </div> */}
             </div>
         )
     }                           

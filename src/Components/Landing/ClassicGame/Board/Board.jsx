@@ -10,6 +10,8 @@ class Board extends Component {
             pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
             ghostsAfraid: false,
+            blinkyX: 0,
+            blinkyY: 0,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -77,9 +79,17 @@ class Board extends Component {
         clearInterval(this.state.interval)
     }
 
+    whereBlinky = (x, y) => {
+        this.setState({
+            blinkyX: x,
+            blinkyY: y
+        })
+    }
+
     eatPellet(direction, id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
             this.props.addPoints(10)
+            this.props.addHiddenPoints(10)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         }
     }
@@ -93,6 +103,7 @@ class Board extends Component {
     eatPowerPellet(id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
             this.props.addPoints(50)
+            this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
             this.ghostsAfraid()
         }
@@ -100,6 +111,7 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
+        const {x} = this.state.pacman[0];
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -115,11 +127,33 @@ class Board extends Component {
                 }
                 break
             case 'LEFT':
+                if (x === 0) {
+                    console.log('TELEPORT')
+                    this.setState({
+                        pacman: [{
+                            ...this.state.pacman[0],
+                            x: 26,
+                            y: 14
+                        }]
+                    })
+                    console.log(this.state.pacman)
+                }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
+
                     return false
                 }
                 break
             case 'RIGHT':
+                    if (x === 26) {
+                        console.log('TELEPORT')
+                        this.setState({
+                            pacman: [{
+                                ...this.state.pacman[0],
+                                x: 0,
+                                y: 14
+                            }]
+                        })
+                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     return false
                 }
@@ -194,7 +228,7 @@ class Board extends Component {
     //     break
 
     render(){
-        // console.log(this.props.addPoints)
+        // console.log(this.props)
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>
@@ -229,8 +263,10 @@ class Board extends Component {
             <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts id={0} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={0} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={1} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={2} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/>
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

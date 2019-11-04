@@ -24,7 +24,7 @@ class Header extends Component {
                 <div className="parent">
                 {this.state.playing === false ? 
                 <div className="another-div">
-                <h6 className='press-start' tabIndex="0" /* onKeyPress={() => this.startGame()} */ ><start>Press any key to start</start></h6> 
+                <h6 className='press-start blink' tabIndex="0" /* onKeyPress={() => this.startGame()} */ >Press any key to start</h6> 
                 </div> :
                 <div className="normalheader">
                     <span className="username">
@@ -33,7 +33,7 @@ class Header extends Component {
                         <p> {this.props.score}</p>
                     </span>
                     {this.props.hiddenScore === 2600 ?
-                    <h1>You Win!</h1> :
+                    <h1 className='blink'>You Win!</h1> :
                     <span className="highscore">
                         <h1>Highscore</h1>
                         <p>their highscore</p>

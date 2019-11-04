@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Board from './Board/Board'
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
+import LoginPage from '../ClassicGame/LoginPage/LoginPage'
 import './classicgame.scss'
 
 class ClassicGame extends Component {
@@ -46,6 +47,10 @@ class ClassicGame extends Component {
                 hiddenScore={ this.state.hiddenPoints }
                 lives={ this.state.lives }
                 />
+                {this.state.hiddenPoints >= 20 ? 
+                <LoginPage/> :
+                <></>
+                }
                 <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />
                 <Footer
                 lives={this.state.lives}

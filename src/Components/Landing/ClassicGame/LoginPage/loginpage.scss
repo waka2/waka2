@@ -1,11 +1,16 @@
 @import '../../../../App.scss';
 
 .loginParent {
-    width: 100%;
+    width: auto;
+    margin-top: 3%;
     color: white;
     display: flex;
     flex-direction: row;
     font-family: $pixelFont;
+    position: absolute;
+    height: 84%;
+    z-index: 4;
+    background: rgba(0, 0, 0, .85);
 }
 .highscores {
     width: 50%;

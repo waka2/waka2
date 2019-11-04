@@ -2,111 +2,43 @@ import React, {Component} from 'react'
 import './ghosts.scss'
 
 class Ghosts extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            id: 0,
-            x: 21,
-            y: 5,
+            id: props.id,
+            x: 13,
+            y: 11,
             direction: 'LEFT',
+            // ghosts: [{name: 'blinky', id: 0, x: 13, y: 11, direction: 'LEFT', tracking: false, dead: false}],
             tracking: false,
             dead: false,
             interval: null
         }
     }
-    
-    // ghostRandomMove(){
-    //     // let currentDirection = this.state.direction
-    //     let directionRand = function rand(){
-    //         // console.log('rand ran')
-    //         // let directionNum
-    //         // function generateNum() {
-    //         //     switch (currentDirection){
-    //         //         case 'LEFT':
-    //         //             directionNum = 0
-    //         //         case 'RIGHT':
-    //         //             directionNum = 1
-    //         //         case 'UP':
-    //         //             directionNum = 2
-    //         //         case 'DOWN':
-    //         //             directionNum = 3
-    //         //     }
-    //         //     let num = Math.floor(Math.random() * 4)
-    //         //     return (directionNum === num) ? generateNum() : num
-    //         // }
-    //         let direction
-    //         switch(Math.floor(Math.random() * 4)){
-    //             case 0:
-    //                 direction = 'UP'
-    //                 break
-    //             case 1:
-    //                 direction = 'DOWN'
-    //                 break
-    //             case 2:
-    //                 direction = 'LEFT'
-    //                 break
-    //             case 3:
-    //                 direction = 'RIGHT'
-    //                 break
-    //             default:
-    //                 break
-    //         }
-    //         // if (direction === currentDirection) {
-    //         //     console.log('same direction')
-    //         //     rand()
-    //         // }
-    //         return direction
-    //     }
-    //     return directionRand()
-    // }
 
     checkGhostCollision(direction){
         switch(direction){
             case 'UP':
-                if (this.props.board[this.state.y - 1][this.state.x] === 1) {
-                    // let direction = directionRand()
-                    // if (!this.state.tracking){
-                    //     let direction = this.ghostRandomMove()
-                    //     this.setState({
-                    //         direction: direction
-                    //     })
-                    // }
+                if (this.props.board[this.state.y - 1][this.state.x] === 1 ||
+                    (this.state.y - 1 === 10 && this.state.x === 12) ||
+                    (this.state.y - 1 === 10 && this.state.x === 15) ||
+                    (this.state.y - 1 === 22 && this.state.x === 12) ||
+                    (this.state.y - 1 === 22 && this.state.x === 15)) {
                     return false
                 }
                 break
             case 'DOWN':
-                if (this.props.board[this.state.y + 1][this.state.x] === 1) {
-                    // let direction = directionRand()
-                    // if (!this.state.tracking){
-                    //     let direction = this.ghostRandomMove()
-                    //     this.setState({
-                    //         direction: direction
-                    //     })
-                    // }
+                if (this.props.board[this.state.y + 1][this.state.x] === 1 || this.props.board[this.state.y + 1][this.state.x] === 4) {
                     return false
                 }
             break
             case 'LEFT':
                 if (this.props.board[this.state.y][this.state.x - 1] === 1) {
-                    // let direction = directionRand()
-                    // if (!this.state.tracking){
-                    //     let direction = this.ghostRandomMove()
-                    //     this.setState({
-                    //         direction: direction
-                    //     })
-                    // }
                     return false
                 }
                 break
             case 'RIGHT':
                 if (this.props.board[this.state.y][this.state.x + 1] === 1) {
-                    // let direction = directionRand()
-                    // if (!this.state.tracking){
-                    //     let direction = this.ghostRandomMove()
-                    //     this.setState({
-                    //         direction: direction
-                    //     })
-                    // }
                     return false
                 }
                 break
@@ -115,78 +47,7 @@ class Ghosts extends Component {
         }
     }
 
-    // ghostTracking = () => {
-    //     // this.state.x - this.props.pacman[0].x
-    //     // console.log(this.props.pacman[0].x - this.state.x)
-    //     // this.setState({
-    //     //     x: this.props.pacman[0].x - 1,
-    //     //     y: this.props.pacman[0].y - 1
-    //     // })
-    //     // if (this.props.pacman[0].x - this.state.x < 0 || this.props.pacman[0].x - this.state.x > 0){
-    //     //     console.log('x is not equal')
-    //     // }
-    //     // if (this.props.pacman[0].y - this.state.y < 0 || this.props.pacman[0].y - this.state.y > 0){
-    //     //     console.log('y not equal')
-    //     // }
-    //     if (this.props.pacman[0].x - this.state.x < 0){
-    //         if (this.checkGhostCollision('LEFT') === false){
-    //             if (this.props.pacman[0].y - this.state.y > 0){
-    //                 this.ghostMove('DOWN')
-    //             } else if (this.props.pacman[0].y - this.state.y < 0){
-    //                 this.ghostMove('UP')
-    //             }
-    //         } else {
-    //             this.ghostMove('LEFT')
-    //         }
-    //     } else if (this.props.pacman[0].x - this.state.x > 0){
-    //         if (this.checkGhostCollision('RIGHT') === false){
-    //             if (this.props.pacman[0].y - this.state.y > 0){
-    //                 this.ghostMove('DOWN')
-    //             } else if (this.props.pacman[0].y - this.state.y < 0){
-    //                 this.ghostMove('UP')
-    //             }
-    //         } else {
-    //             this.ghostMove('RIGHT')
-    //         }
-    //     } else if (this.props.pacman[0].y - this.state.y < 0){
-    //         if (this.checkGhostCollision('UP') === false){
-    //             if (this.props.pacman[0].x - this.state.x > 0){
-    //                 this.ghostMove('LEFT')
-    //             } else if (this.props.pacman[0].x - this.state.x < 0){
-    //                 this.ghostMove('RIGHT')
-    //             }
-    //         } else {
-    //             this.ghostMove('UP')
-    //         }
-    //     } else if (this.props.pacman[0].y - this.state.y > 0){
-    //         if (this.checkGhostCollision('DOWN') === false){
-    //             if (this.props.pacman[0].x - this.state.x > 0){
-    //                 this.ghostMove('LEFT')
-    //             } else if (this.props.pacman[0].x - this.state.x < 0){
-    //                 this.ghostMove('RIGHT')
-    //             } else if (this.props.pacman[0].x - this.state.x === 0) {
-    //                 // let checkGhostCollision = this.checkGhostCollision('DOWN')
-    //                 var tryAgain = () => {
-    //                     if (this.checkGhostCollision('DOWN') === false){
-    //                         this.setState({
-    //                             x: this.state.x - 1,
-    //                             direction: 'LEFT'
-    //                         })
-    //                         tryAgain()
-    //                     } else {
-    //                         return
-    //                     }
-    //                 }
-    //                 tryAgain()
-    //             }
-    //         } else {
-    //             this.ghostMove('DOWN')
-    //         }
-    //     }
-    // }
-
     ghostMove(direction) {
-        // let rand = Math.floor(Math.random() * 4)
         switch(direction){
             case 'UP':
                 //UP
@@ -226,85 +87,145 @@ class Ghosts extends Component {
     }
 
     scatter = () => {
-        const blinkyTarget = {x: 21, y: 1}
-        // this.ghostMove('LEFT')
-
-        let tryUp = () => {
-            let ghostX = this.state.x
-            let ghostY = this.state.y
-            ghostY = ghostY - 1
-            let stepsAwayUp = Math.abs(ghostX - blinkyTarget.x) + Math.abs(ghostY - blinkyTarget.y)
-            return stepsAwayUp
+        let target = null
+        if (this.props.id === 0) {
+            target = {x: 22, y: 0}
+        } else if (this.props.id === 1) {
+            target = {x: 0, y: 0}
         }
-        let tryDown = () => {
-            let ghostX = this.state.x
-            let ghostY = this.state.y
-            ghostY = ghostY + 1
-            let stepsAwayDown = Math.abs(ghostX - blinkyTarget.x) + Math.abs(ghostY - blinkyTarget.y)
-            return stepsAwayDown
-        }
-        let tryLeft = () => {
-            let ghostX = this.state.x
-            let ghostY = this.state.y
-            ghostX = ghostX - 1
-            let stepsAwayLeft = Math.abs(ghostX - blinkyTarget.x) + Math.abs(ghostY - blinkyTarget.y)
-            return stepsAwayLeft
-        }
-        let tryRight = () => {
-            let ghostX = this.state.x
-            let ghostY = this.state.y
-            ghostX = ghostX + 1
-            let stepsAwayRight = Math.abs(ghostX - blinkyTarget.x) + Math.abs(ghostY - blinkyTarget.y)
-            return stepsAwayRight
+        if (this.state.tracking) {
+            if (this.props.id === 0 ) {
+                target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
+            } else if (this.props.id === 1) {
+                target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y}
+            }
+                if (this.props.pacman[0].direction === 'UP'){
+                    target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y - 4}
+                } else if (this.props.pacman[0].direction === 'DOWN'){
+                    target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y + 4}
+                } else if (this.props.pacman[0].direction === 'LEFT'){
+                    target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y}
+                } else if (this.props.pacman[0].direction === 'RIGHT'){
+                    target = {x: this.props.pacman[0].x + 4, y: this.props.pacman[0].y}
+                } else {
+                    target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y}
+                }
         }
 
-        // console.log(Math.min(tryUp(), tryLeft(), tryRight()))
-        // let test = [tryUp(), tryLeft(), tryRight()]
-        // test.sort(function(a, b){return a-b})
-        // console.log(test[0])
-        if (tryUp() < tryLeft() && tryUp() < tryRight()){
-            console.log('up wins')
-        } else if (tryLeft() < tryUp() && tryLeft() < tryRight()){
-            console.log('left wins')
-        } else if (tryRight() < tryLeft() && tryRight() < tryUp()) {
-            console.log('right wins')
+        let tryDirection = (direction) => {
+            let ghostX = this.state.x
+            let ghostY = this.state.y
+            switch(direction){
+                case 'UP':
+                    ghostY = ghostY - 1
+                    break
+                case 'DOWN':
+                    ghostY = ghostY + 1
+                    break
+                case 'LEFT':
+                    ghostX = ghostX - 1
+                    break
+                case 'RIGHT':
+                    ghostX = ghostX + 1
+                    break
+                default:
+                    break
+                }
+            let stepsAway = Math.pow(Math.abs(ghostX - target.x), 2) + Math.pow(Math.abs(ghostY - target.y), 2)
+            return stepsAway
         }
-        // if (tryUp() < tryLeft()){
-        //     this.setState({
-        //         y: this.state.y - 1,
-        //         direction: 'UP'
-        //     })
-        // } else if (tryUp() > tryLeft() || blinkyTarget.x !== this.state.x /* || tryUp() === tryLeft() && tryUp() - tryLeft() !== 0 */) {
-        //     this.setState({
-        //         x: this.state.x + 1,
-        //         direction: 'RIGHT'
-        //     })
-        // } else if (blinkyTarget.x - this.state.x === 0 && blinkyTarget.y - this.state.y === 0){
-        //     this.setState({
-        //         y: this.state.y + 1,
-        //         direction: 'DOWN'
-        //     })
-        // }
+
+        let tryAll = [
+            {
+                result: tryDirection('UP'),
+                direction: 'UP'
+            },
+            {
+                result: tryDirection('DOWN'),
+                direction: 'DOWN'
+            },
+            {
+                result: tryDirection('LEFT'),
+                direction: 'LEFT'
+            },
+            {
+                result: tryDirection('RIGHT'),
+                direction: 'RIGHT'
+            }
+        ]
+
+        let getOppositeDirection = (direction) => {
+            let oppositeDirections = [
+                {
+                    direction: 'UP',
+                    opposite: 'DOWN'
+                },
+                {
+                    direction: 'DOWN',
+                    opposite: 'UP'
+                },
+                {
+                    direction: 'LEFT',
+                    opposite: 'RIGHT'
+                },
+                {
+                    direction: 'RIGHT',
+                    opposite: 'LEFT'
+                }
+            ]
+            let opposite = null
+            oppositeDirections.forEach(el => {
+                if (el.direction === direction){
+                    opposite = el.opposite
+                }
+            })
+            return opposite
+        }
+
+        let legalDirections = []
+
+        tryAll.forEach(el => {
+            if (this.checkGhostCollision(el.direction) !== false && getOppositeDirection(el.direction) !== this.state.direction){
+                legalDirections.push(el)
+            }
+        })
+        
+        legalDirections.sort(function(a, b){return a.result-b.result})
+
+        // priority: UP, LEFT, DOWN, RIGHT
+        let chosenDirection = null
+        if (legalDirections.length > 1) {
+            if (legalDirections[0].result === legalDirections[1].result){
+                if (legalDirections[0].direction === 'UP' || legalDirections[1].direction === 'UP'){
+                    chosenDirection = 'UP'
+                } else if ((legalDirections[0].direction === 'LEFT' || legalDirections[1].direction === 'LEFT') && (chosenDirection === null)){
+                    chosenDirection = 'LEFT'
+                } else if ((legalDirections[0].direction === 'DOWN' || legalDirections[1].direction === 'DOWN') && (chosenDirection === null)){
+                    chosenDirection = 'DOWN'
+                } else if ((legalDirections[0].direction === 'RIGHT' || legalDirections[1].direction === 'RIGHT') && (chosenDirection === null)){
+                    chosenDirection = 'RIGHT'
+                }
+            } else {
+                chosenDirection = legalDirections[0].direction
+            }
+        } else {
+            chosenDirection = legalDirections[0].direction
+        }
+        this.ghostMove(chosenDirection)
     }
 
     componentDidMount(){
         const interval = setInterval(() => {
-            // if (this.state.tracking) {
-            //     // this.ghostTracking()
-            // } else {
-            //     this.ghostMove(this.state.direction)
-            // }
-            // this.scatter()
+            this.scatter()
           }, 200)
-        // setTimeout(() => {
-        //     this.setState({
-        //         tracking: true
-        //     })
-        // }, 3000);
+        setTimeout(() => {
+            this.setState({
+                tracking: true
+            })
+        }, 20000);
         this.setState({
             interval: interval
         })
-        this.scatter()
     }
 
     componentWillUnmount(){
@@ -313,8 +234,9 @@ class Ghosts extends Component {
 
     render(){
         return(
+            <>
             <div className="ghosts" >
-                <div className="ghost blinky" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
+                <div className={`ghost ${this.props.id === 0 ? 'blinky' : 'pinky'}`} style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
                     <div className="eyes">
                         <div className="eye">
                             <div className="iris"></div>
@@ -336,9 +258,9 @@ class Ghosts extends Component {
                         </div>
                     </div>
                     <div className="ghostTail"></div>
-                </div>
+                </div> */}
 
-                <div className="ghost inky">
+                {/* <div className="ghost inky">
                     <div className="eyes">
                         <div className="eye">
                             <div className="iris"></div>
@@ -348,9 +270,9 @@ class Ghosts extends Component {
                         </div>
                     </div>
                     <div className="ghostTail"></div>
-                </div>
+                </div> */}
 
-                <div className="ghost pinky">
+                {/* <div className="ghost pinky">
                     <div className="eyes">
                         <div className="eye">
                             <div className="iris"></div>
@@ -389,6 +311,7 @@ class Ghosts extends Component {
                     </div>
                 </div> */}
             </div>
+            </>
         )
     }                           
 }

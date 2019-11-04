@@ -228,7 +228,10 @@ class Board extends Component {
             <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={0} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={1} pacman={this.state.pacman} board={this.state.board}/>
+                {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}
             </div>
         )

@@ -101,6 +101,7 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
+        const {x} = this.state.pacman[0];
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -116,11 +117,33 @@ class Board extends Component {
                 }
                 break
             case 'LEFT':
+                if (x === 0) {
+                    console.log('TELEPORT')
+                    this.setState({
+                        pacman: [{
+                            ...this.state.pacman[0],
+                            x: 26,
+                            y: 14
+                        }]
+                    })
+                    console.log(this.state.pacman)
+                }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
+
                     return false
                 }
                 break
             case 'RIGHT':
+                    if (x === 26) {
+                        console.log('TELEPORT')
+                        this.setState({
+                            pacman: [{
+                                ...this.state.pacman[0],
+                                x: 0,
+                                y: 14
+                            }]
+                        })
+                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     return false
                 }

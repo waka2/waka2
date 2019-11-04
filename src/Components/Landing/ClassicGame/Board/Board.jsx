@@ -88,6 +88,7 @@ class Board extends Component {
     eatPellet(direction, id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
             this.props.addPoints(10)
+            this.props.addHiddenPoints(10)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         }
     }
@@ -101,6 +102,7 @@ class Board extends Component {
     eatPowerPellet(id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
             this.props.addPoints(50)
+            this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
             this.ghostsAfraid()
         }
@@ -108,6 +110,7 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
+        const {x} = this.state.pacman[0];
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -123,11 +126,33 @@ class Board extends Component {
                 }
                 break
             case 'LEFT':
-                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1 ){
+                if (x === 0) {
+                    console.log('TELEPORT')
+                    this.setState({
+                        pacman: [{
+                            ...this.state.pacman[0],
+                            x: 26,
+                            y: 14
+                        }]
+                    })
+                    console.log(this.state.pacman)
+                }
+                if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
+
                     return false
                 }
                 break
             case 'RIGHT':
+                    if (x === 26) {
+                        console.log('TELEPORT')
+                        this.setState({
+                            pacman: [{
+                                ...this.state.pacman[0],
+                                x: 0,
+                                y: 14
+                            }]
+                        })
+                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     return false
                 }
@@ -202,7 +227,7 @@ class Board extends Component {
     //     break
 
     render(){
-        // console.log(this.props.addPoints)
+        // console.log(this.props)
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>

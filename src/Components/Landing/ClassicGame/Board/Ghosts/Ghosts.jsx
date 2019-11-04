@@ -338,13 +338,9 @@ class Ghosts extends Component {
                 </div> */}
                 
                 {/* <div className="ghost scared" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
-                    <div className="eyes">
-                       
-                            <div className="iris"></div>
-                        
-                        
-                            <div className="iris"></div>
-                        
+                    <div className="eyes">                       
+                            <div className="iris"></div>                                              
+                            <div className="iris"></div>                        
                     </div>
                     <div class="holder">
                         <div class="smallLine smallLine1"></div>

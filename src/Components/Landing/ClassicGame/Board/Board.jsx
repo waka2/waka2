@@ -79,6 +79,7 @@ class Board extends Component {
     eatPellet(direction, id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
             this.props.addPoints(10)
+            this.props.addHiddenPoints(10)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         }
     }
@@ -92,6 +93,7 @@ class Board extends Component {
     eatPowerPellet(id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
             this.props.addPoints(50)
+            this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
             this.ghostsAfraid()
         }
@@ -216,7 +218,7 @@ class Board extends Component {
     //     break
 
     render(){
-        // console.log(this.props.addPoints)
+        // console.log(this.props)
         let boardMapped = this.state.board.map((row, rowInd, rowArr) => {
             return (
               <div key={rowInd} className={`row row${rowInd}`}>

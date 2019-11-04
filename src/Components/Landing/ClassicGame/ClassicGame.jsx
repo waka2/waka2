@@ -36,13 +36,15 @@ class ClassicGame extends Component {
     }
     
     render(){
+        console.log(this.state.lives)
         return(
             <div id="classicgame">
                 <Header 
                 addPoints={ this.addPoints } 
                 score={ this.state.points } 
                 addHiddenPoints={ this.addHiddenPoints } 
-                hiddenScore={ this.hiddenScore }
+                hiddenScore={ this.state.hiddenPoints }
+                lives={ this.state.lives }
                 />
                 <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />
                 <Footer

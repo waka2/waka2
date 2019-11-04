@@ -10,6 +10,8 @@ class Board extends Component {
             pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
             ghostsAfraid: false,
+            blinkyX: 0,
+            blinkyY: 0,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -74,6 +76,13 @@ class Board extends Component {
 
     componentWillUnmount() {
         clearInterval(this.state.interval)
+    }
+
+    whereBlinky = (x, y) => {
+        this.setState({
+            blinkyX: x,
+            blinkyY: y
+        })
     }
 
     eatPellet(direction, id){
@@ -253,8 +262,10 @@ class Board extends Component {
             <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts id={0} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={0} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={1} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={2} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/>
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

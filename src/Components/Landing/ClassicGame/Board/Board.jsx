@@ -73,6 +73,7 @@ class Board extends Component {
                 interval: interval
             })
     }
+    
 
     componentWillUnmount() {
         clearInterval(this.state.interval)

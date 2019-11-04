@@ -73,6 +73,7 @@ class Board extends Component {
                 interval: interval
             })
     }
+    
 
     componentDidUpdate(prevProps, prevState) {
         if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){

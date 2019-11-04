@@ -138,3 +138,11 @@ body {
 //     linear-gradient( 45deg, transparent 75%, rgb(231, 51, 35) 75%) 0% 50%;}
 
 // }
+
+.target {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: 5;
+  opacity: .5;
+}

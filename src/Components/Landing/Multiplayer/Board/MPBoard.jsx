@@ -386,9 +386,6 @@ class MPBoard extends Component {
                 this.movePacMan(e, this.state.pacman[1].id)
             }}}
       >
-        {/* {this.state.pacman.length !== 0 ?<PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/> 
-                : null}
-                {this.state.pacman[1] ?  <PacMan direction={this.state.pacman[1].direction} x={this.state.pacman[1].x + 1} y={this.state.pacman[1].y}/> : null } */}
         {boardMapped}
         {pacMap}
       </div>

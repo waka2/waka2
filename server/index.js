@@ -42,6 +42,7 @@ const io = socket(server)
 
 io.on('connection', socket => {
     console.log('socket connected')
+    
 
     // Join Room
     socket.on('join room', data => {
@@ -51,8 +52,9 @@ io.on('connection', socket => {
     // Blast to room
     socket.on('blast to room socket', data => {
         console.log(`blast to room ${data.room}`)
+        console.log(data)
         // io.to(data.room).emit('room response', data)
-        socket.emit('room response', data)
+        socket.broadcast.emit('room response', data)
     })
 
     // Emit to room

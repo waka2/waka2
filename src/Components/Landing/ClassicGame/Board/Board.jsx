@@ -74,6 +74,22 @@ class Board extends Component {
             })
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+            this.setState({
+                pacman: this.state.pacman.map(el => {
+                    return el.id === 0 ? {...el, x: 26} : el
+                }),
+            })
+        } else if ((this.state.pacman[0].x === 27 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+            this.setState({
+                pacman: this.state.pacman.map(el => {
+                    return el.id === 0 ? {...el, x: 1} : el
+                }),
+            })
+        }
+    }
+
     componentWillUnmount() {
         clearInterval(this.state.interval)
     }
@@ -110,7 +126,6 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
-        const {x} = this.state.pacman[0];
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -126,33 +141,12 @@ class Board extends Component {
                 }
                 break
             case 'LEFT':
-                if (x === 0) {
-                    console.log('TELEPORT')
-                    this.setState({
-                        pacman: [{
-                            ...this.state.pacman[0],
-                            x: 26,
-                            y: 14
-                        }]
-                    })
-                    console.log(this.state.pacman)
-                }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
 
                     return false
                 }
                 break
             case 'RIGHT':
-                    if (x === 26) {
-                        console.log('TELEPORT')
-                        this.setState({
-                            pacman: [{
-                                ...this.state.pacman[0],
-                                x: 0,
-                                y: 14
-                            }]
-                        })
-                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     return false
                 }
@@ -262,10 +256,10 @@ class Board extends Component {
             <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
                 {/* <p>This is Board</p> */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts id={0} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={1} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={2} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

@@ -21,6 +21,11 @@ class Ghosts extends Component {
         if (this.props.id === 0 && (prevState.x !== this.state.x || prevState.y !== this.state.y)){
             this.props.whereBlinky(this.state.x, this.state.y)
         }
+        if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 0 && this.state.y === 14)){
+            this.setState({x: 26})
+        } else if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 27 && this.state.y === 14)){
+            this.setState({x: 1})
+        }
     }
 
     checkGhostCollision(direction){
@@ -95,18 +100,34 @@ class Ghosts extends Component {
 
     scatter = () => {
         let target = null
-        if (this.props.id === 0) {
-            target = {x: 22, y: 0}
-            this.setState({targetX: target.x, targetY: target.y})
-        } else if (this.props.id === 1) {
-            target = {x: 0, y: 0}
-            this.setState({targetX: target.x, targetY: target.y})
-        } else if (this.props.id === 2){
-            target = {x: 22, y: 30}
-            this.setState({targetX: target.x, targetY: target.y})
-        } else if (this.props.id === 3){
-            target = {x: 0, y: 30}
-            this.setState({targetX: target.x, targetY: target.y})
+        if (this.props.ghostsAfraid) {
+            if (this.props.id === 0) {
+                target = {x: 22, y: 0}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 1) {
+                target = {x: 0, y: 0}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 2){
+                target = {x: 22, y: 30}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 3){
+                target = {x: 0, y: 30}
+                this.setState({targetX: target.x, targetY: target.y})
+            }
+        } else {
+            if (this.props.id === 0) {
+                target = {x: 22, y: 0}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 1) {
+                target = {x: 0, y: 0}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 2){
+                target = {x: 22, y: 30}
+                this.setState({targetX: target.x, targetY: target.y})
+            } else if (this.props.id === 3){
+                target = {x: 0, y: 30}
+                this.setState({targetX: target.x, targetY: target.y})
+            }
         }
         if (this.state.tracking) {
             if (this.props.id === 0 ) {

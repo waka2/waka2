@@ -11,7 +11,7 @@ class ClassicGame extends Component {
         this.state = {
             lives: [1, 2, 3],
             points: 0,
-            hiddenPoints: 2400
+            hiddenPoints: 0
         }
         this.subtractLife.bind(this)
     }
@@ -46,7 +46,7 @@ class ClassicGame extends Component {
                 hiddenScore={ this.state.hiddenPoints }
                 lives={ this.state.lives }
                 />
-                {this.state.hiddenPoints >= 2600 ? 
+                {this.state.hiddenPoints >= 2600 || this.state.lives.length === 0 ? 
                 <LoginPage
                 points={ this.state.points }
                 /> :

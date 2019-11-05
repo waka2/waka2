@@ -44,7 +44,7 @@ class Header extends Component {
 
                 </div> }
                     {this.props.lives.length === 0 ? 
-                    alert('You Lose!') :
+                    <h1 className='blink'>Game Over!</h1> :
                     null }
                 </div>
 

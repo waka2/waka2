@@ -8,6 +8,16 @@ class LoginPage extends Component{
         username: '',
         password: '',
         // password2: ''
+        highscoresArr: []
+    }
+
+    componentDidMount(){
+        axios.get('/api/highscores').then(res => {
+            this.setState({
+                highscoresArr: res.data
+            })
+        })
+        
     }
 
     handleChange(e, key){

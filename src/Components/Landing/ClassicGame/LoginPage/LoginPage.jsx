@@ -16,6 +16,13 @@ class LoginPage extends Component{
         })
     }
 
+    clearState(){
+        this.setState({
+            username: '',
+            password: ''
+        })
+    }
+
     async register(){
         const {username, password} = this.state
         const {points:highscore} = this.props
@@ -23,11 +30,23 @@ class LoginPage extends Component{
         if (res.data === 'Username already in use!'){
             sweet.fire({type: 'error', text: 'Username already in use'})
         } else {
-            sweet.fire({type: 'success', text: 'Registered Successfully!'})
+            sweet.fire({type: 'success', text: 'Registered Successfully!', showConfirmButton: false, timer: 1500})
         }
+        this.clearState()
     }
 
-
+    async login(){
+        const {username, password} = this.state
+        const res = await axios.post('/auth/login', {username, password})
+        if (res.data.user){
+            sweet.fire({type: 'success', text: res.data.message, showConfirmButton: false, timer: 1500})
+            this.clearState()
+        } else if (res.data.message === 'Username not found'){
+            sweet.fire({type: 'error', text: res.data.message})
+        } else if (res.data.message === 'Incorrect password'){
+            sweet.fire({type: 'error', text: res.data.message})
+        }
+    }
 
     render(){
         return(
@@ -64,7 +83,7 @@ class LoginPage extends Component{
                         <input onChange={e => this.handleChange(e, 'password2')} type="password"/>
                     </div> */}
                     <div className="login-register-buttons">
-                        <button className='login-button'>LOGIN</button>
+                        <button onClick={() => this.login()} className='login-button'>LOGIN</button>
                         <button onClick={() => this.register()} className='register-button'>REGISTER</button>
                     </div>
                 </div>

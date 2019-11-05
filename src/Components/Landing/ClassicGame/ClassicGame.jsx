@@ -11,7 +11,7 @@ class ClassicGame extends Component {
         this.state = {
             lives: [1, 2, 3],
             points: 0,
-            hiddenPoints: 0
+            hiddenPoints: 2400
         }
         this.subtractLife.bind(this)
     }

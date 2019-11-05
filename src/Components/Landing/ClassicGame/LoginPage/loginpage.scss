@@ -30,6 +30,15 @@
             color: $clyde;
         }
     }
+    .rank-highscore-username {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-right: 8%;
+        p {
+            margin: 8% 25%;
+        }
+    }
 }
 .login-page {
     width: 50%;
@@ -101,4 +110,5 @@
             cursor: pointer;
         }
     }
+    
 }

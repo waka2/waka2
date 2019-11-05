@@ -59,6 +59,31 @@ class LoginPage extends Component{
     }
 
     render(){
+
+        let mappedHighscores = this.state.highscoresArr.map((el, i) => {
+            let style = null
+            if (i === 0 || i === 5){
+                style={color: 'rgb(231, 51, 35)'}
+            } else if (i === 1 || i === 6){
+                style={color: 'rgb(241, 185, 251)'}
+            } else if (i === 2 || i === 7){
+                style={color: 'rgb(114, 251, 253)'}
+            } else if (i === 3 || i === 8){
+                style={color: 'rgb(240, 180, 103)'}
+            } else if (i === 4 || i === 9){
+                style={color: 'rgb(254, 252, 83)'}
+            }
+            return (
+                <div className="rank-highscore-username" style={style}>
+                    <p>{i+1}</p>
+                    <p>{el.highscore}</p>
+                    <p>{el.username}</p>
+                </div>
+            )
+        })
+
+        
+
         return(
             <div className="loginParent">
                 <div className="highscores">
@@ -68,6 +93,7 @@ class LoginPage extends Component{
                         <p>SCORE</p>
                         <p>USERNAME</p>
                     </div>
+                    {mappedHighscores}
                 </div>
                 <div className="login-page">
                     <p>LOGIN TO SAVE YOUR HIGH SCORE!</p>

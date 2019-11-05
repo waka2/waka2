@@ -5,6 +5,7 @@ import ClassicGame from './ClassicGame/ClassicGame';
 import Multiplayer from './Multiplayer/ghostPact';
 import screenshot from '../../screenshot.png'
 import arcade from '../../waka2_arcade_cabinet2.png'
+import LoginPage from './ClassicGame/LoginPage/LoginPage';
 
 class Landing extends React.Component {
     constructor(props){
@@ -65,6 +66,7 @@ class Landing extends React.Component {
                     <Switch>
                         <Route path="/classic" component={ClassicGame} />
                         <Route path="/ghostPact" component={Multiplayer} />
+                        <Route path='/login' component={LoginPage} />
                     </Switch>
                 </div>
                 <div className="br-button">

@@ -15,6 +15,8 @@ class Board extends Component {
             ghostsAfraid: false,
             toggleSound: false,
             toggleWaka: false,
+            blinkyX: 0,
+            blinkyY: 0,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -77,9 +79,33 @@ class Board extends Component {
                 interval: interval
             })
     }
+    
+
+    componentDidUpdate(prevProps, prevState) {
+        if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+            this.setState({
+                pacman: this.state.pacman.map(el => {
+                    return el.id === 0 ? {...el, x: 26} : el
+                }),
+            })
+        } else if ((this.state.pacman[0].x === 27 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+            this.setState({
+                pacman: this.state.pacman.map(el => {
+                    return el.id === 0 ? {...el, x: 1} : el
+                }),
+            })
+        }
+    }
 
     componentWillUnmount() {
         clearInterval(this.state.interval)
+    }
+
+    whereBlinky = (x, y) => {
+        this.setState({
+            blinkyX: x,
+            blinkyY: y
+        })
     }
 
     eatPellet(direction, id){
@@ -107,7 +133,7 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
-        const {x} = this.state.pacman[0];
+        const {x} = this.state.pacman[0]
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -308,8 +334,10 @@ class Board extends Component {
                 {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
                 {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts id={0} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={1} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
+                <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

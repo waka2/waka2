@@ -10,7 +10,11 @@
 .wall {
     height: 20px;
     width: 20px;
-    background: rgb(19, 48, 245);
+    background: linear-gradient(315deg, transparent 75%, rgb(22, 116, 198) 0)-10px 0,
+    linear-gradient(45deg, transparent 75%, rgb(80, 142, 162) 0)-10px 0,
+    linear-gradient(135deg, rgb(34, 34, 191) 50%, transparent 0) 0 0,
+    linear-gradient(45deg, rgb(5, 5, 87) 50%, rgb(4, 4, 63) 0) 0 0 rgb(5, 5, 60);
+    background-size: 20px 20px;
     position: relative;
     // z-index: 3;
 }
@@ -53,7 +57,11 @@
     transform: scale(.80);
 }
 .ghost-door {
-    background: rgb(241, 185, 251);
+    background: linear-gradient(315deg, transparent 75%, rgba(214, 142, 227, .5) 0)-10px 0,
+    linear-gradient(45deg, transparent 75%, rgba(244, 180, 255, .5) 0)-10px 0,
+    linear-gradient(135deg, rgba(228, 132, 245, .5) 50%, transparent 0) 0 0,
+    linear-gradient(45deg, rgba(127, 89, 135, 0.5) 50%, rgba(86, 14, 99, .5) 0) 0 0 rgba(83, 9, 96, .5);
+    background-size: 20px 20px;
     height: 20px;
     width: 20px;
 }

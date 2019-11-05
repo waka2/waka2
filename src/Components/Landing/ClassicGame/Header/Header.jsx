@@ -18,7 +18,6 @@ class Header extends Component {
     }
 
     render(){
-        console.log(this.props.lives)
         return(
             <div className="header">
                 <div className="parent">
@@ -32,7 +31,7 @@ class Header extends Component {
                         <h2 className='points'>Points:</h2>
                         <p> {this.props.score}</p>
                     </span>
-                    {this.props.hiddenScore === 2600 ?
+                    {this.props.hiddenScore >= 2600 ?
                     <h1 className='blink'>You Win!</h1> :
                     <span className="highscore">
                         <h1>Highscore</h1>

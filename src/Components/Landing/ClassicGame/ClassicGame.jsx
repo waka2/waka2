@@ -37,7 +37,6 @@ class ClassicGame extends Component {
     }
     
     render(){
-        console.log(this.state.lives)
         return(
             <div id="classicgame">
                 <Header 
@@ -48,7 +47,9 @@ class ClassicGame extends Component {
                 lives={ this.state.lives }
                 />
                 {this.state.hiddenPoints >= 2600 ? 
-                <LoginPage/> :
+                <LoginPage
+                points={ this.state.points }
+                /> :
                 <></>
                 }
                 <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />

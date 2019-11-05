@@ -100,34 +100,18 @@ class Ghosts extends Component {
 
     scatter = () => {
         let target = null
-        if (this.props.ghostsAfraid) {
-            if (this.props.id === 0) {
-                target = {x: 22, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 1) {
-                target = {x: 0, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 2){
-                target = {x: 22, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 3){
-                target = {x: 0, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            }
-        } else {
-            if (this.props.id === 0) {
-                target = {x: 22, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 1) {
-                target = {x: 0, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 2){
-                target = {x: 22, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 3){
-                target = {x: 0, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            }
+        if (this.props.id === 0) {
+            target = {x: 22, y: 0}
+            this.setState({targetX: target.x, targetY: target.y})
+        } else if (this.props.id === 1) {
+            target = {x: 0, y: 0}
+            this.setState({targetX: target.x, targetY: target.y})
+        } else if (this.props.id === 2){
+            target = {x: 22, y: 30}
+            this.setState({targetX: target.x, targetY: target.y})
+        } else if (this.props.id === 3){
+            target = {x: 0, y: 30}
+            this.setState({targetX: target.x, targetY: target.y})
         }
         if (this.state.tracking) {
             if (this.props.id === 0 ) {

@@ -46,7 +46,7 @@ class ClassicGame extends Component {
                 hiddenScore={ this.state.hiddenPoints }
                 lives={ this.state.lives }
                 />
-                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />
+                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } subtractLife={ this.subtractLife } />
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

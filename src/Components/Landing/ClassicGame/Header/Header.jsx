@@ -18,7 +18,7 @@ class Header extends Component {
     }
 
     render(){
-        console.log(this.props.lives)
+        // console.log(this.props.lives)
         return(
             <div className="header">
                 <div className="parent">

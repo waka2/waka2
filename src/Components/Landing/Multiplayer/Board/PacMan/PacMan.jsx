@@ -38,8 +38,8 @@ class PacMan extends Component {
         transitionTimingFunction: 'linear', 
         transform: `rotate(${this.state.direction}deg)`}
         return(
-            <div className="pacman" style={style}>
-                <div className="triangle"/>
+            <div className="pacmanM" style={style}>
+                <div className="triangleM"/>
             </div>
         )
     }                           

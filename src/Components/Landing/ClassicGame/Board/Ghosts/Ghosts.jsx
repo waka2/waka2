@@ -287,7 +287,17 @@ class Ghosts extends Component {
         this.ghostMove(chosenDirection)
     }
 
+    eyeDirection = (direction) => {
+        const ghost = document.getElementById('iris')
+        
+
+    }
+
     componentDidMount(){
+       
+        //ghost.classList.add('')
+
+
         const interval = setInterval(() => {
             this.scatter()
           }, 200)
@@ -308,15 +318,15 @@ class Ghosts extends Component {
     render(){
         return(
             <>
-            <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/>
+            {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
             <div className="ghosts" >
                 <div className={`ghost ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}`} style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
                     <div className="eyes">
                         <div className="eye">
-                            <div className="iris"></div>
+                            <div id="iris" className="iris"></div>
                         </div>
                         <div className="eye">
-                            <div className="iris"></div>
+                            <div id="iris" className="iris"></div>
                         </div>
                     </div>
                     <div className="ghostTail"></div>

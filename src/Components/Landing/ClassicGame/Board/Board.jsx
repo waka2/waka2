@@ -1,6 +1,10 @@
 import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
 import Ghosts from './Ghosts/Ghosts'
+import Sound from 'react-sound'
+import backMusic from '../../../../assets/Monplaisir_-_07_-_Level_4.mp3'
+import waka from '../../../../assets/PacmanWakaWaka04.wav'
+import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
 import './board.scss'
 
 class Board extends Component {
@@ -10,6 +14,9 @@ class Board extends Component {
             pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
             ghostsAfraid: false,
+            toggleSound: false,
+            toggleWaka: false,
+            togglePower: false,
             blinkyX: 0,
             blinkyY: 0,
             // 0 = path
@@ -54,6 +61,7 @@ class Board extends Component {
     }
 
     componentDidMount() {
+
         document.getElementById('board').focus();
         const interval = setInterval(() => {
             if (this.state.pacman[0].direction === 'UP'){
@@ -118,6 +126,17 @@ class Board extends Component {
 
     eatPowerPellet(id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
+            this.setState({
+                togglePower: true
+            })
+
+            setInterval(() => {
+                this.setState({
+                    togglePower: false
+                })
+            }, 2000)
+
+
             this.props.addPoints(50)
             this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
@@ -127,32 +146,88 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
+        const {x} = this.state.pacman[0]
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
+                    this.setState({
+                        toggleWaka: false
+                    })
                     return false
+                } else {
+                    this.setState({
+                        toggleWaka: true
+                    })
                 }
                 break
             case 'DOWN':
                 if (this.state.board[this.state.pacman[id].y + 1][this.state.pacman[id].x] === 1){
+                    this.setState({
+                        toggleWaka: false
+                    })
                     return false
+                } else {
+                    this.setState({
+                        toggleWaka: true
+                    })
                 }
                 if (this.state.board[this.state.pacman[id].y + 1][this.state.pacman[id].x] === 4){
+                    this.setState({
+                        toggleWaka: false
+                    })
                     return false
+                } else {
+                    this.setState({
+                        toggleWaka: true
+                    })
                 }
                 break
             case 'LEFT':
+                if (x === -1) {
+                    this.setState({
+                        pacman: [{
+                            ...this.state.pacman[0],
+                            x: 26,
+                            y: 14
+                        }]
+                    })
+                }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
-
+                    this.setState({
+                        toggleWaka: false
+                    })
                     return false
+                } else {
+                    this.setState({
+                        toggleWaka: true
+                    })
                 }
                 break
             case 'RIGHT':
+                    if (x === 27) {
+                        this.setState({
+                            pacman: [{
+                                ...this.state.pacman[0],
+                                x: 0,
+                                y: 14
+                            }]
+                        })
+                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
+                    this.setState({
+                        toggleWaka: false
+                    })
                     return false
+                } else {
+                    this.setState({
+                        toggleWaka: true
+                    })
                 }
                 break
             default:
+                    this.setState({
+                        toggleWaka: true
+                    })
                 break
         }
     }
@@ -173,7 +248,9 @@ class Board extends Component {
                 break
             case 40:
                 // DOWN
-                if (this.checkCollision('DOWN', id) === false) break
+                if (this.checkCollision('DOWN', id) === false) {
+                    break
+                }
                 this.eatPellet('DOWN', id)
                 this.eatPowerPellet(id)
                 this.setState({
@@ -254,8 +331,22 @@ class Board extends Component {
             )
           })
         return(
-            <div id="board" className="board" tabIndex="0" onKeyDown={e => this.movePacMan(e)}>
+            <div id="board" className="board" tabIndex="0" onKeyDown={(e) => {
+                if (this.state.toggleSound === false) {
+                    this.setState({
+                        toggleSound: true
+                    })
+                if (this.state.toggleWaka === false) {
+                    this.setState({
+                        toggleWaka: true
+                    })
+                }
+                }
+                this.movePacMan(e)}}>
                 {/* <p>This is Board</p> */}
+                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
                 <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
                 <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>

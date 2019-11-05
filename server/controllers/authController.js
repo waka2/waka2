@@ -9,7 +9,7 @@ module.exports = {
 
         // If they have, return error message
         if (user[0]) {
-            res.status(302).send({message: 'Username already in use!'})
+            return res.status(200).send('Username already in use!')
         }
 
         // Salt and hash the password

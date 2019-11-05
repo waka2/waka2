@@ -20,7 +20,9 @@ class LoginPage extends Component{
                     <p>LOGIN TO SAVE YOUR HIGH SCORE!</p>
                     <div className="login-input">
                         <span>LOGIN:</span>
-                        <input type="text" maxLength='3'/>
+                        <input type="text" maxLength='1'/>
+                        <input type="text" maxLength='1'/>
+                        <input type="text" maxLength='1'/>
                     </div>
                     <div className="password-input">
                         <span>PASSWORD:</span>
@@ -30,6 +32,7 @@ class LoginPage extends Component{
                         <span>CONFRIM PASSWORD:</span>
                         <input type="password"/>
                     </div>
+                    <button className='login-button'>LOGIN</button>
                 </div>
             </div>
         )

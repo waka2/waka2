@@ -46,6 +46,17 @@
         align-items: center;
         color: $clyde;
         margin-bottom: 2%;
+        input {
+            border: none;
+            width: 16px;
+            margin: 0 2%;
+            background: black;
+            border-bottom: 1px solid white;
+            color: white;
+            font-size: 16px;
+            font-family: $pixelFont;
+            color: $clyde;
+        }
     }
     .password-input {
         margin: 2% 0;
@@ -53,12 +64,35 @@
         flex-direction: row;
         align-items: center;
         color: $blinky;
+        input {
+            border: none;
+            background: black;
+            border-bottom: 1px solid white;
+            color: white;
+        }
+        
     }
     .password-input-2 {
-        margin: 2% 0;
+        margin: 2% ;
         display: flex;
         flex-direction: row;
         align-items: center;
         color: $pinky;
+        text-align: center;
+
+        input {
+            border: none;
+            background: black;
+            border-bottom: 1px solid white;
+            color: white;
+            width: 45%;
+        }
+    }
+    .login-button {
+        margin: 2% 0;
+        font-family: $pixelFont;
+        color: $inky;
+        background: black;
+        border: none;
     }
 }

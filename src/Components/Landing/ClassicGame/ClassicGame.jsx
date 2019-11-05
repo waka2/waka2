@@ -47,7 +47,7 @@ class ClassicGame extends Component {
                 hiddenScore={ this.state.hiddenPoints }
                 lives={ this.state.lives }
                 />
-                {this.state.hiddenPoints >= 20 ? 
+                {this.state.hiddenPoints >= 2600 ? 
                 <LoginPage/> :
                 <></>
                 }

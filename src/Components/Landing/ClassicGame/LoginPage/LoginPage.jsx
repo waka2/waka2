@@ -8,7 +8,8 @@ class LoginPage extends Component{
         username: '',
         password: '',
         // password2: ''
-        highscoresArr: []
+        highscoresArr: [],
+        loggedIn: false
     }
 
     componentDidMount(){
@@ -56,6 +57,9 @@ class LoginPage extends Component{
         } else if (res.data.message === 'Incorrect password'){
             sweet.fire({type: 'error', text: res.data.message})
         }
+        this.setState({
+            loggedIn: res.data.loggedIn
+        })
     }
 
     render(){
@@ -122,6 +126,8 @@ class LoginPage extends Component{
                         <button onClick={() => this.login()} className='login-button'>LOGIN</button>
                         <button onClick={() => this.register()} className='register-button'>REGISTER</button>
                     </div>
+                    {this.state.loggedIn ? 
+                    <button className='update-button'>Update Score</button> : <></>}
                 </div>
             </div>
         )

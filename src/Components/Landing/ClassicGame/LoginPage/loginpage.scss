@@ -110,5 +110,12 @@
             cursor: pointer;
         }
     }
-    
+    .update-button {
+        margin: 2% 3%;
+        font-family: $pixelFont;
+        color: $inky;
+        background: black;
+        border: none;
+        cursor: pointer;
+    }
 }

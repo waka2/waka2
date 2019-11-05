@@ -287,6 +287,13 @@ class Ghosts extends Component {
         this.ghostMove(chosenDirection)
     }
 
+    resetGhosts = () => {
+        this.setState({
+            y: this.state.y,
+            x: this.state.x
+        })
+    }
+
     componentDidMount(){
         const interval = setInterval(() => {
             this.scatter()
@@ -300,6 +307,16 @@ class Ghosts extends Component {
             interval: interval
         })
     }
+
+    componentDidUpdate = prevState => {
+        setTimeout(() => {
+            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+                this.props.subtractLife()
+                this.props.resetPacman()
+            } 
+        }, 3000)
+    }
+
 
     componentWillUnmount(){
         clearInterval(this.state.interval)

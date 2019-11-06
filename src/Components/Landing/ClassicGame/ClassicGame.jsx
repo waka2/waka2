@@ -36,7 +36,7 @@ class ClassicGame extends Component {
     }
     
     render(){
-        console.log(this.state.lives)
+        // console.log(this.state.lives)
         return(
             <div id="classicgame">
                 <Header 

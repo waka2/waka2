@@ -18,6 +18,10 @@ class Header extends Component {
     }
 
     render(){
+
+        // console.log(this.props.lives)
+
+
         return(
             <div className="header">
                 <div className="parent">
@@ -31,21 +35,39 @@ class Header extends Component {
                         <h2 className='points'>Points:</h2>
                         <p> {this.props.score}</p>
                     </span>
+
+                    {this.props.lives.length === 0 ?
+                    <h1 className="blink">Game Over</h1> :
+                    <span className="highscore">
+                        <h1>Highscore</h1>
+                        <p>their highscore</p>
+                    </span> 
+                    }
+                    {/* {this.props.hiddenScore === 2600 ?
+                    <h1>You Win!</h1> :
+=======
                     {this.props.hiddenScore >= 2600 ?
                     <h1 className='blink'>You Win!</h1> :
+>>>>>>> master
                     <span className="highscore">
                         <h1>Highscore</h1>
                         <p>their highscore</p>
                     </span>
-                    }
+                    } */}
                     <span className="logo">
                     <h5>Waka<sup>2</sup></h5>
                     </span>
 
                 </div> }
+
+                    {/* {this.props.lives.length === 0 ? 
+                    alert('You Lose!') :
+                    null } */}
+
                     {this.props.lives.length === 0 ? 
                     <h1 className='blink'>Game Over!</h1> :
                     null }
+
                 </div>
 
             </div>

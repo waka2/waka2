@@ -265,7 +265,23 @@ class Ghosts extends Component {
         this.ghostMove(chosenDirection)
     }
 
+    resetGhosts = () => {
+        const newCoords = [{x: 13, y: 11}]
+        this.setState({
+            coords: newCoords
+        })
+    }
+    eyeDirection = (direction) => {
+        const ghost = document.getElementById('iris')
+        
+
+    }
+
     componentDidMount(){
+       
+        //ghost.classList.add('')
+
+
         const interval = setInterval(() => {
             this.scatter()
           }, 200)
@@ -279,11 +295,21 @@ class Ghosts extends Component {
         })
     }
 
+    componentDidUpdate = prevState => {
+        setTimeout(() => {
+            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+                this.props.subtractLife()
+                this.props.resetPacman()
+            } 
+        }, 3000)
+    }
+
     componentWillUnmount(){
         clearInterval(this.state.interval)
     }
 
     render(){
+        // console.log(this.state)
         return(
             <>
             {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
@@ -291,10 +317,10 @@ class Ghosts extends Component {
                 <div className={`ghost ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}`} style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
                     <div className="eyes">
                         <div className="eye">
-                            <div className="iris"></div>
+                            <div id="iris" className="iris"></div>
                         </div>
                         <div className="eye">
-                            <div className="iris"></div>
+                            <div id="iris" className="iris"></div>
                         </div>
                     </div>
                     <div className="ghostTail"></div>
@@ -358,7 +384,7 @@ class Ghosts extends Component {
                         </div>
                     </div>
                 </div> */}
-            </div>
+                </div>
             </>
         )
     }                           

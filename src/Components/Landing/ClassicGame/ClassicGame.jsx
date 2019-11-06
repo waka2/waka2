@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Board from './Board/Board'
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
+import LoginPage from '../ClassicGame/LoginPage/LoginPage'
 import './classicgame.scss'
 
 class ClassicGame extends Component {
@@ -10,17 +11,19 @@ class ClassicGame extends Component {
         this.state = {
             lives: [1, 2, 3],
             points: 0,
-            hiddenPoints: 0
+            hiddenPoints: 0,
+            pacmanAlive: true
         }
         this.subtractLife.bind(this)
     }
 
     subtractLife = () => {
         let newLives = this.state.lives
+        let newPacAlive = false
         newLives.pop()
-        this.setState({lives: newLives})
-            
+        this.setState({lives: newLives, pacmanAlive: newPacAlive })            
         }
+        
     addPoints = (num) => {
             const score = this.state.points + num
              this.setState({
@@ -46,7 +49,13 @@ class ClassicGame extends Component {
                 hiddenScore={ this.state.hiddenPoints }
                 lives={ this.state.lives }
                 />
-                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } />
+                {this.state.hiddenPoints >= 2600 || this.state.lives.length === 0 ? 
+                <LoginPage
+                points={ this.state.points }
+                /> :
+                <></>
+                }
+                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } subtractLife={ this.subtractLife } lives={ this.state.lives } />
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

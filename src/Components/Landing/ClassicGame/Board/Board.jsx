@@ -4,6 +4,7 @@ import Ghosts from './Ghosts/Ghosts'
 import Sound from 'react-sound'
 import backMusic from '../../../../assets/Monplaisir_-_07_-_Level_4.mp3'
 import waka from '../../../../assets/PacmanWakaWaka04.wav'
+import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
 import './board.scss'
 
 class Board extends Component {
@@ -15,8 +16,10 @@ class Board extends Component {
             ghostsAfraid: false,
             toggleSound: false,
             toggleWaka: false,
+            togglePower: false,
             blinkyX: 0,
             blinkyY: 0,
+            pacmanAlive: true,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -101,6 +104,53 @@ class Board extends Component {
         clearInterval(this.state.interval)
     }
 
+    resetPacman = () => {
+        const newPac = [{id: 0, x: 13, y: 23, direction: 'RIGHT'}]
+        this.setState({
+            pacman: newPac
+        })
+    }
+
+    resetBoard = () => {
+        const newBoard = 
+        [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,3,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,3,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],         
+            [1,2,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,1,1,1,0,1,1,0,1,1,1,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,1,1,1,4,4,1,1,1,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+            [0,0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0],
+            [1,1,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,1,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,0,1,1,1,1,1,1,1,1,0,1,1,2,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1],
+            [1,3,2,2,1,1,2,2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,1,1,2,2,3,1],
+            [1,1,1,2,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,2,1,1,1],
+            [1,1,1,2,1,1,2,1,1,2,1,1,1,1,1,1,1,1,2,1,1,2,1,1,2,1,1,1],
+            [1,2,2,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,1,1,2,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ]
+        this.setState({
+            board: newBoard
+        })
+    }
+
     whereBlinky = (x, y) => {
         this.setState({
             blinkyX: x,
@@ -124,6 +174,17 @@ class Board extends Component {
 
     eatPowerPellet(id){
         if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
+            this.setState({
+                togglePower: true
+            })
+
+            setInterval(() => {
+                this.setState({
+                    togglePower: false
+                })
+            }, 2000)
+
+
             this.props.addPoints(50)
             this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
@@ -317,6 +378,7 @@ class Board extends Component {
               </div>
             )
           })
+
         return(
             <div id="board" className="board" tabIndex="0" onKeyDown={(e) => {
                 if (this.state.toggleSound === false) {
@@ -332,12 +394,13 @@ class Board extends Component {
                 this.movePacMan(e)}}>
                 {/* <p>This is Board</p> */}
                 {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
                 {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
-                <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y}/>
-                <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board}/>
+                <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

@@ -119,3 +119,35 @@
         cursor: pointer;
     }
 }
+
+// .blinkWhite {
+//     -webkit-animation: 1s linear condemned_blink_effect;
+//     animation: 1s linear condemned_blink_effect;
+//     animation-iteration-count: 3;
+//   }
+//   @-webkit-keyframes condemned_blink_effect {
+//     0% {
+//       visibility: hidden;
+//       background: white;
+//     }
+//     50% {
+//       visibility: hidden;
+//     }
+//     100% {
+//       visibility: visible;
+//       background: white;
+//     }
+//   }
+//   @keyframes condemned_blink_effect {
+//     0% {
+//       visibility: hidden;
+//       background: white;
+//     }
+//     50% {
+//       visibility: hidden;
+//     }
+//     100% {
+//       visibility: visible;
+//       background: white;
+//     }
+//   }

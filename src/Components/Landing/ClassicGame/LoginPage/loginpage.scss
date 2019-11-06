@@ -1,11 +1,16 @@
 @import '../../../../App.scss';
 
 .loginParent {
-    width: 100%;
+    width: auto;
+    margin-top: 3%;
     color: white;
     display: flex;
     flex-direction: row;
     font-family: $pixelFont;
+    position: absolute;
+    height: 84%;
+    z-index: 4;
+    background: rgba(0, 0, 0, .85);
 }
 .highscores {
     width: 50%;
@@ -25,6 +30,15 @@
             color: $clyde;
         }
     }
+    .rank-highscore-username {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-right: 8%;
+        p {
+            margin: 8% 25%;
+        }
+    }
 }
 .login-page {
     width: 50%;
@@ -41,6 +55,18 @@
         align-items: center;
         color: $clyde;
         margin-bottom: 2%;
+        input {
+            border: none;
+            width: 47px;
+            margin: 0 2%;
+            background: black;
+            border-bottom: 3px dashed white;
+            color: white;
+            font-size: 12px;
+            letter-spacing: 6px;
+            font-family: $pixelFont;
+            color: $clyde;
+        }
     }
     .password-input {
         margin: 2% 0;
@@ -48,12 +74,48 @@
         flex-direction: row;
         align-items: center;
         color: $blinky;
+        input {
+            border: none;
+            background: black;
+            border-bottom: 1px solid white;
+            color: white;
+        }
+        
     }
     .password-input-2 {
-        margin: 2% 0;
+        margin: 2% ;
         display: flex;
         flex-direction: row;
         align-items: center;
         color: $pinky;
+        text-align: center;
+
+        input {
+            border: none;
+            background: black;
+            border-bottom: 1px solid white;
+            color: white;
+            width: 45%;
+        }
+    }
+    .login-register-buttons {
+        display: flex;
+        flex-direction: row;
+        button {
+            margin: 2% 3%;
+            font-family: $pixelFont;
+            color: $inky;
+            background: black;
+            border: none;
+            cursor: pointer;
+        }
+    }
+    .update-button {
+        margin: 2% 3%;
+        font-family: $pixelFont;
+        color: $inky;
+        background: black;
+        border: none;
+        cursor: pointer;
     }
 }

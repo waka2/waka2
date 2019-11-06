@@ -5,7 +5,7 @@
     height: 10% !important;
     width: 100%;
 
-    start {
+    .blink {
         -webkit-animation: 1s linear infinite condemned_blink_effect;
         animation: 1s linear infinite condemned_blink_effect;
       }

@@ -17,7 +17,7 @@ module.exports = {
         const scores = await db.get_highscores()
 
         if (scores) {
-            res.status(200).send({highscores: scores})
+            res.status(200).send(scores)
         } else {
             res.status(302).send({message: 'No Scores Found'})
         }

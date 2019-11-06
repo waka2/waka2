@@ -353,15 +353,15 @@ class MPBoard extends Component {
         <div key={rowInd} className={`row row${rowInd}`}>
           {row.map((block, blockInd, blockArr) => {
             if (block === 0) {
-              return <div key={rowInd + blockInd} className="path" />;
+              return <div key={rowInd + blockInd} className="pathM" />;
             } else if (block === 1) {
-              return <div key={rowInd + blockInd} className="wall" />;
+              return <div key={rowInd + blockInd} className="wallM" />;
             } else if (block === 2) {
-              return <div key={rowInd + blockInd} className="pellet" />;
+              return <div key={rowInd + blockInd} className="pelletM" />;
             } else if (block === 3) {
-              return <div key={rowInd + blockInd} className="power-pellet" />;
+              return <div key={rowInd + blockInd} className="power-pelletM" />;
             } else if (block === 4) {
-              return <div key={rowInd + blockInd} className="ghost-door" />;
+              return <div key={rowInd + blockInd} className="ghost-doorM" />;
             }
           })}
         </div>

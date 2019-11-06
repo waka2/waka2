@@ -317,12 +317,12 @@ class Ghosts extends Component {
         }, 3000)
     }
 
-
     componentWillUnmount(){
         clearInterval(this.state.interval)
     }
 
     render(){
+        // console.log(this.state)
         return(
             <>
             {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}

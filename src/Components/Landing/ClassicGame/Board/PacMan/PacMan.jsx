@@ -32,7 +32,7 @@ class PacMan extends Component {
     }
 
     render(){
-        let style = {top: `${this.props.y * 20}px`, left: `${this.props.x * 20}px`, 
+        let style = {top: `${this.props.y * 20}px`, left: `${this.props.x * 20}px`,
         transitionProperty: 'left, top', 
         transitionDuration: '.2s', 
         transitionTimingFunction: 'linear', 

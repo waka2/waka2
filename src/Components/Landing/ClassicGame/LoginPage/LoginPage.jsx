@@ -87,7 +87,7 @@ class LoginPage extends Component{
                 style={color: 'rgb(254, 252, 83)'}
             }
             return (
-                <div className="rank-highscore-username" style={style}>
+                <div className="rank-highscore-username blink" style={style}>
                     <p>{i+1}</p>
                     <p>{el.highscore}</p>
                     <p>{el.username}</p>
@@ -101,7 +101,7 @@ class LoginPage extends Component{
             <div className="loginParent">
                 <div className="highscores">
                     <p>THE 10 BEST PLAYERS</p>
-                    <div className="rank-score-username">
+                    <div className="rank-score-username blink">
                         <p>RANK</p>
                         <p>SCORE</p>
                         <p>USERNAME</p>
@@ -109,9 +109,9 @@ class LoginPage extends Component{
                     {mappedHighscores}
                 </div>
                 <div className="login-page">
-                    <p>LOGIN TO SAVE YOUR HIGH SCORE!</p>
+                    <p class='blink'>LOGIN TO SAVE YOUR HIGH SCORE!</p>
                     <div className="login-input">
-                        <span>LOGIN:</span>
+                        <span className='blink'>LOGIN:</span>
                         <input 
                         id='login'
                         onChange={e => this.handleChange(e, 'username')} 
@@ -122,7 +122,7 @@ class LoginPage extends Component{
                         {/* <input type="text" maxLength='1'/> */}
                     </div>
                     <div className="password-input">
-                        <span>PASSWORD:</span>
+                        <span className='blink'>PASSWORD:</span>
                         <input 
                         id='password'
                         onChange={e => this.handleChange(e, 'password')} 
@@ -134,8 +134,8 @@ class LoginPage extends Component{
                         <input onChange={e => this.handleChange(e, 'password2')} type="password"/>
                     </div> */}
                     <div className="login-register-buttons">
-                        <button onClick={() => this.login()} className='login-button'>LOGIN</button>
-                        <button onClick={() => this.register()} className='register-button'>REGISTER</button>
+                        <button onClick={() => this.login()} className='login-button blink'>LOGIN</button>
+                        <button onClick={() => this.register()} className='register-button blink'>REGISTER</button>
                     </div>
                     {this.state.loggedIn ? 
                     <button onClick={() => this.updateScore()} className='update-button'>Update Score</button>

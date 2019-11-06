@@ -9,7 +9,8 @@ class LoginPage extends Component{
         password: '',
         // password2: ''
         highscoresArr: [],
-        loggedIn: false
+        loggedIn: false,
+        testBool: false
     }
 
     componentDidMount(){
@@ -43,6 +44,9 @@ class LoginPage extends Component{
         } else {
             sweet.fire({type: 'success', text: 'Registered Successfully!', showConfirmButton: false, timer: 1500})
         }
+        this.setState({
+            loggedIn: res.data.loggedIn
+        })
         this.clearState()
     }
 
@@ -59,6 +63,11 @@ class LoginPage extends Component{
         }
         this.setState({
             loggedIn: res.data.loggedIn
+        })
+    }
+    updateScore(){
+        this.setState({
+            testBool: true
         })
     }
 
@@ -104,6 +113,7 @@ class LoginPage extends Component{
                     <div className="login-input">
                         <span>LOGIN:</span>
                         <input 
+                        id='login'
                         onChange={e => this.handleChange(e, 'username')} 
                         type="text" 
                         maxLength='3'
@@ -114,6 +124,7 @@ class LoginPage extends Component{
                     <div className="password-input">
                         <span>PASSWORD:</span>
                         <input 
+                        id='password'
                         onChange={e => this.handleChange(e, 'password')} 
                         type="password"
                         value={this.state.password}/>
@@ -127,7 +138,8 @@ class LoginPage extends Component{
                         <button onClick={() => this.register()} className='register-button'>REGISTER</button>
                     </div>
                     {this.state.loggedIn ? 
-                    <button className='update-button'>Update Score</button> : <></>}
+                    <button onClick={() => this.updateScore()} className='update-button'>Update Score</button>
+                     : <></>}
                 </div>
             </div>
         )

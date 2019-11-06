@@ -98,93 +98,71 @@ class Ghosts extends Component {
         }
     }
 
-    scatter = () => {
-        let target = null
-        if (this.props.ghostsAfraid) {
-            if (this.props.id === 0) {
-                target = {x: 22, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 1) {
-                target = {x: 0, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 2){
-                target = {x: 22, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 3){
-                target = {x: 0, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            }
-        } else {
-            if (this.props.id === 0) {
-                target = {x: 22, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 1) {
-                target = {x: 0, y: 0}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 2){
-                target = {x: 22, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 3){
-                target = {x: 0, y: 30}
-                this.setState({targetX: target.x, targetY: target.y})
-            }
+    getTarget = (id) => {
+        switch(id){
+            case 0:
+                // Blinky
+                if (this.state.tracking) return {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
+                else return {x: 22, y: 0}
+            case 1:
+                // Pinky
+                if (this.state.tracking) {
+                    switch(this.props.pacman[0].direction){
+                        case 'UP':
+                            return {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y - 4}
+                        case 'DOWN':
+                            return {x: this.props.pacman[0].x, y: this.props.pacman[0].y + 4}
+                        case 'LEFT':
+                            return {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y}
+                        case 'RIGHT':
+                            return {x: this.props.pacman[0].x + 4, y: this.props.pacman[0].y}
+                        default:
+                            return {x: this.props.pacman[0].x + 4, y: this.props.pacman[0].y}
+                    }
+                }
+                else return {x: 0, y: 0}
+            case 2:
+                // Inky
+                if (this.state.tracking) {
+                    let difX = this.props.pacman[0].x - this.props.blinkyX
+                    let difY = this.props.pacman[0].y - this.props.blinkyY
+                    if (Math.sign(difX) === -1){
+                        // this turns right into left
+                        difX = Math.abs(Math.ceil(difX / 2))
+                    } else {
+                        // this turns left into right
+                        difX = -Math.abs(Math.ceil(difX / 2))
+                    }
+                    if (Math.sign(difY) === -1) {
+                        // this turns down to up
+                        difY = Math.abs(Math.ceil(difY / 2))
+                    } else {
+                        // this turns up to down
+                        difY = -Math.abs(Math.ceil(difY / 2))
+                    }
+                    // x: -5 means Blinky is RIGHT of pacman
+                    // y: -5 means Blink is DOWN of pacman
+                    return {x: this.props.pacman[0].x - difX, y: this.props.pacman[0].y - difY}
+                    }
+                else return {x: 22, y: 30}
+            case 3:
+                // Clyde
+                if (this.state.tracking){
+                    if (Math.abs(this.props.pacman[0].x - this.state.x) <= 8 && Math.abs(this.props.pacman[0].y - this.state.y) <= 8){
+                        return {x: 0, y: 30}
+                    } else {
+                        return {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
+                    }
+                }
+                else return {x: 0, y: 30}
+            default:
+                break
         }
-        if (this.state.tracking) {
-            if (this.props.id === 0 ) {
-                target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 1) {
-                if (this.props.pacman[0].direction === 'UP'){
-                    target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y - 4}
-                    this.setState({targetX: target.x, targetY: target.y})
-                } else if (this.props.pacman[0].direction === 'DOWN'){
-                    target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y + 4}
-                    this.setState({targetX: target.x, targetY: target.y})
-                } else if (this.props.pacman[0].direction === 'LEFT'){
-                    target = {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y}
-                    this.setState({targetX: target.x, targetY: target.y})
-                } else if (this.props.pacman[0].direction === 'RIGHT'){
-                    target = {x: this.props.pacman[0].x + 4, y: this.props.pacman[0].y}
-                    this.setState({targetX: target.x, targetY: target.y})
-                } else {
-                    target = {x: this.props.pacman[0].x + 4, y: this.props.pacman[0].y}
-                    this.setState({targetX: target.x, targetY: target.y})
-                }
-            } else if (this.props.id === 2){
-                // target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
-                let difX = this.props.pacman[0].x - this.props.blinkyX
-                let difY = this.props.pacman[0].y - this.props.blinkyY
-                // console.log(-Math.abs(difY))
-                // console.log(Math.sign(difY))
-                if (Math.sign(difX) === -1){
-                    // this turns right into left
-                    difX = Math.abs(Math.ceil(difX / 2))
-                } else {
-                    // this turns left into right
-                    difX = -Math.abs(Math.ceil(difX / 2))
-                }
-                if (Math.sign(difY) === -1) {
-                    // this turns down to up
-                    difY = Math.abs(Math.ceil(difY / 2))
-                } else {
-                    // this turns up to down
-                    difY = -Math.abs(Math.ceil(difY / 2))
-                }
-                // x: -5 means Blinky is RIGHT of pacman
-                // y: -5 means Blink is DOWN of pacman
-                target = {x: this.props.pacman[0].x - difX, y: this.props.pacman[0].y - difY}
-                this.setState({targetX: target.x, targetY: target.y})
-            } else if (this.props.id === 3) {
-                if (Math.abs(this.props.pacman[0].x - this.state.x) <= 8 && Math.abs(this.props.pacman[0].y - this.state.y) <= 8){
-                    target = {x: 0, y: 30}
-                    this.setState({targetX: target.x, targetY: target.y})
-                } else {
-                    target = {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
-                    this.setState({targetX: target.x, targetY: target.y})
-                }
-            }
-        }
+    }
 
+    scatter = () => {
+        let target = this.getTarget(this.props.id)
+        
         let tryDirection = (direction) => {
             let ghostX = this.state.x
             let ghostY = this.state.y
@@ -287,6 +265,12 @@ class Ghosts extends Component {
         this.ghostMove(chosenDirection)
     }
 
+    resetGhosts = () => {
+        const newCoords = [{x: 13, y: 11}]
+        this.setState({
+            coords: newCoords
+        })
+    }
     eyeDirection = (direction) => {
         const ghost = document.getElementById('iris')
         
@@ -311,11 +295,21 @@ class Ghosts extends Component {
         })
     }
 
+    componentDidUpdate = prevState => {
+        setTimeout(() => {
+            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+                this.props.subtractLife()
+                this.props.resetPacman()
+            } 
+        }, 3000)
+    }
+
     componentWillUnmount(){
         clearInterval(this.state.interval)
     }
 
     render(){
+        // console.log(this.state)
         return(
             <>
             {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
@@ -390,7 +384,7 @@ class Ghosts extends Component {
                         </div>
                     </div>
                 </div> */}
-            </div>
+                </div>
             </>
         )
     }                           

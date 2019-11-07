@@ -47,7 +47,6 @@ class ClassicGame extends Component {
     }
 
     render(){
-        // console.log(this.state.lives)
         return(
             <div id="classicgame">
                 <Header 
@@ -63,7 +62,8 @@ class ClassicGame extends Component {
                 /> :
                 <></>
                 }
-                <Board pacmanAlive={this.state.pacmanAlive} addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } subtractLife={ this.subtractLife } lives={ this.state.lives } />
+                <Board pacmanAlive={this.state.pacmanAlive} addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } hiddenPoints={this.state.hiddenPoints} subtractLife={ this.subtractLife } lives={ this.state.lives } />
+
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

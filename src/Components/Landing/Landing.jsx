@@ -4,7 +4,6 @@ import {Switch, Route, Link, withRouter} from 'react-router-dom';
 import ClassicGame from './ClassicGame/ClassicGame';
 import Multiplayer from './Multiplayer/ghostPact';
 import screenshot from '../../screenshot.png'
-import arcadeSound2 from '../../assets/arcade.mp3'
 import arcade from '../../waka2_arcade_cabinet2.png'
 import Sound from 'react-sound'
 import LoginPage from './ClassicGame/LoginPage/LoginPage';
@@ -13,9 +12,7 @@ class Landing extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            arcadeImg: true,
-            toggleBackground: true,
-            volume: 25
+            arcadeImg: true
         }
     }
     
@@ -64,7 +61,6 @@ class Landing extends React.Component {
     render(){
     return(
         <div className="landing">
-                     {/* {this.state.toggleBackground ? <Sound url={arcadeSound2} playStatus={Sound.status.PLAYING} autoLoad={true} volume={75} /> : null} */}
             <div className="outer-container">
                 {(this.props.location.pathname === '/') ? <div className="classic-button">
                     <button className='push--skeuo' onClick={() => this.fireAnimationClassic()}></button>
@@ -72,7 +68,6 @@ class Landing extends React.Component {
                 <div className="inner-container">
                         {this.state.arcadeImg ? 
                         <>
-                         <Sound url={arcadeSound2} playStatus={Sound.status.PLAYING} autoLoad={true} position={0} volume={75} />
                         <img id='arcade' src={arcade} alt="" className="arcade a-transform"/>
                         <img id='screenshot' src={screenshot} alt="" className="screenshot s-transform"/>
                         </> : <></>}

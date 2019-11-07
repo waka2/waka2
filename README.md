@@ -1,68 +1,68 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Waka2
+___
 
-## Available Scripts
+Waka 2 is a full Pacman clone built using React, Express, PostgreSQL, and Sass (both the verbal and CSS kind). Each ghost is programmed to chase Pacman per the original game logic. Blinky will track Pacman's coordinates directly. Pinky will target 4 spaces in front of Pacman to cut off the player. Inky will also try to cut the player off by finding the halfway point between Blinky and Pacman, and then target 180 degrees from that point. Finally Clyde will follow Blinky's tracking if he is 8 or more spaces from the player, or follow scatter mode tracking if within 8 spaces. The player will win the game if the successfully evade the ghosts and collect all of the pellets. The player looses the game if they loose all three lives.
+  
+## Getting Started
+___
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-In the project directory, you can run:
+### Prerequisites
+Fork and clone this repo, go to the project folder, and enter the following command to install dependancies:
+```
+npm install
+```
 
-### `npm start`
+### Installing
+Create a .env file in the root of your project. Before you do anything else, **make sure you add .env to your .gitignore!** You will need to provide the following variables in your env:
+```
+SERVER_PORT = // This can be any port above 4000
+SESSION_SECRET = // Any random sequence of letters and numbers to encrypt your session.
+CONNECTION_STRING= // Connection string URI for your DB provider
+```
+**SERVER_PORT** - Server port needed to access your instance of the server. This can really be any port you want to use - we recommend using any port above 4000, to avoid colliding with the "npm start" server.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**SESSION_SECRET** - This can be any sequence of random letters and numbers that you want.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+**CONNECTION_STRING** - This is the URI string given when you create a database with a database host service. In our case we used Heroku for our PostgreSQL database. So long as your database is written in PostgreSQL, any database host will work.
 
-### `npm test`
+ - Once you setup your database, run the seed.sql file found in the **db folder** of the project. This will setup your tables as we designed them to work with the app.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Inside of your **package.json** file, add the following code above dependancies:
+```JSON
+"main": "server/index.js",
+"proxy": "http://localhost:PORT#HERE"
+```
+- Replace the PORT#HERE with whatever port you chose for the server.
 
-### `npm run build`
+## Running the tests
+___
+To run our system tests, enter the following command inside the project folder on the terminal:
+```
+npm run tests
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Built With
+___
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+ - [React](https://reactjs.org/) - JS Library for creating the UI.
+ - [Express](https://expressjs.com/) - Web application framework used for the server.
+ - [Sass](https://sass-lang.com/) - CSS Extension language used for styling.
+ - [MassiveJS](https://massivejs.org/) - Data mapper for Node.js used to access and manipulate data in the database.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Contributing
+___
+If you see a problem or a typo, please fork, make the necessary changes, and create a pull request so we can review your changes and merge them into the master repo and branch. Have an idea for an awesome feature to be added? Add a issue to the repo, and title it "feature request."
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Authors
+* **Ben Eccles** - *Initial work* - [beneccles](https://github.com/beneccles) - [Portfolio](https://beneccles.dev)
+* **Zachary Spilinek** -*Initial work* - [nukyew](https://github.com/nukyew)
+* **Katie Cruise** -*Initial work* - [k4cruise23](https://github.com/k4cruise23)
+* **Mckay Waters** -*Initial work* - [mckaypaswaters](https://github.com/mckaypaswaters)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Acknowledgements
+ * **Jonathan McDonald** - *DevMountain Instructor* - [jlmcd](https://github.com/jlmcd) - [Portfolio](https://jonmcd.me)
+ * **Thierry Michel** - *Created the CodePen where we found those sweet arcade style buttons* - [thierrymichel](https://codepen.io/thierrymichel)
+ * **Andrew Westenskow** - *WLH10 Mentor* - [andrewwestenskow](https://github.com/andrewwestenskow) - [Portfolio](https://westenskow.dev)
+ * **Josh McCann** - *WLH10 Mentor* - [jrmccann2](https://github.com/jrmccann2) - [Portfolio](https://josh-mccann.com)

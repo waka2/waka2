@@ -1,21 +1,18 @@
 import React from 'react'
 import './landing.scss'
-import {Switch, Route, Link, withRouter} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import ClassicGame from './ClassicGame/ClassicGame';
 import Multiplayer from './Multiplayer/ghostPact';
-import screenshot from '../../screenshot.png'
-import arcadeSound2 from '../../assets/arcade.mp3'
+import screenshot from '../../assets/screenshot2.png'
 import arcade from '../../waka2_arcade_cabinet2.png'
-import Sound from 'react-sound'
+// import Sound from 'react-sound'
 import LoginPage from './ClassicGame/LoginPage/LoginPage';
 
 class Landing extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            arcadeImg: true,
-            toggleBackground: true,
-            volume: 25
+            arcadeImg: true
         }
     }
     
@@ -46,6 +43,13 @@ class Landing extends React.Component {
         }, 3000)
     }
 
+    goHome(){
+        this.props.history.push('/')
+        this.setState({
+            arcadeImg: true
+        })
+    }
+
     componentDidMount() {
         if (this.props.location.pathname !== '/'){
             this.setState({
@@ -57,15 +61,17 @@ class Landing extends React.Component {
     render(){
     return(
         <div className="landing">
-                     {/* {this.state.toggleBackground ? <Sound url={arcadeSound2} playStatus={Sound.status.PLAYING} autoLoad={true} volume={75} /> : null} */}
             <div className="outer-container">
-                <div className="classic-button">
-                    <button onClick={() => this.fireAnimationClassic()}>Play Classic</button>
-                </div>
+                {(this.props.location.pathname === '/') ? <div className="classic-button">
+                    <button className='push--skeuo' onClick={() => this.fireAnimationClassic()}></button>
+                    <h1>1 Player</h1>
+                </div> : <div className='home-button'>
+                    <button className='push--skeuo' onClick={()=> this.goHome()} ></button>
+                    <h1>Home</h1>
+                    </div>}
                 <div className="inner-container">
                         {this.state.arcadeImg ? 
                         <>
-                         <Sound url={arcadeSound2} playStatus={Sound.status.PLAYING} autoLoad={true} position={0} volume={75} />
                         <img id='arcade' src={arcade} alt="" className="arcade a-transform"/>
                         <img id='screenshot' src={screenshot} alt="" className="screenshot s-transform"/>
                         </> : <></>}
@@ -75,9 +81,11 @@ class Landing extends React.Component {
                         <Route path='/login' component={LoginPage} />
                     </Switch>
                 </div>
-                <div className="br-button">
-                    <button onClick={() => this.fireAnimationMultiplayer()}>Play Multiplayer</button>
-                </div>
+                {(this.props.location.pathname === '/') ? <div className="br-button">
+                    <button className='push--skeuo'></button>
+                    <h1>2 Player</h1>
+                    <h3>Coming Soon!</h3>
+                </div> : <div className='home-button'></div>}
             </div>
         </div>
     )

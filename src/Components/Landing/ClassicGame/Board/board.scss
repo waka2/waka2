@@ -21,7 +21,12 @@
 .wall {
     height: 20px;
     width: 20px;
-    background: blue;
+    background: linear-gradient(315deg, transparent 75%, rgb(22, 116, 198) 0)-10px 0,
+    linear-gradient(45deg, transparent 75%, rgb(80, 142, 162) 0)-10px 0,
+    linear-gradient(135deg, rgb(34, 34, 191) 50%, transparent 0) 0 0,
+    linear-gradient(45deg, rgb(5, 5, 87) 50%, rgb(4, 4, 63) 0) 0 0 rgb(5, 5, 60);
+    // background: blue;
+    background-size: 20px 20px;
     position: relative;
     // z-index: 3;
 }
@@ -68,6 +73,7 @@
     linear-gradient(45deg, transparent 75%, #d45d55 0)-10px 0,
     linear-gradient(135deg, #a7332b 50%, transparent 0) 0 0,
     linear-gradient(45deg, #6a201b 50%, #561a16 0) 0 0 #561a16;
+    // background: pink;
     background-size: 20px 20px;
     height: 20px;
     width: 20px;

@@ -64,7 +64,7 @@ class MPBoard extends Component {
 
     // Call the database to get a unique id assigned.
     const result = await axios.get("/api/newplayer");
-    const { player_id, usera, userb } = result.data.player;
+    const { player_id} = result.data.player;
     const stateArr = this.state.pacman;
     stateArr.push({
       id: 0,
@@ -362,7 +362,7 @@ class MPBoard extends Component {
               return <div key={rowInd + blockInd} className="power-pelletM" />;
             } else if (block === 4) {
               return <div key={rowInd + blockInd} className="ghost-doorM" />;
-            }
+            } else return <></>
           })}
         </div>
       );

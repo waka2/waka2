@@ -6,18 +6,50 @@ class Ghosts extends Component {
         super(props)
         this.state = {
             id: props.id,
-            x: 13,
-            y: 11,
+            x: this.props.id === 0 ? 13 : this.props.id === 1 ? 14 : this.props.id === 2 ? 12 : 16,
+            y: this.props.id === 0 ? 11 : 14,
+            initialSpawnX: this.props.id === 0 ? 14 : this.props.id === 1 ? 14 : this.props.id === 2 ? 12 : 16,
+            initialSpawnY: 14,
             direction: 'LEFT',
             targetX: 0,
             targetY: 0,
             tracking: false,
             dead: false,
-            interval: null
+            isSpawned: false,
+            interval: null,
+            ghostSpeed: 200
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    getOppositeDirectionRedux = (direction) => {
+        let oppositeDirections = [
+            {
+                direction: 'UP',
+                opposite: 'DOWN'
+            },
+            {
+                direction: 'DOWN',
+                opposite: 'UP'
+            },
+            {
+                direction: 'LEFT',
+                opposite: 'RIGHT'
+            },
+            {
+                direction: 'RIGHT',
+                opposite: 'LEFT'
+            }
+        ]
+        let opposite = null
+        oppositeDirections.forEach(el => {
+            if (el.direction === direction){
+                opposite = el.opposite
+            }
+        })
+        return opposite
+    }
+
+    componentDidUpdate = async (prevProps, prevState) => {
         if (this.props.id === 0 && (prevState.x !== this.state.x || prevState.y !== this.state.y)){
             this.props.whereBlinky(this.state.x, this.state.y)
         }
@@ -26,6 +58,84 @@ class Ghosts extends Component {
         } else if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 27 && this.state.y === 14)){
             this.setState({x: 1})
         }
+        if (this.state.dead && this.state.dead !== prevState.dead){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 100
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }
+        if (!this.state.dead && this.state.dead !== prevState.dead){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 200
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }
+        if (this.props.ghostsAfraid !== prevProps.ghostsAfraid && this.props.ghostsAfraid === true){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 400
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }
+        if (this.props.ghostsAfraid !== prevProps.ghostsAfraid && this.props.ghostsAfraid === false){
+            clearInterval(this.state.interval)
+            await this.setState({
+                ghostSpeed: 200
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }    
+        if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === this.state.initialSpawnX && this.state.y === this.state.initialSpawnY)){
+            this.respawn()
+        }
+
+        setTimeout(() => {
+            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+                if (this.props.ghostsAfraid && !this.state.dead){
+                    this.setState({
+                        dead: true
+                    })
+                    this.props.addPoints(200)
+                } else {
+                    if (!this.state.dead){
+                        this.props.subtractLife()
+                        this.props.resetPacman()
+                    }
+                }
+            }
+        }, 3000)
     }
 
     checkGhostCollision(direction){
@@ -41,6 +151,7 @@ class Ghosts extends Component {
                 break
             case 'DOWN':
                 if (this.props.board[this.state.y + 1][this.state.x] === 1 || this.props.board[this.state.y + 1][this.state.x] === 4) {
+                    if (this.props.board[this.state.y + 1][this.state.x] === 4 && this.state.dead) break
                     return false
                 }
             break
@@ -99,14 +210,15 @@ class Ghosts extends Component {
     }
 
     getTarget = (id) => {
+        if (this.state.dead) return {x: this.state.initialSpawnX, y: this.state.initialSpawnY}
         switch(id){
             case 0:
                 // Blinky
-                if (this.state.tracking) return {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
+                if (this.state.tracking && !this.props.ghostsAfraid) return {x: this.props.pacman[0].x, y: this.props.pacman[0].y}
                 else return {x: 22, y: 0}
             case 1:
                 // Pinky
-                if (this.state.tracking) {
+                if (this.state.tracking && !this.props.ghostsAfraid) {
                     switch(this.props.pacman[0].direction){
                         case 'UP':
                             return {x: this.props.pacman[0].x - 4, y: this.props.pacman[0].y - 4}
@@ -123,7 +235,7 @@ class Ghosts extends Component {
                 else return {x: 0, y: 0}
             case 2:
                 // Inky
-                if (this.state.tracking) {
+                if (this.state.tracking && !this.props.ghostsAfraid) {
                     let difX = this.props.pacman[0].x - this.props.blinkyX
                     let difY = this.props.pacman[0].y - this.props.blinkyY
                     if (Math.sign(difX) === -1){
@@ -147,7 +259,7 @@ class Ghosts extends Component {
                 else return {x: 22, y: 30}
             case 3:
                 // Clyde
-                if (this.state.tracking){
+                if (this.state.tracking && !this.props.ghostsAfraid){
                     if (Math.abs(this.props.pacman[0].x - this.state.x) <= 8 && Math.abs(this.props.pacman[0].y - this.state.y) <= 8){
                         return {x: 0, y: 30}
                     } else {
@@ -162,7 +274,6 @@ class Ghosts extends Component {
 
     scatter = () => {
         let target = this.getTarget(this.props.id)
-        
         let tryDirection = (direction) => {
             let ghostX = this.state.x
             let ghostY = this.state.y
@@ -265,26 +376,88 @@ class Ghosts extends Component {
         this.ghostMove(chosenDirection)
     }
 
+    respawn = async () => {
+        this.setState({dead: false, isSpawned: false})
+        this.spawn()
+    }
+
+    spawn = () => {
+        if (this.props.id === 0 && this.state.dead) {
+            setTimeout(() => this.ghostMove('UP'), 200)
+            setTimeout(() => this.ghostMove('UP'), 400)
+            setTimeout(() => this.ghostMove('UP'), 600)
+            setTimeout(() => this.setState({isSpawned: true}), 800)
+        }
+        if (this.props.id === 1) {
+            if (this.state.dead){
+                setTimeout(() => this.ghostMove('UP'), 200)
+                setTimeout(() => this.ghostMove('UP'), 400)
+                setTimeout(() => this.ghostMove('UP'), 600)
+                setTimeout(() => this.setState({isSpawned: true}), 800)
+            } else {
+                setTimeout(() => {
+                    setTimeout(() => this.ghostMove('UP'), 200)
+                    setTimeout(() => this.ghostMove('UP'), 400)
+                    setTimeout(() => this.ghostMove('UP'), 600)
+                    setTimeout(() => this.setState({isSpawned: true}), 800)
+                }, 7000)
+            }
+        } else if (this.props.id === 2) {
+            if (this.state.dead){
+                setTimeout(() => this.ghostMove('RIGHT'), 200)
+                setTimeout(() => this.ghostMove('UP'), 400)
+                setTimeout(() => this.ghostMove('UP'), 600)
+                setTimeout(() => this.ghostMove('UP'), 800)
+                setTimeout(() => this.setState({isSpawned: true}), 1000)
+            } else {
+                setTimeout(() => {
+                    setTimeout(() => this.ghostMove('RIGHT'), 200)
+                    setTimeout(() => this.ghostMove('UP'), 400)
+                    setTimeout(() => this.ghostMove('UP'), 600)
+                    setTimeout(() => this.ghostMove('UP'), 800)
+                    setTimeout(() => this.setState({isSpawned: true}), 1000)
+                }, 14000)
+            }
+        } else if (this.props.id === 3) {
+            if (this.state.dead){
+                setTimeout(() => this.ghostMove('LEFT'), 200)
+                setTimeout(() => this.ghostMove('LEFT'), 400)   
+                setTimeout(() => this.ghostMove('UP'), 600)
+                setTimeout(() => this.ghostMove('UP'), 800)
+                setTimeout(() => this.ghostMove('UP'), 1000)
+                setTimeout(() => this.setState({isSpawned: true}), 1200)
+            } else {
+                setTimeout(() => {
+                    setTimeout(() => this.ghostMove('LEFT'), 200)
+                    setTimeout(() => this.ghostMove('LEFT'), 400)   
+                    setTimeout(() => this.ghostMove('UP'), 600)
+                    setTimeout(() => this.ghostMove('UP'), 800)
+                    setTimeout(() => this.ghostMove('UP'), 1000)
+                    setTimeout(() => this.setState({isSpawned: true}), 1200)
+                }, 21000)
+            }
+        }
+    }
+
     resetGhosts = () => {
         const newCoords = [{x: 13, y: 11}]
         this.setState({
             coords: newCoords
         })
     }
-    eyeDirection = (direction) => {
-        const ghost = document.getElementById('iris')
-        
 
+    eyeDirection = (direction) => {
+        // const ghost = document.getElementById('iris')
     }
 
     componentDidMount(){
-       
-        //ghost.classList.add('')
-
-
+        this.spawn()
+        if (this.props.id === 0) this.setState({isSpawned: true})
         const interval = setInterval(() => {
-            this.scatter()
-          }, 200)
+            if (this.state.isSpawned){
+                this.scatter()
+            }
+          }, this.state.ghostSpeed)
         setTimeout(() => {
             this.setState({
                 tracking: true
@@ -295,15 +468,15 @@ class Ghosts extends Component {
         })
     }
 
-    componentDidUpdate = prevState => {
-        setTimeout(() => {
-            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
-                this.resetGhosts()
-                this.props.subtractLife()
-                this.props.resetPacman()
-            } 
-        }, 3000)
-    }
+    // componentDidUpdate = prevState => {
+    //     setTimeout(() => {
+    //         if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+    //             this.resetGhosts()
+    //             this.props.subtractLife()
+    //             this.props.resetPacman()
+    //         } 
+    //     }, 3000)
+    // }
 
     componentWillUnmount(){
         clearInterval(this.state.interval)
@@ -314,54 +487,36 @@ class Ghosts extends Component {
         return(
             <>
             {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
-            <div className="ghosts" >
-                <div className={`ghost ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}`} style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
-                    <div className="eyes">
-                        <div className="eye">
-                            <div id="iris" className="iris"></div>
-                        </div>
-                        <div className="eye">
-                            <div id="iris" className="iris"></div>
-                        </div>
-                    </div>
-                    <div className="ghostTail"></div>
-                </div>
-
-                {/* <div className="ghost clyde">
-                    <div className="eyes">
-                        <div className="eye">
-                            <div className="iris"></div>
-                        </div>
-                        <div className="eye">
-                            <div className="iris"></div>
+            <div className="ghosts">
+                {this.state.dead ? 
+                    <div className="ghost only-eyes"
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
+                        <div className="eyes">
+                            <div className="eye">
+                                <div className="iris"></div>
+                            </div>
+                            <div className="eye">
+                                <div className="iris"></div>
+                            </div>
                         </div>
                     </div>
-                    <div className="ghostTail"></div>
-                </div> */}
-
-                {/* <div className="ghost inky">
-                    <div className="eyes">
-                        <div className="eye">
-                            <div className="iris"></div>
+                    :
+                    <div className={`ghost
+                                    ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}
+                                    ${this.props.ghostsAfraid === true ? 'scared' : ''}
+                                    `}
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
+                        <div className="eyes">
+                            <div className="eye">
+                                <div id="iris" className="iris"></div>
+                            </div>
+                            <div className="eye">
+                                <div id="iris" className="iris"></div>
+                            </div>
                         </div>
-                        <div className="eye">
-                            <div className="iris"></div>
-                        </div>
+                        <div className="ghostTail"></div>
                     </div>
-                    <div className="ghostTail"></div>
-                </div> */}
-
-                {/* <div className="ghost pinky">
-                    <div className="eyes">
-                        <div className="eye">
-                            <div className="iris"></div>
-                        </div>
-                        <div className="eye">
-                            <div className="iris"></div>
-                        </div>
-                    </div>
-                    <div className="ghostTail"></div>
-                </div> */}
+                }
                 
                 {/* <div className="ghost scared" style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
                     <div className="eyes">                       
@@ -375,16 +530,7 @@ class Ghosts extends Component {
                     <div className="ghostTail"></div>
                 </div> */}
 
-                {/* <div class="ghost only-eyes">
-                    <div class="eyes">
-                        <div class="eye">
-                            <div class="iris"></div>
-                        </div>
-                        <div class="eye">
-                            <div class="iris"></div>
-                        </div>
-                    </div>
-                </div> */}
+                
                 </div>
             </>
         )

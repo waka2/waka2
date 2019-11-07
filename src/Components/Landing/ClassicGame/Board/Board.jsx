@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import PacMan from './PacMan/PacMan'
 import Ghosts from './Ghosts/Ghosts'
 import Sound from 'react-sound'
-import backMusic from '../../../../assets/Monplaisir_-_07_-_Level_4.mp3'
 import waka from '../../../../assets/PacmanWakaWaka04.wav'
 import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
+import intro from '../../../../assets/Pacman_Intro.wav'
 import './board.scss'
 
 class Board extends Component {
@@ -14,7 +14,7 @@ class Board extends Component {
             pacman: [{id: 0, x: 13, y: 23, direction: ''}],
             interval: null,
             ghostsAfraid: false,
-            toggleSound: false,
+            toggleSound: true,
             toggleWaka: false,
             togglePower: false,
             blinkyX: 0,
@@ -67,7 +67,6 @@ class Board extends Component {
                 toggleWaka: false
             })
         }
-
         document.getElementById('board').focus();
         const interval = setInterval(() => {
             if (this.state.pacman[0].direction === 'UP'){
@@ -168,6 +167,15 @@ class Board extends Component {
             this.props.addPoints(10)
             this.props.addHiddenPoints(10)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
+            if (this.state.toggleWaka === false) {
+                this.setState({
+                    toggleWaka: true
+                })
+            }
+        } else {
+            this.setState({
+                toggleWaka: false
+            })
         }
     }
 
@@ -175,6 +183,11 @@ class Board extends Component {
         this.setState({
             ghostsAfraid: true
         })
+        setTimeout(() => {
+            this.setState({
+                ghostsAfraid: false
+            })
+        }, 7000)
     }
 
     eatPowerPellet(id){
@@ -182,14 +195,11 @@ class Board extends Component {
             this.setState({
                 togglePower: true
             })
-
             setInterval(() => {
                 this.setState({
                     togglePower: false
                 })
             }, 2000)
-
-
             this.props.addPoints(50)
             this.props.addHiddenPoints(50)
             this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
@@ -378,7 +388,13 @@ class Board extends Component {
                         return <div key={rowInd + blockInd} className="power-pellet"/>
                   } else if (block === 4) {
                         return <div key={rowInd + blockInd} className="ghost-door"/>
+<<<<<<< HEAD
+                  } else {
+                      return <></>
                   }
+=======
+                  } else return <></>
+>>>>>>> master
                 })}
               </div>
             )
@@ -386,28 +402,31 @@ class Board extends Component {
 
         return(
             <div id="board" className="board" tabIndex="0" onKeyDown={(e) => {
-                if (this.state.toggleSound === false) {
+                if (this.state.toggleSound === true) {
                     this.setState({
-                        toggleSound: true
+                        toggleSound: false
                     })
-                if (this.state.toggleWaka === false) {
-                    this.setState({
-                        toggleWaka: true
-                    })
-                }
                 }
                 this.movePacMan(e)}}>
-                {/* <p>This is Board</p> */}
-                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null}
+                {/* Render the waka-waka so long as Pac is eating the pellet */}
+                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
                 {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
-                {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
-                {this.props.lives.length > 0 ? <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
-                {this.props.lives.length > 0 ? <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
-                {this.props.lives.length > 0 ? <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
-                {this.props.lives.length > 0 ? <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null }
-                {this.props.lives.length > 0 ? <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
-                {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
-                <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
+
+                {/* If we hit either the win or loose condition, remove Pacman and the Ghosts. */}
+                {this.props.hiddenPoints < 2600 && this.props.lives.length > 0? 
+                <>
+                    <PacMan pacmanAlive={this.state.pacmanAlive} direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                    {/* Wait to Render the ghosts until the Pacman intro finishes, and the user starts using the inputs */}
+                    {this.state.toggleSound === false ?
+                        <>
+                            <Ghosts id={0} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={1} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={2} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={3} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                        </>
+                    : null}
+                </>
+                : null}
                 {boardMapped}
             </div>
         )

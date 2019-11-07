@@ -69,6 +69,9 @@ class LoginPage extends Component{
             testBool: true
         })
     }
+    refreshPage(){
+        window.location.reload()
+    }
 
     render(){
 

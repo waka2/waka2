@@ -18,7 +18,7 @@ export default class Footer extends Component {
         return(
             <div className="footer-outer">
                 {mappedLives}
-                <button onClick={() => this.props.subtractLife()}>Testing life subtract</button>
+                {/* <button onClick={() => this.props.subtractLife()}>Testing life subtract</button> */}
             </div>
         )
     }

@@ -412,6 +412,16 @@ class Ghosts extends Component {
         })
     }
 
+    // componentDidUpdate = prevState => {
+    //     setTimeout(() => {
+    //         if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+    //             this.resetGhosts()
+    //             this.props.subtractLife()
+    //             this.props.resetPacman()
+    //         } 
+    //     }, 3000)
+    // }
+
     componentWillUnmount(){
         clearInterval(this.state.interval)
     }

@@ -88,7 +88,7 @@ $push-size: 240px;
 
 @keyframes scaleArcade {
     0% {
-        transform: scale(1);
+        transform: perspective(0) rotatex(0) scale(1);
         opacity: 1;
     }
     75% {
@@ -99,14 +99,13 @@ $push-size: 240px;
     }
     100% {
         opacity: 0;
-        transform: scale(3);
+        transform: perspective(20em) rotateX(-10deg) scale(3);
     }
 }
 @keyframes scaleScreenshot {
     0% {
         transform: perspective(11em) rotatex(20deg) scale(1);
     }
-    
     100% {
         transform: perspective(0) rotatex(0) scale(3.1) translateY(-5px);
     }

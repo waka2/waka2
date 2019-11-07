@@ -18,11 +18,19 @@ class ClassicGame extends Component {
     }
 
     subtractLife = () => {
+        this.setState({
+            pacmanAlive: false
+        })
         let newLives = this.state.lives
         let newPacAlive = false
         newLives.pop()
-        this.setState({lives: newLives, pacmanAlive: newPacAlive })            
-        }
+        this.setState({lives: newLives})           
+        setTimeout(() => {
+            this.setState({
+                pacmanAlive: true
+            })
+        }, 100)
+    }
         
     addPoints = (num) => {
             const score = this.state.points + num
@@ -55,7 +63,7 @@ class ClassicGame extends Component {
                 /> :
                 <></>
                 }
-                <Board addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } subtractLife={ this.subtractLife } lives={ this.state.lives } />
+                <Board pacmanAlive={this.state.pacmanAlive} addPoints={ this.addPoints } addHiddenPoints={ this.addHiddenPoints } subtractLife={ this.subtractLife } lives={ this.state.lives } />
                 <Footer
                 lives={this.state.lives}
                 subtractLife={this.subtractLife}

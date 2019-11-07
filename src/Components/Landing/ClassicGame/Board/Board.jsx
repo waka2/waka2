@@ -170,6 +170,11 @@ class Board extends Component {
         this.setState({
             ghostsAfraid: true
         })
+        setTimeout(() => {
+            this.setState({
+                ghostsAfraid: false
+            })
+        }, 7000)
     }
 
     eatPowerPellet(id){
@@ -396,7 +401,7 @@ class Board extends Component {
                 {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
                 {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
                 {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
-                <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                <PacMan pacmanAlive={this.props.pacmanAlive} direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
                 <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
                 <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
                 <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />

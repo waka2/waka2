@@ -62,6 +62,11 @@ class Board extends Component {
     }
 
     componentDidMount() {
+        if (this.props.lives.length === 0) {
+            this.setState({
+                toggleWaka: false
+            })
+        }
 
         document.getElementById('board').focus();
         const interval = setInterval(() => {
@@ -393,14 +398,14 @@ class Board extends Component {
                 }
                 this.movePacMan(e)}}>
                 {/* <p>This is Board</p> */}
-                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null}
                 {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
                 {/* {this.state.toggleSound ? <Sound url={backMusic} playStatus={Sound.status.PLAYING} autoLoad={true} /> : null} */}
-                <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
-                <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
-                <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
-                <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
-                <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} />
+                {this.props.lives.length > 0 ? <PacMan direction={this.state.pacman[0].direction} x={this.state.pacman[0].x} y={this.state.pacman[0].y} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
+                {this.props.lives.length > 0 ? <Ghosts id={0} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
+                {this.props.lives.length > 0 ? <Ghosts id={1} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
+                {this.props.lives.length > 0 ? <Ghosts id={2} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null }
+                {this.props.lives.length > 0 ? <Ghosts id={3} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> : null}
                 {/* <Ghosts id={2} pacman={this.state.pacman} board={this.state.board}/>
                 <Ghosts id={3} pacman={this.state.pacman} board={this.state.board}/> */}
                 {boardMapped}

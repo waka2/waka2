@@ -37,7 +37,7 @@ class ClassicGame extends Component {
             hiddenPoints: hiddenScore
         })
     }
-    
+
     render(){
         // console.log(this.state.lives)
         return(
@@ -51,7 +51,7 @@ class ClassicGame extends Component {
                 />
                 {this.state.hiddenPoints >= 2600 || this.state.lives.length === 0 ? 
                 <LoginPage
-                points={ this.state.points }
+                points={ this.state.points } lives={this.state.lives}
                 /> :
                 <></>
                 }

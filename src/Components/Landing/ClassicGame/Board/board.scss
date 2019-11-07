@@ -21,11 +21,7 @@
 .wall {
     height: 20px;
     width: 20px;
-    background: linear-gradient(315deg, transparent 75%, rgb(22, 116, 198) 0)-10px 0,
-    linear-gradient(45deg, transparent 75%, rgb(80, 142, 162) 0)-10px 0,
-    linear-gradient(135deg, rgb(34, 34, 191) 50%, transparent 0) 0 0,
-    linear-gradient(45deg, rgb(5, 5, 87) 50%, rgb(4, 4, 63) 0) 0 0 rgb(5, 5, 60);
-    background-size: 20px 20px;
+    background: blue;
     position: relative;
     // z-index: 3;
 }

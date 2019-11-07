@@ -33,9 +33,9 @@ class PacMan extends Component {
 
     render(){
         let style = {top: `${this.props.y * 20}px`, left: `${this.props.x * 20}px`,
-        transitionProperty: 'left, top', 
-        transitionDuration: '.2s', 
-        transitionTimingFunction: 'linear', 
+        transitionProperty: `${this.props.pacmanAlive ? 'left, top' : ''}`, 
+        transitionDuration: `${this.props.pacmanAlive ? '.2s' : ''}`, 
+        transitionTimingFunction: `${this.props.pacmanAlive ? 'linear' : ''}`, 
         transform: `rotate(${this.state.direction}deg)`}
         return(
             <div className="pacman" style={style}>

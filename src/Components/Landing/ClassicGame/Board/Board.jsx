@@ -388,13 +388,7 @@ class Board extends Component {
                         return <div key={rowInd + blockInd} className="power-pellet"/>
                   } else if (block === 4) {
                         return <div key={rowInd + blockInd} className="ghost-door"/>
-<<<<<<< HEAD
-                  } else {
-                      return <></>
-                  }
-=======
                   } else return <></>
->>>>>>> master
                 })}
               </div>
             )

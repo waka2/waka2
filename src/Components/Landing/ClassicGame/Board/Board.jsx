@@ -183,6 +183,11 @@ class Board extends Component {
         this.setState({
             ghostsAfraid: true
         })
+        setTimeout(() => {
+            this.setState({
+                ghostsAfraid: false
+            })
+        }, 7000)
     }
 
     eatPowerPellet(id){

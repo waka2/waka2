@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
 import './header.scss'
+import axios from 'axios'
 
 class Header extends Component {
     constructor(props){
         super(props)
         this.state = {
             playing: false,
+            highscore: '',
+            username: ''
         }
     }
 
@@ -13,13 +16,23 @@ class Header extends Component {
         this.setState({playing: true})
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         window.addEventListener('keydown', () => this.startGame() )
+
+        await axios.get('/api/score').then(res => {
+            this.setState({highscore: res.data})
+        })
+
+        await axios.get('/auth/user').then(res => {
+            this.setState({username: res.data})
+        })
     }
 
     render(){
 
-        // console.log(this.props.lives)
+        // const mappedHighscore = this.state.highscore.map(el => {
+
+        // })
 
 
         return(
@@ -31,7 +44,7 @@ class Header extends Component {
                 </div> :
                 <div className="normalheader">
                     <span className="username">
-                        <p>username</p>
+                        <p>{this.state.username}</p>
                         <h2 className='points'>Points:</h2>
                         <p> {this.props.score}</p>
                     </span>
@@ -40,7 +53,7 @@ class Header extends Component {
                     <h1 className="blink">Game Over</h1> :
                     <span className="highscore">
                         <h1>Highscore</h1>
-                        <p>their highscore</p>
+                        <p>{this.state.highscore}</p>
                     </span> 
                     }
                     {/* {this.props.hiddenScore === 2600 ?
@@ -63,10 +76,6 @@ class Header extends Component {
                     {/* {this.props.lives.length === 0 ? 
                     alert('You Lose!') :
                     null } */}
-
-                    {this.props.lives.length === 0 ? 
-                    <h1 className='blink'>Game Over!</h1> :
-                    null }
 
                 </div>
 

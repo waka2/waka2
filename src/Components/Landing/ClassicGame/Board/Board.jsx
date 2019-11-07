@@ -388,13 +388,7 @@ class Board extends Component {
                         return <div key={rowInd + blockInd} className="power-pellet"/>
                   } else if (block === 4) {
                         return <div key={rowInd + blockInd} className="ghost-door"/>
-<<<<<<< HEAD
-                  } else {
-                      return <></>
-                  }
-=======
                   } else return <></>
->>>>>>> master
                 })}
               </div>
             )
@@ -409,8 +403,8 @@ class Board extends Component {
                 }
                 this.movePacMan(e)}}>
                 {/* Render the waka-waka so long as Pac is eating the pellet */}
-                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
-                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {/* {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
+                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null} */}
 
                 {/* If we hit either the win or loose condition, remove Pacman and the Ghosts. */}
                 {this.props.hiddenPoints < 2600 && this.props.lives.length > 0? 

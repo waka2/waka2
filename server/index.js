@@ -3,6 +3,7 @@ const express = require('express')
 const socket = require('socket.io')
 const session = require('express-session')
 const massive = require('massive')
+const path = require('path');
 
 const authCtrl = require('./controllers/authController')
 const scoreCtrl = require('./controllers/scoreController')
@@ -11,6 +12,10 @@ const pactCtrl = require('./controllers/pactController')
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 
 const app = express();
+
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 app.use(express.json())
 app.use(session({

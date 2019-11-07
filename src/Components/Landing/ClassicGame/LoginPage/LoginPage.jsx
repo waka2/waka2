@@ -18,8 +18,7 @@ class LoginPage extends Component{
             this.setState({
                 highscoresArr: res.data
             })
-        })
-        
+        })        
     }
 
     handleChange(e, key){

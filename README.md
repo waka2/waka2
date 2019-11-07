@@ -16,9 +16,9 @@ npm install
 ### Installing
 Create a .env file in the root of your project. Before you do anything else, **make sure you add .env to your .gitignore!** You will need to provide the following variables in your env:
 ```
-SERVER_PORT = // This can be any port above 4000
-SESSION_SECRET = // Any random sequence of letters and numbers to encrypt your session.
-CONNECTION_STRING= // Connection string URI for your DB provider
+SERVER_PORT= 
+SESSION_SECRET= 
+CONNECTION_STRING= 
 ```
 **SERVER_PORT** - Server port needed to access your instance of the server. This can really be any port you want to use - we recommend using any port above 4000, to avoid colliding with the "npm start" server.
 
@@ -63,6 +63,6 @@ If you see a problem or a typo, please fork, make the necessary changes, and cre
 
 ## Acknowledgements
  * **Jonathan McDonald** - *DevMountain Instructor* - [jlmcd](https://github.com/jlmcd) - [Portfolio](https://jonmcd.me)
- * **Thierry Michel** - *Created the CodePen where we found those sweet arcade style buttons* - [thierrymichel](https://codepen.io/thierrymichel)
  * **Andrew Westenskow** - *WLH10 Mentor* - [andrewwestenskow](https://github.com/andrewwestenskow) - [Portfolio](https://westenskow.dev)
  * **Josh McCann** - *WLH10 Mentor* - [jrmccann2](https://github.com/jrmccann2) - [Portfolio](https://josh-mccann.com)
+ * **Thierry Michel** - *Created the CodePen where we found those sweet arcade style buttons* - [thierrymichel](https://codepen.io/thierrymichel)

@@ -16,7 +16,8 @@ class Ghosts extends Component {
             tracking: false,
             dead: false,
             isSpawned: false,
-            interval: null
+            interval: null,
+            ghostSpeed: 200
         }
     }
 
@@ -48,7 +49,7 @@ class Ghosts extends Component {
         return opposite
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
+    componentDidUpdate = async (prevProps, prevState) => {
         if (this.props.id === 0 && (prevState.x !== this.state.x || prevState.y !== this.state.y)){
             this.props.whereBlinky(this.state.x, this.state.y)
         }
@@ -57,9 +58,63 @@ class Ghosts extends Component {
         } else if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 27 && this.state.y === 14)){
             this.setState({x: 1})
         }
-        if (this.props.ghostsAfraid !== prevProps.ghostsAfraid && this.props.ghostsAfraid === true){
+        if (this.state.dead && this.state.dead !== prevState.dead){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 100
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
             this.setState({
-                direction: this.getOppositeDirectionRedux(this.state.direction)
+                interval: interval
+            })
+        }
+        if (!this.state.dead && this.state.dead !== prevState.dead){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 200
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }
+        if (this.props.ghostsAfraid !== prevProps.ghostsAfraid && this.props.ghostsAfraid === true){
+            clearInterval(this.state.interval)
+            await this.setState({
+                direction: this.getOppositeDirectionRedux(this.state.direction),
+                ghostSpeed: 400
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
+            })
+        }
+        if (this.props.ghostsAfraid !== prevProps.ghostsAfraid && this.props.ghostsAfraid === false){
+            clearInterval(this.state.interval)
+            await this.setState({
+                ghostSpeed: 200
+            })
+            const interval = setInterval(() => {
+                if (this.state.isSpawned){
+                    this.scatter()
+                }
+              }, this.state.ghostSpeed)
+            this.setState({
+                interval: interval
             })
         }    
         if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === this.state.initialSpawnX && this.state.y === this.state.initialSpawnY)){
@@ -68,17 +123,18 @@ class Ghosts extends Component {
 
         setTimeout(() => {
             if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
-                if (this.props.ghostsAfraid){
+                if (this.props.ghostsAfraid && !this.state.dead){
                     this.setState({
                         dead: true
                     })
+                    this.props.addPoints(200)
                 } else {
                     if (!this.state.dead){
                         this.props.subtractLife()
                         this.props.resetPacman()
                     }
                 }
-            } 
+            }
         }, 3000)
     }
 
@@ -401,7 +457,7 @@ class Ghosts extends Component {
             if (this.state.isSpawned){
                 this.scatter()
             }
-          }, 200)
+          }, this.state.ghostSpeed)
         setTimeout(() => {
             this.setState({
                 tracking: true
@@ -434,7 +490,7 @@ class Ghosts extends Component {
             <div className="ghosts">
                 {this.state.dead ? 
                     <div className="ghost only-eyes"
-                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
                         <div className="eyes">
                             <div className="eye">
                                 <div className="iris"></div>
@@ -449,7 +505,7 @@ class Ghosts extends Component {
                                     ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}
                                     ${this.props.ghostsAfraid === true ? 'scared' : ''}
                                     `}
-                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: '.2s linear'}}>
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
                         <div className="eyes">
                             <div className="eye">
                                 <div id="iris" className="iris"></div>

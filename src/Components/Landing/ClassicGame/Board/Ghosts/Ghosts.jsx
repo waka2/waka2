@@ -447,7 +447,7 @@ class Ghosts extends Component {
     }
 
     eyeDirection = (direction) => {
-        const ghost = document.getElementById('iris')
+        // const ghost = document.getElementById('iris')
     }
 
     componentDidMount(){

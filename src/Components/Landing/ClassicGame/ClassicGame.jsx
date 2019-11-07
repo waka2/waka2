@@ -22,7 +22,7 @@ class ClassicGame extends Component {
             pacmanAlive: false
         })
         let newLives = this.state.lives
-        let newPacAlive = false
+        // let newPacAlive = false
         newLives.pop()
         this.setState({lives: newLives})           
         setTimeout(() => {

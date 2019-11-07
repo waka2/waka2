@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import './loginpage.scss'
 import axios from 'axios'
 import sweet from 'sweetalert2'
+import {Link} from 'react-router-dom'
 
 class LoginPage extends Component{
     state = {
@@ -69,6 +70,9 @@ class LoginPage extends Component{
         this.setState({
             testBool: true
         })
+    }
+    refreshPage(){
+        window.location.reload()
     }
 
     render(){

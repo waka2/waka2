@@ -42,6 +42,13 @@ class Landing extends React.Component {
         }, 3000)
     }
 
+    goHome(){
+        this.props.history.push('/')
+        this.setState({
+            arcadeImg: true
+        })
+    }
+
     componentDidMount() {
         if (this.props.location.pathname !== '/'){
             this.setState({
@@ -54,9 +61,9 @@ class Landing extends React.Component {
     return(
         <div className="landing">
             <div className="outer-container">
-                <div className="classic-button">
-                    <button onClick={() => this.fireAnimationClassic()}>Play Classic</button>
-                </div>
+                {(this.props.location.pathname === '/') ? <div className="classic-button">
+                    <button className='push--skeuo' onClick={() => this.fireAnimationClassic()}></button>
+                </div> : <div className='home-button'><button className='push--skeuo' onClick={()=> this.goHome()} ></button></div>}
                 <div className="inner-container">
                         {this.state.arcadeImg ? 
                         <>
@@ -69,9 +76,9 @@ class Landing extends React.Component {
                         <Route path='/login' component={LoginPage} />
                     </Switch>
                 </div>
-                <div className="br-button">
-                    <button onClick={() => this.fireAnimationMultiplayer()}>Play Multiplayer</button>
-                </div>
+                {(this.props.location.pathname === '/') ? <div className="br-button">
+                    <button className='push--skeuo' onClick={() => this.fireAnimationMultiplayer()}></button>
+                </div> : <div className='home-button'></div>}
             </div>
         </div>
     )

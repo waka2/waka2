@@ -34,8 +34,14 @@ $push-size: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     button {
         transform: scale(.75);
+    }
+    h1 {
+        color: white;
+        font-family: $pixelFont;
+        margin-top: 0;
     }
 }
 
@@ -111,8 +117,14 @@ $push-size: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     button {
         transform: scale(.75);
+    }
+    h1 {
+        color: white;
+        font-family: $pixelFont;
+        margin-top: 0;
     }
 }
 .home-button {
@@ -120,8 +132,14 @@ $push-size: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     button {
         transform: scale(.75);
+    }
+    h1 {
+        color: white;
+        font-family: $pixelFont;
+        margin-top: 0;
     }
 }
 

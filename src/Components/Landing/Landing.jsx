@@ -1,9 +1,9 @@
 import React from 'react'
 import './landing.scss'
-import {Switch, Route, Link, withRouter} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import ClassicGame from './ClassicGame/ClassicGame';
 import Multiplayer from './Multiplayer/ghostPact';
-import screenshot from '../../screenshot.png'
+import screenshot from '../../assets/screenshot2.png'
 import arcadeSound2 from '../../assets/arcade.mp3'
 import arcade from '../../waka2_arcade_cabinet2.png'
 import Sound from 'react-sound'
@@ -68,7 +68,11 @@ class Landing extends React.Component {
             <div className="outer-container">
                 {(this.props.location.pathname === '/') ? <div className="classic-button">
                     <button className='push--skeuo' onClick={() => this.fireAnimationClassic()}></button>
-                </div> : <div className='home-button'><button className='push--skeuo' onClick={()=> this.goHome()} ></button></div>}
+                    <h1>1 Player</h1>
+                </div> : <div className='home-button'>
+                    <button className='push--skeuo' onClick={()=> this.goHome()} ></button>
+                    <h1>Home</h1>
+                    </div>}
                 <div className="inner-container">
                         {this.state.arcadeImg ? 
                         <>
@@ -84,6 +88,7 @@ class Landing extends React.Component {
                 </div>
                 {(this.props.location.pathname === '/') ? <div className="br-button">
                     <button className='push--skeuo' onClick={() => this.fireAnimationMultiplayer()}></button>
+                    <h1>2 Player</h1>
                 </div> : <div className='home-button'></div>}
             </div>
         </div>

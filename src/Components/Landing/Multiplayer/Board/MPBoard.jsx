@@ -89,6 +89,22 @@ class MPBoard extends Component {
       direction: "",
       interval: null
     });
+    // stateArr.push({
+    //   id: 2,
+    //   x: 14,
+    //   y: 11,
+    //   user: 'Player 3',
+    //   direction: "",
+    //   interval: null
+    // });
+    // stateArr.push({
+    //   id: 3,
+    //   x: 14,
+    //   y: 23,
+    //   user: 'Player 4',
+    //   direction: "",
+    //   interval: null
+    // });
     this.setState({
       pacman: stateArr,
       currentPlayerId: player_id
@@ -146,7 +162,7 @@ class MPBoard extends Component {
             this.movePacMan({ keyCode: 39 }, i);
           }
         }, 200);
-      } else {
+      } if (i === 1) {
         interval = setInterval(() => {
           if (this.state.pacman[i].direction === "UP") {
             this.movePacMan({ keyCode: 87 }, i);
@@ -159,6 +175,36 @@ class MPBoard extends Component {
           }
           if (this.state.pacman[i].direction === "RIGHT") {
             this.movePacMan({ keyCode: 68 }, i);
+          }
+        }, 200);
+      } if (i === 2) {
+        interval = setInterval(() => {
+          if (this.state.pacman[i].direction === "UP") {
+            this.movePacMan({ keyCode: 84 }, i);
+          }
+          if (this.state.pacman[i].direction === "DOWN") {
+            this.movePacMan({ keyCode: 71 }, i);
+          }
+          if (this.state.pacman[i].direction === "LEFT") {
+            this.movePacMan({ keyCode: 70 }, i);
+          }
+          if (this.state.pacman[i].direction === "RIGHT") {
+            this.movePacMan({ keyCode: 72 }, i);
+          }
+        }, 200);
+      } if (i === 3) {
+        interval = setInterval(() => {
+          if (this.state.pacman[i].direction === "UP") {
+            this.movePacMan({ keyCode: 56 }, i);
+          }
+          if (this.state.pacman[i].direction === "DOWN") {
+            this.movePacMan({ keyCode: 53 }, i);
+          }
+          if (this.state.pacman[i].direction === "LEFT") {
+            this.movePacMan({ keyCode: 52 }, i);
+          }
+          if (this.state.pacman[i].direction === "RIGHT") {
+            this.movePacMan({ keyCode: 54 }, i);
           }
         }, 200);
       }
@@ -310,7 +356,7 @@ eatPowerPellet(id){
   }
 
   movePacMan = (e, id) => {
-
+    console.log(e.keycode)
     switch (e.keyCode) {
       case 87:
         // UP
@@ -323,6 +369,28 @@ eatPowerPellet(id){
           })
         });
         break;
+        case 84:
+          // UP
+          if (this.checkCollision("UP", id) === false) break;
+          this.eatPellet('UP', id)
+          this.eatPowerPellet(id)
+          this.setState({
+            pacman: this.state.pacman.map(el => {
+              return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
+            })
+          });
+          break;
+          case 56:
+            // UP
+            if (this.checkCollision("UP", id) === false) break;
+            this.eatPellet('UP', id)
+            this.eatPowerPellet(id)
+            this.setState({
+              pacman: this.state.pacman.map(el => {
+                return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
+              })
+            });
+            break;
       case 38:
         // UP
         if (this.checkCollision("UP", id) === false) break;
@@ -349,6 +417,34 @@ eatPowerPellet(id){
         });
         // this.blastGame()
         break;
+        case 71:
+          // DOWN
+          if (this.checkCollision("DOWN", id) === false) break;
+          this.eatPellet('DOWN', id)
+          this.eatPowerPellet(id)
+          this.setState({
+            pacman: this.state.pacman.map(el => {
+              return el.id === id
+                ? { ...el, y: el.y + 1, direction: "DOWN" }
+                : el;
+            })
+          });
+          // this.blastGame()
+          break;
+          case 53:
+            // DOWN
+            if (this.checkCollision("DOWN", id) === false) break;
+            this.eatPellet('DOWN', id)
+            this.eatPowerPellet(id)
+            this.setState({
+              pacman: this.state.pacman.map(el => {
+                return el.id === id
+                  ? { ...el, y: el.y + 1, direction: "DOWN" }
+                  : el;
+              })
+            });
+            // this.blastGame()
+            break;
       case 40:
         // DOWN
         if (this.checkCollision("DOWN", id) === false) break;
@@ -377,6 +473,34 @@ eatPowerPellet(id){
         });
         //  this.blastGame()
         break;
+        case 70:
+          // LEFT
+          if (this.checkCollision("LEFT", id) === false) break;
+          this.eatPellet('LEFT', id)
+          this.eatPowerPellet(id)
+          this.setState({
+            pacman: this.state.pacman.map(el => {
+              return el.id === id
+                ? { ...el, x: el.x - 1, direction: "LEFT" }
+                : el;
+            })
+          });
+          //  this.blastGame()
+          break;
+          case 52:
+            // LEFT
+            if (this.checkCollision("LEFT", id) === false) break;
+            this.eatPellet('LEFT', id)
+            this.eatPowerPellet(id)
+            this.setState({
+              pacman: this.state.pacman.map(el => {
+                return el.id === id
+                  ? { ...el, x: el.x - 1, direction: "LEFT" }
+                  : el;
+              })
+            });
+            //  this.blastGame()
+            break;
       case 37:
         // LEFT
         if (this.checkCollision("LEFT", id) === false) break;
@@ -405,6 +529,34 @@ eatPowerPellet(id){
         });
         //  this.blastGame()
         break;
+        case 54:
+          // RIGHT
+          if (this.checkCollision("RIGHT", id) === false) break;
+          this.eatPellet('RIGHT', id)
+          this.eatPowerPellet(id)
+          this.setState({
+            pacman: this.state.pacman.map(el => {
+              return el.id === id
+                ? { ...el, x: el.x + 1, direction: "RIGHT" }
+                : el;
+            })
+          });
+          //  this.blastGame()
+          break;
+          case 72:
+            // RIGHT
+            if (this.checkCollision("RIGHT", id) === false) break;
+            this.eatPellet('RIGHT', id)
+            this.eatPowerPellet(id)
+            this.setState({
+              pacman: this.state.pacman.map(el => {
+                return el.id === id
+                  ? { ...el, x: el.x + 1, direction: "RIGHT" }
+                  : el;
+              })
+            });
+            //  this.blastGame()
+            break;
       case 39:
         // RIGHT
         if (this.checkCollision("RIGHT", id) === false) break;
@@ -457,10 +609,18 @@ eatPowerPellet(id){
         id="MPboard"
         className="MPboard"
         onKeyDown={(e) => {
+          console.log(e.keyCode)
             if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37) {
+              console.log('1')
                 this.movePacMan(e, this.state.pacman[0].id)
             } else if (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65){
+              console.log('2')
                 this.movePacMan(e, this.state.pacman[1].id)
+            } if (e.keycode === 84 || e.keycode === 71 || e.keycode === 70 || e.keycode === 72) {
+              console.log('Player 3')
+                this.movePacMan(e, this.state.pacman[2].id)
+            } else if (e.keycode === 56 || e.keycode === 53 || e.keycode === 52 || e.keycode === 54) {
+              this.movePacMan(e, this.state.pacman[3].id)
             }}}
       >
         { this.state.toggleFinish? <Sound url={finish} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null}

@@ -61,6 +61,7 @@ class Ghosts extends Component {
             this.setState({x: 1, animation: false})
         }
         // if (!this.props.pacmanAlive && this.props.pacmanAlive !== prevProps.pacmanAlive){
+        //     clearInterval(this.state.interval)
         //     this.setState({x: this.state.initialX, y: this.state.initialY})
         //     this.respawn()
         // }
@@ -488,6 +489,7 @@ class Ghosts extends Component {
                 this.scatter()
             }
           }, this.state.ghostSpeed)
+        
         setTimeout(() => {
             this.setState({
                 tracking: true

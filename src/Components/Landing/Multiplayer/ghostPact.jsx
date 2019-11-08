@@ -12,7 +12,7 @@ class Multiplayer extends Component {
     render(){
         return(
             <div id="multiplayer">
-                <Header />
+                {/* <Header /> */}
                 <MPBoard />
             </div>
         )

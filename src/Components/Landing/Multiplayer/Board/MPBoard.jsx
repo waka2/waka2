@@ -152,6 +152,23 @@ class MPBoard extends Component {
     });
   };
 
+  eatPellet(direction, id){
+    if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
+        // this.props.addPoints(10)
+        // this.props.addHiddenPoints(10)
+        this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
+        if (this.state.toggleWaka === false) {
+            // this.setState({
+            //     toggleWaka: true
+            // })
+        }
+    } else {
+        // this.setState({
+        //     toggleWaka: false
+        // })
+    }
+}
+
   updateGame = data => {
     const newBoard = data.board;
     const statePac = this.state.pacman;
@@ -246,7 +263,7 @@ class MPBoard extends Component {
       case 87:
         // UP
         if (this.checkCollision("UP", id) === false) break;
-        // this.eatPellet('UP', i)
+        this.eatPellet('UP', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
@@ -256,7 +273,7 @@ class MPBoard extends Component {
       case 38:
         // UP
         if (this.checkCollision("UP", id) === false) break;
-        // this.eatPellet('UP', i)
+        this.eatPellet('UP', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
@@ -267,7 +284,7 @@ class MPBoard extends Component {
       case 83:
         // DOWN
         if (this.checkCollision("DOWN", id) === false) break;
-        // this.eatPellet('DOWN', i)
+        this.eatPellet('DOWN', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -280,7 +297,7 @@ class MPBoard extends Component {
       case 40:
         // DOWN
         if (this.checkCollision("DOWN", id) === false) break;
-        // this.eatPellet('DOWN', i)
+        this.eatPellet('DOWN', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -293,7 +310,7 @@ class MPBoard extends Component {
       case 65:
         // LEFT
         if (this.checkCollision("LEFT", id) === false) break;
-        // this.eatPellet('LEFT', i)
+        this.eatPellet('LEFT', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -306,7 +323,7 @@ class MPBoard extends Component {
       case 37:
         // LEFT
         if (this.checkCollision("LEFT", id) === false) break;
-        // this.eatPellet('LEFT', i)
+        this.eatPellet('LEFT', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -319,7 +336,7 @@ class MPBoard extends Component {
       case 68:
         // RIGHT
         if (this.checkCollision("RIGHT", id) === false) break;
-        // this.eatPellet('RIGHT', i)
+        this.eatPellet('RIGHT', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -332,7 +349,7 @@ class MPBoard extends Component {
       case 39:
         // RIGHT
         if (this.checkCollision("RIGHT", id) === false) break;
-        // this.eatPellet('RIGHT', i)
+        this.eatPellet('RIGHT', id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id

@@ -20,6 +20,7 @@ class Board extends Component {
             blinkyX: 0,
             blinkyY: 0,
             pacmanAlive: true,
+            ghostsAfraidTimer: 7000,
             // 0 = path
             // 1 = wall
             // 2 = pellet
@@ -61,33 +62,32 @@ class Board extends Component {
         }
     }
 
-    componentDidMount() {
-        if (this.props.lives.length === 0) {
-            this.setState({
-                toggleWaka: false
-            })
-        }
-        document.getElementById('board').focus();
-        const interval = setInterval(() => {
-            if (this.state.pacman[0].direction === 'UP'){
-              this.movePacMan({keyCode: 38})
-            }
-            if (this.state.pacman[0].direction === 'DOWN'){
-              this.movePacMan({keyCode: 40})
-            }
-            if (this.state.pacman[0].direction === 'LEFT'){
-              this.movePacMan({keyCode: 37})
-            }
-            if (this.state.pacman[0].direction === 'RIGHT'){
-              this.movePacMan({keyCode: 39})
-            }
-          }, 200)
-            this.setState({
-                interval: interval
-            })
-    }
+    // componentDidMount() {
+    //     if (this.props.lives.length === 0) {
+    //         this.setState({
+    //             toggleWaka: false
+    //         })
+    //     }
+    //     document.getElementById('board').focus();
+    //     const interval = setInterval(() => {
+    //         if (this.state.pacman[0].direction === 'UP'){
+    //           this.movePacMan({keyCode: 38})
+    //         }
+    //         if (this.state.pacman[0].direction === 'DOWN'){
+    //           this.movePacMan({keyCode: 40})
+    //         }
+    //         if (this.state.pacman[0].direction === 'LEFT'){
+    //           this.movePacMan({keyCode: 37})
+    //         }
+    //         if (this.state.pacman[0].direction === 'RIGHT'){
+    //           this.movePacMan({keyCode: 39})
+    //         }
+    //       }, 200)
+    //         this.setState({
+    //             interval: interval
+    //         })
+    // }
     
-
     componentDidUpdate(prevProps, prevState) {
         if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
             this.setState({
@@ -179,15 +179,33 @@ class Board extends Component {
         }
     }
 
-    ghostsAfraid = () => {
-        this.setState({
-            ghostsAfraid: true
-        })
-        setTimeout(() => {
-            this.setState({
-                ghostsAfraid: false
+    ghostsAfraid = async () => {
+        let ghostAfraidTimout = null
+        if (this.state.ghostsAfraid === true){
+            await clearTimeout(ghostAfraidTimout)
+            ghostAfraidTimout = setTimeout(() => {
+                this.setState({
+                    ghostsAfraid: false
+                })
+            }, 7000)
+        } else {
+            await this.setState({
+                ghostsAfraid: true,
+                ghostsAfraidTimer: 7000
             })
-        }, 7000)
+            ghostAfraidTimout = setTimeout(() => {
+                    this.setState({
+                        ghostsAfraid: false
+                    })
+                }, 7000)
+        }
+
+        // ghostAfraidTimout
+        // setTimeout(() => {
+        //     this.setState({
+        //         ghostsAfraid: false
+        //     })
+        // }, this.state.ghostsAfraidTimer)
     }
 
     eatPowerPellet(id){
@@ -295,12 +313,18 @@ class Board extends Component {
         }
     }
 
-    movePacMan(e, id) {
-        if (!id) id = 0
-        switch (e.keyCode){
-            case 38:
-                // UP
-                if (this.checkCollision('UP', id) === false) break
+    componentDidMount() {
+        if (this.props.lives.length === 0) {
+            this.setState({
+                toggleWaka: false
+            })
+        }
+        document.getElementById('board').focus();
+        let id = 0
+        const interval = setInterval(() => {
+            if (this.state.pacman[0].direction === 'UP'){
+                if (this.checkCollision('UP', id) === false) return
+                // if (this.state.pacman[id].direction === 'UP') break
                 this.eatPellet('UP', id)
                 this.eatPowerPellet(id)
                 this.setState({
@@ -308,12 +332,10 @@ class Board extends Component {
                         return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
                     }),
                 })
-                break
-            case 40:
-                // DOWN
-                if (this.checkCollision('DOWN', id) === false) {
-                    break
-                }
+            }
+            if (this.state.pacman[0].direction === 'DOWN'){
+                if (this.checkCollision('DOWN', id) === false) return
+                // if (this.state.pacman[id].direction === 'DOWN') break
                 this.eatPellet('DOWN', id)
                 this.eatPowerPellet(id)
                 this.setState({
@@ -321,10 +343,10 @@ class Board extends Component {
                         return el.id === id ? {...el, y: el.y + 1, direction: 'DOWN'} : el
                     }),
                 })
-                break
-            case 37:
-                // LEFT
-                if (this.checkCollision('LEFT', id) === false) break
+            }
+            if (this.state.pacman[0].direction === 'LEFT'){
+                if (this.checkCollision('LEFT', id) === false) return
+                // if (this.state.pacman[id].direction === 'LEFT') break
                 this.eatPellet('LEFT', id)
                 this.eatPowerPellet(id)
                 this.setState({
@@ -332,15 +354,92 @@ class Board extends Component {
                         return el.id === id ? {...el, x: el.x - 1, direction: 'LEFT'} : el
                     }),
                 })
+            }
+            if (this.state.pacman[0].direction === 'RIGHT'){
+              if (this.checkCollision('RIGHT', id) === false) return
+            //   if (this.state.pacman[id].direction === 'RIGHT') break
+              this.eatPellet('RIGHT', id)
+              this.eatPowerPellet(id)
+              this.setState({
+                  pacman: this.state.pacman.map(el => {
+                      return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el
+                  }),
+              })
+            }
+          }, 200)
+            this.setState({
+                interval: interval
+            })
+    }
+
+    movePacMan(e, id) {
+        if (!id) id = 0
+        switch (e.keyCode){
+            case 38:
+                // UP
+                if (this.checkCollision('UP', id) === false) break
+                // if (this.state.pacman[id].direction === 'UP') break
+                // this.eatPellet('UP', id)
+                // this.eatPowerPellet(id)
+                // this.setState({
+                //     pacman: this.state.pacman.map(el => {
+                //         return el.id === id ? {...el, y: el.y - 1, direction: 'UP'} : el
+                //     }),
+                // })
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, direction: 'UP'} : el
+                    }),
+                })
+                break
+            case 40:
+                // DOWN
+                if (this.checkCollision('DOWN', id) === false) break
+                // if (this.state.pacman[id].direction === 'DOWN') break
+                // this.eatPellet('DOWN', id)
+                // this.eatPowerPellet(id)
+                // this.setState({
+                //     pacman: this.state.pacman.map(el => {
+                //         return el.id === id ? {...el, y: el.y + 1, direction: 'DOWN'} : el
+                //     }),
+                // })
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, direction: 'DOWN'} : el
+                    }),
+                })
+                break
+            case 37:
+                // LEFT
+                if (this.checkCollision('LEFT', id) === false) break
+                // if (this.state.pacman[id].direction === 'LEFT') break
+                // this.eatPellet('LEFT', id)
+                // this.eatPowerPellet(id)
+                // this.setState({
+                //     pacman: this.state.pacman.map(el => {
+                //         return el.id === id ? {...el, x: el.x - 1, direction: 'LEFT'} : el
+                //     }),
+                // })
+                this.setState({
+                    pacman: this.state.pacman.map(el => {
+                        return el.id === id ? {...el, direction: 'LEFT'} : el
+                    }),
+                })
                 break
             case 39:
                 // RIGHT
                 if (this.checkCollision('RIGHT', id) === false) break
-                this.eatPellet('RIGHT', id)
-                this.eatPowerPellet(id)
+                // if (this.state.pacman[id].direction === 'RIGHT') break
+                // this.eatPellet('RIGHT', id)
+                // this.eatPowerPellet(id)
+                // this.setState({
+                //     pacman: this.state.pacman.map(el => {
+                //         return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el
+                //     }),
+                // })
                 this.setState({
                     pacman: this.state.pacman.map(el => {
-                        return el.id === id ? {...el, x: el.x + 1, direction: 'RIGHT'} : el
+                        return el.id === id ? {...el, direction: 'RIGHT'} : el
                     }),
                 })
                 break
@@ -388,13 +487,9 @@ class Board extends Component {
                         return <div key={rowInd + blockInd} className="power-pellet"/>
                   } else if (block === 4) {
                         return <div key={rowInd + blockInd} className="ghost-door"/>
-<<<<<<< HEAD
                   } else {
                       return <></>
                   }
-=======
-                  } else return <></>
->>>>>>> master
                 })}
               </div>
             )
@@ -409,8 +504,8 @@ class Board extends Component {
                 }
                 this.movePacMan(e)}}>
                 {/* Render the waka-waka so long as Pac is eating the pellet */}
-                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
-                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {/* {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
+                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null} */}
 
                 {/* If we hit either the win or loose condition, remove Pacman and the Ghosts. */}
                 {this.props.hiddenPoints < 2600 && this.props.lives.length > 0? 
@@ -419,10 +514,10 @@ class Board extends Component {
                     {/* Wait to Render the ghosts until the Pacman intro finishes, and the user starts using the inputs */}
                     {this.state.toggleSound === false ?
                         <>
-                            <Ghosts id={0} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
-                            <Ghosts id={1} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
-                            <Ghosts id={2} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
-                            <Ghosts id={3} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={0} pacmanAlive={this.state.pacmanAlive} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} whereBlinky={this.whereBlinky} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={1} pacmanAlive={this.state.pacmanAlive} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={2} pacmanAlive={this.state.pacmanAlive} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} blinkyX={this.state.blinkyX} blinkyY={this.state.blinkyY} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
+                            <Ghosts id={3} pacmanAlive={this.state.pacmanAlive} addPoints={this.props.addPoints} ghostsAfraid={this.state.ghostsAfraid} pacman={this.state.pacman} board={this.state.board} subtractLife={this.props.subtractLife} resetPacman={this.resetPacman} /> 
                         </>
                     : null}
                 </>

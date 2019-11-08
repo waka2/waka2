@@ -17,7 +17,9 @@ class Ghosts extends Component {
             dead: false,
             isSpawned: false,
             interval: null,
-            ghostSpeed: 200
+            ghostSpeed: 200,
+            canDie: false,
+            animation: true
         }
     }
 
@@ -54,9 +56,23 @@ class Ghosts extends Component {
             this.props.whereBlinky(this.state.x, this.state.y)
         }
         if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 0 && this.state.y === 14)){
-            this.setState({x: 26})
+            this.setState({x: 26, animation: false})
         } else if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.state.x === 27 && this.state.y === 14)){
-            this.setState({x: 1})
+            this.setState({x: 1, animation: false})
+        }
+        // if (!this.props.pacmanAlive && this.props.pacmanAlive !== prevProps.pacmanAlive){
+        //     this.setState({x: this.state.initialX, y: this.state.initialY})
+        //     this.respawn()
+        // }
+        if (prevState.x !== this.state.x && this.state.x === 26){
+           setTimeout(() => {
+                this.setState({animation: true})
+           }, 200)
+        }
+        if (prevState.x !== this.state.x && this.state.x === 1){
+            setTimeout(() => {
+                this.setState({animation: true})
+           }, 200)
         }
         if (this.state.dead && this.state.dead !== prevState.dead){
             clearInterval(this.state.interval)
@@ -92,7 +108,8 @@ class Ghosts extends Component {
             clearInterval(this.state.interval)
             await this.setState({
                 direction: this.getOppositeDirectionRedux(this.state.direction),
-                ghostSpeed: 400
+                ghostSpeed: 400,
+                canDie: true
             })
             const interval = setInterval(() => {
                 if (this.state.isSpawned){
@@ -121,21 +138,34 @@ class Ghosts extends Component {
             this.respawn()
         }
 
-        setTimeout(() => {
-            if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
-                if (this.props.ghostsAfraid && !this.state.dead){
-                    this.setState({
-                        dead: true
-                    })
-                    this.props.addPoints(200)
-                } else {
-                    if (!this.state.dead){
-                        this.props.subtractLife()
-                        this.props.resetPacman()
-                    }
+        // setTimeout(() => {
+        //     if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+        //         if (this.props.ghostsAfraid && !this.state.dead){
+        //             this.setState({
+        //                 dead: true
+        //             })
+        //             this.props.addPoints(200)
+        //         } else {
+        //             if (!this.state.dead || !this.state.canDie){
+        //                 this.props.subtractLife()
+        //                 this.props.resetPacman()
+        //             }
+        //         }
+        //     }
+        // }, 3000)
+        if ((prevState.x !== this.state.x || prevState.y !== this.state.y) && (this.props.pacman[0].x === this.state.x && this.props.pacman[0].y === this.state.y)){
+            if (this.props.ghostsAfraid && !this.state.dead){
+                this.setState({
+                    dead: true
+                })
+                this.props.addPoints(200)
+            } else {
+                if (!this.state.dead || !this.state.canDie){
+                    this.props.subtractLife()
+                    this.props.resetPacman()
                 }
             }
-        }, 3000)
+        }
     }
 
     checkGhostCollision(direction){
@@ -377,7 +407,7 @@ class Ghosts extends Component {
     }
 
     respawn = async () => {
-        this.setState({dead: false, isSpawned: false})
+        this.setState({dead: false, isSpawned: false, canDie: false})
         this.spawn()
     }
 
@@ -483,14 +513,14 @@ class Ghosts extends Component {
     }
 
     render(){
-        // console.log(this.state)
+        let ghostTarget = this.getTarget(this.props.id)
         return(
             <>
-            {/* <div className="target" style={{top: `${this.state.targetY * 20}px`, left: `${this.state.targetX * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
+            {/* <div className="target" style={{top: `${ghostTarget.y * 20}px`, left: `${ghostTarget.x * 20}px`, background: `${this.props.id === 0 ? 'red' : this.props.id === 1 ? 'pink': this.props.id === 2 ? 'lightblue' : 'orange'}`, transition: '.2s linear'}}/> */}
             <div className="ghosts">
                 {this.state.dead ? 
                     <div className="ghost only-eyes"
-                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: this.state.animation ? `${this.state.ghostSpeed/1000}s linear` : ''}}>
                         <div className="eyes">
                             <div className="eye">
                                 <div className="iris"></div>
@@ -503,9 +533,9 @@ class Ghosts extends Component {
                     :
                     <div className={`ghost
                                     ${this.props.id === 0 ? 'blinky' : this.props.id === 1 ? 'pinky': this.props.id === 2 ? 'inky' : 'clyde'}
-                                    ${this.props.ghostsAfraid === true ? 'scared' : ''}
+                                    ${this.props.ghostsAfraid === true && this.state.canDie === true ? 'scared' : ''}
                                     `}
-                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: `${this.state.ghostSpeed/1000}s linear`}}>
+                        style={{top: `${this.state.y * 20}px`, left: `${this.state.x * 20}px`, transition: this.state.animation ? `${this.state.ghostSpeed/1000}s linear` : ''}}>
                         <div className="eyes">
                             <div className="eye">
                                 <div id="iris" className="iris"></div>

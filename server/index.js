@@ -3,7 +3,6 @@ const express = require('express')
 const socket = require('socket.io')
 const session = require('express-session')
 const massive = require('massive')
-const path = require('path');
 
 const authCtrl = require('./controllers/authController')
 const scoreCtrl = require('./controllers/scoreController')
@@ -20,9 +19,7 @@ app.use(session({
     saveUninitialized: true,
     secret: SESSION_SECRET
 }))
-app.get('*', (req, res)=>{
-    res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+
 
 
 // Get Score - /api/score

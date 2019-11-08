@@ -154,8 +154,8 @@ class MPBoard extends Component {
 
   eatPellet(direction, id){
     if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 2) {
-        // this.props.addPoints(10)
-        // this.props.addHiddenPoints(10)
+        this.props.addPoints(10, id)
+        this.props.addHiddenPoints(10)
         this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
         if (this.state.toggleWaka === false) {
             // this.setState({

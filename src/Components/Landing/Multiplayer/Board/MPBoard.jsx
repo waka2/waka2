@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import PacMan from "./PacMan/PacMan";
+import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
+import Sound from 'react-sound';
 import "./MPboard.scss";
 const { REACT_APP_SOCKET_CONNECT } = process.env;
 
@@ -15,6 +17,9 @@ class MPBoard extends Component {
       pacman: [],
       interval: [],
       currentPlayerId: 0,
+      toggleFinish: false,
+      toggleEat: false,
+
       // 0 = path
       // 1 = wall
       // 2 = pellet
@@ -61,7 +66,9 @@ class MPBoard extends Component {
   componentDidMount = async () => {
     // this.socket.emit('join room', 1)
     // this.socket.on('room response', data => this.updateGame(data))
-
+    if (this.state.pacman.length > 0) {
+      this.resetPacman()
+    }
     // Call the database to get a unique id assigned.
     const result = await axios.get("/api/newplayer");
     const { player_id} = result.data.player;
@@ -92,6 +99,26 @@ class MPBoard extends Component {
       this.checkInterval();
     }
   };
+
+  resetPacman = () => {
+    if (this.state.pacman[0].x === this.state.pacman[1].x && this.state.pacman[0].y === this.state.pacman[1].y) {
+      if (this.state.powerId === 0) {
+        this.setState({
+          ...this.state.pacman[1],
+          x: 13,
+          y: 11
+        })
+      }
+
+      if (this.state.powerId === 1) {
+        this.setState({
+          ...this.state.pacman[0],
+          x: 13,
+          y: 23
+        })
+      }
+    }
+  }
 
   checkInterval = () => {
     const newPac = this.state.pacman;
@@ -169,6 +196,31 @@ class MPBoard extends Component {
     }
 }
 
+eatPowerPellet(id){
+  if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x] === 3) {
+      this.setState({
+        toggleFinish: true,
+        toggleEat: true,
+        powerId: id
+      })
+
+      setInterval(() => {
+        this.setState({
+          toggleFinish: false
+        })
+      }, 3000)
+
+      // setInterval(() => {
+      //   this.setState({
+      //     toggleEat: false,
+      //     powerId: null
+      //   })
+      // }, 7000)
+
+      this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
+  }
+  
+}
   updateGame = data => {
     const newBoard = data.board;
     const statePac = this.state.pacman;
@@ -264,6 +316,7 @@ class MPBoard extends Component {
         // UP
         if (this.checkCollision("UP", id) === false) break;
         this.eatPellet('UP', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
@@ -274,6 +327,7 @@ class MPBoard extends Component {
         // UP
         if (this.checkCollision("UP", id) === false) break;
         this.eatPellet('UP', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id ? { ...el, y: el.y - 1, direction: "UP" } : el;
@@ -285,6 +339,7 @@ class MPBoard extends Component {
         // DOWN
         if (this.checkCollision("DOWN", id) === false) break;
         this.eatPellet('DOWN', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -298,6 +353,7 @@ class MPBoard extends Component {
         // DOWN
         if (this.checkCollision("DOWN", id) === false) break;
         this.eatPellet('DOWN', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -311,6 +367,7 @@ class MPBoard extends Component {
         // LEFT
         if (this.checkCollision("LEFT", id) === false) break;
         this.eatPellet('LEFT', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -324,6 +381,7 @@ class MPBoard extends Component {
         // LEFT
         if (this.checkCollision("LEFT", id) === false) break;
         this.eatPellet('LEFT', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -337,6 +395,7 @@ class MPBoard extends Component {
         // RIGHT
         if (this.checkCollision("RIGHT", id) === false) break;
         this.eatPellet('RIGHT', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -350,6 +409,7 @@ class MPBoard extends Component {
         // RIGHT
         if (this.checkCollision("RIGHT", id) === false) break;
         this.eatPellet('RIGHT', id)
+        this.eatPowerPellet(id)
         this.setState({
           pacman: this.state.pacman.map(el => {
             return el.id === id
@@ -387,7 +447,7 @@ class MPBoard extends Component {
     let pacMap = this.state.pacman.map((el, index) => {
       return (
         <div key={index}>
-          <PacMan direction={el.direction} x={el.x} y={el.y} />
+          <PacMan direction={el.direction} x={el.x} y={el.y} isHungry={this.state.toggleEat} currentId={index} powerId={this.state.powerId}/>
         </div>
       );
     });
@@ -403,6 +463,7 @@ class MPBoard extends Component {
                 this.movePacMan(e, this.state.pacman[1].id)
             }}}
       >
+        { this.state.toggleFinish? <Sound url={finish} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null}
         {boardMapped}
         {pacMap}
       </div>

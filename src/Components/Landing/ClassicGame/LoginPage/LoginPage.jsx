@@ -18,8 +18,7 @@ class LoginPage extends Component{
             this.setState({
                 highscoresArr: res.data
             })
-        })
-        
+        })        
     }
 
     handleChange(e, key){
@@ -143,6 +142,10 @@ class LoginPage extends Component{
                     {this.state.loggedIn ? 
                     <button onClick={() => this.updateScore()} className='update-button'>Update Score</button>
                      : <></>}
+                     <div className="play-again-buttons">
+                        <button className='push--skeuo' onClick={() => this.refreshPage()} ></button>
+                        <span>Play Again</span>
+                     </div>
                 </div>
             </div>
         )

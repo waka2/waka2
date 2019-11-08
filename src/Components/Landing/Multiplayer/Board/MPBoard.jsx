@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import PacMan from "./PacMan/PacMan";
-import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
-import Sound from 'react-sound';
+// import finish from '../../../../assets/Mortal_Kombat_Finish_Him_Sound.wav'
+// import Sound from 'react-sound';
 import "./MPboard.scss";
 const { REACT_APP_SOCKET_CONNECT } = process.env;
 
@@ -256,13 +256,14 @@ eatPowerPellet(id){
         })
       }, 3000)
 
-      // setInterval(() => {
-      //   this.setState({
-      //     toggleEat: false,
-      //     powerId: null
-      //   })
-      // }, 7000)
-
+      setInterval(() => {
+        this.setState({
+          toggleEat: false,
+          powerId: null
+        })
+      }, 7000)
+      this.props.addPoints(50, id)
+      this.props.addHiddenPoints(50, id)
       this.state.board[this.state.pacman[id].y].splice(this.state.pacman[id].x, 1, 0)
   }
   
@@ -356,7 +357,7 @@ eatPowerPellet(id){
   }
 
   movePacMan = (e, id) => {
-    console.log(e.keycode)
+    // console.log(e.keycode)
     switch (e.keyCode) {
       case 87:
         // UP
@@ -609,21 +610,21 @@ eatPowerPellet(id){
         id="MPboard"
         className="MPboard"
         onKeyDown={(e) => {
-          console.log(e.keyCode)
+          // console.log(e.keyCode)
             if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37) {
-              console.log('1')
+              // console.log('1')
                 this.movePacMan(e, this.state.pacman[0].id)
             } else if (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65){
-              console.log('2')
+              // console.log('2')
                 this.movePacMan(e, this.state.pacman[1].id)
             } if (e.keycode === 84 || e.keycode === 71 || e.keycode === 70 || e.keycode === 72) {
-              console.log('Player 3')
+              // console.log('Player 3')
                 this.movePacMan(e, this.state.pacman[2].id)
             } else if (e.keycode === 56 || e.keycode === 53 || e.keycode === 52 || e.keycode === 54) {
               this.movePacMan(e, this.state.pacman[3].id)
             }}}
       >
-        { this.state.toggleFinish? <Sound url={finish} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null}
+        {/* { this.state.toggleFinish? <Sound url={finish} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={50}/> : null} */}
         {boardMapped}
         {pacMap}
       </div>

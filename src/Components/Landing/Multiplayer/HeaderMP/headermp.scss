@@ -1,0 +1,30 @@
+@import '../../../../App.scss';
+
+#headerMP {
+    width: 560px;
+    height: 10%;
+    background: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    font-family: $pixelFont;
+    .pacmanOneDisplayPoints {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        margin: 2.5% 0;
+        h3 {
+            margin: 1% 0;
+        }
+    }
+    .pacmanTwoDisplayPoints {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        margin: 2.5% 0;
+        h3 {
+            margin: 1% 0;
+        }
+    }
+}

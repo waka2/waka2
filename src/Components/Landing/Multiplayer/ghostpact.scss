@@ -1,152 +1,99 @@
-@import '../../App.scss';
-
-@font-face {
-    font-family: 'Waka2';
-    src: url('../../fonts/PAC-FONT.TTF');
-}
-@font-face {
-    font-family: 'WakaNumbers';
-    src: url('../../fonts/crackman.ttf')
-}
+@import '../../../App.scss';
 
 $bg: #333;
 $push-color: rgb(230, 201, 46);
 $push-size: 240px;
 
-.outer-container {
-    height: 95vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    background: url('http://eskipaper.com/images/pacman-wallpaper-15.jpg');
-    background-size: cover;
-    background-color: rgba(0, 0, 0, .7);
-    background-blend-mode: darken;
-}
-.outer-container::after {
-    opacity: .5;
-}
-.classic-button {
-    width: 30%;
+
+.winScreens {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    button {
-        transform: scale(.75);
-    }
-    h1 {
-        color: white;
-        font-family: $pixelFont;
-        margin-top: 0;
-    }
+    color: white;
+    font-family: $pixelFont;
+    font-size: 25px;
+    text-align: center;
 }
-
-
-.inner-container {
-    width: 760px;
-    height: 725px;
-    // width: 280px;
-    // height: 310px;
-    background: rgba(1, 1, 1, 0);
+.emptyHeader {
+    height: 100px;
+    width: 560px;
+    background: black;
+}
+.playerOneWinsScreen {
+    width: 560px;
+    height: 620px;
+    background: black;
     display: flex;
     justify-content: center;
-    // overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    h1 {
+        margin-top: -100px;
+    }
+    button {
+        transform: scale(.5);
+    }
 }
-.arcade {
-    max-height: 100%;
-    width: auto;
-    position: relative;
-    z-index: 10;
+.playerTwoWinsScreen {
+    width: 560px;
+    height: 620px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    h1 {
+        margin-top: -100px;
+    }
+    button {
+        transform: scale(.5);
+    }
 }
-.arcade-active {
-    animation-name: scaleArcade;
-    animation-iteration-count: 1;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-    // animation-delay: 2s; 
-}
-.screenshot {
-    height: auto;
-    width: 178px;
-    position: absolute;
-    margin-top: 35vh;
-    // object-fit: cover;
-    transform: perspective(11em) rotatex(20deg);
-    
-}
-.screenshot-active {
-    animation-name: scaleScreenshot;
-    animation-iteration-count: 1;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-    // animation-delay: 2s;
+.drawScreen {
+    width: 560px;
+    height: 620px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    h1 {
+        margin-top: -100px;
+    }
+    button {
+        transform: scale(.5);
+    }
 }
 
-@keyframes scaleArcade {
+.blink-win {
+    -webkit-animation: 1s linear infinite condemned_blink_effect;
+    animation: 1s linear infinite condemned_blink_effect;
+  }
+  @-webkit-keyframes condemned_blink_effect {
     0% {
-        transform: perspective(0) rotatex(0) scale(1);
-        opacity: 1;
+      visibility: hidden;
     }
-    75% {
-        opacity: 1;
-    }
-    85% {
-        opacity: 0;
+    50% {
+      visibility: hidden;
     }
     100% {
-        opacity: 0;
-        transform: perspective(20em) rotateX(-10deg) scale(3);
+      visibility: visible;
     }
-}
-@keyframes scaleScreenshot {
+  }
+  @keyframes condemned_blink_effect {
     0% {
-        transform: perspective(11em) rotatex(20deg) scale(1);
+      visibility: hidden;
+    }
+    50% {
+      visibility: hidden;
     }
     100% {
-        transform: perspective(0) rotatex(0) scale(3.1) translateY(-5px);
+      visibility: visible;
     }
-}
+  }
 
-.br-button {
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    button {
-        transform: scale(.75);
-    }
-    h1 {
-        color: white;
-        font-family: $pixelFont;
-        margin-top: 0;
-    }
-    h3 {
-        color: white;
-        font-family: $pixelFont;
-        margin-top: 0;
-    }
-}
-.home-button {
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    button {
-        transform: scale(.75);
-    }
-    h1 {
-        color: white;
-        font-family: $pixelFont;
-        margin-top: 0;
-    }
-}
-
-[class*="push"] {
+  [class*="push"] {
     position: relative;
     display: inline-block;
     width: $push-size;

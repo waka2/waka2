@@ -119,6 +119,23 @@
         cursor: pointer;
     }
 }
+.play-again-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    height: auto;
+    width: auto;
+    button {
+        margin: -75px 0;
+        transform: scale(.25);
+    }
+    span {
+        color: $clyde;
+        font-family: $pixelFont;
+    }
+}
 
 // .blinkWhite {
 //     -webkit-animation: 1s linear condemned_blink_effect;

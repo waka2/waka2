@@ -89,19 +89,29 @@ class Board extends Component {
     
 
     componentDidUpdate(prevProps, prevState) {
-        if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+        if ((this.state.pacman[0].x === 0 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y) && (this.state.pacmanAlive === true)){
+            // this.setState({pacmanAlive: false})
             this.setState({
+                pacmanAlive: false,
                 pacman: this.state.pacman.map(el => {
                     return el.id === 0 ? {...el, x: 26} : el
                 }),
             })
-        } else if ((this.state.pacman[0].x === 27 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y)){
+            setTimeout(() => {
+                this.setState({pacmanAlive: true})
+            }, 100)
+        } else if ((this.state.pacman[0].x === 27 && this.state.pacman[0].y === 14) && (prevState.pacman[0].x !== this.state.pacman[0].x || prevState.pacman[0].y !== this.state.pacman[0].y) && (this.state.pacmanAlive === true)){
             this.setState({
+                pacmanAlive: false,
                 pacman: this.state.pacman.map(el => {
                     return el.id === 0 ? {...el, x: 1} : el
                 }),
             })
+            setTimeout(() => {
+                this.setState({pacmanAlive: true})
+            }, 100)
         }
+        
     }
 
     componentWillUnmount() {
@@ -111,8 +121,12 @@ class Board extends Component {
     resetPacman = () => {
         const newPac = [{id: 0, x: 13, y: 23, direction: 'RIGHT'}]
         this.setState({
-            pacman: newPac
+            pacman: newPac,
+            pacmanAlive: false
         })
+        setTimeout(() => {
+            this.setState({pacmanAlive: true})
+        }, 10)
     }
 
     resetBoard = () => {
@@ -209,7 +223,6 @@ class Board extends Component {
     }
     
     checkCollision(direction, id) {
-        const {x} = this.state.pacman[0]
         switch(direction){
             case 'UP':
                 if (this.state.board[this.state.pacman[id].y - 1][this.state.pacman[id].x] === 1) {
@@ -246,15 +259,6 @@ class Board extends Component {
                 }
                 break
             case 'LEFT':
-                if (x === -1) {
-                    this.setState({
-                        pacman: [{
-                            ...this.state.pacman[0],
-                            x: 26,
-                            y: 14
-                        }]
-                    })
-                }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x - 1] === 1){
                     this.setState({
                         toggleWaka: false
@@ -267,15 +271,6 @@ class Board extends Component {
                 }
                 break
             case 'RIGHT':
-                    if (x === 27) {
-                        this.setState({
-                            pacman: [{
-                                ...this.state.pacman[0],
-                                x: 0,
-                                y: 14
-                            }]
-                        })
-                    }
                 if (this.state.board[this.state.pacman[id].y][this.state.pacman[id].x + 1] === 1){
                     this.setState({
                         toggleWaka: false
@@ -388,13 +383,9 @@ class Board extends Component {
                         return <div key={rowInd + blockInd} className="power-pellet"/>
                   } else if (block === 4) {
                         return <div key={rowInd + blockInd} className="ghost-door"/>
-<<<<<<< HEAD
                   } else {
                       return <></>
                   }
-=======
-                  } else return <></>
->>>>>>> master
                 })}
               </div>
             )
@@ -409,8 +400,8 @@ class Board extends Component {
                 }
                 this.movePacMan(e)}}>
                 {/* Render the waka-waka so long as Pac is eating the pellet */}
-                {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null}
-                {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null}
+                {/* {this.state.toggleWaka ? <Sound url={waka} loop={true} playStatus={Sound.status.PLAYING} autoLoad={true}  volume={5}/> : null} */}
+                {/* {this.state.togglePower ? <Sound url={finish} loop={false} playStatus={Sound.status.PLAYING} autoLoad={true}  /> : null} */}
 
                 {/* If we hit either the win or loose condition, remove Pacman and the Ghosts. */}
                 {this.props.hiddenPoints < 2600 && this.props.lives.length > 0? 

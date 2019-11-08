@@ -57,14 +57,20 @@ describe('<Ghost />', () => {
     })
 })
 
-// Test #4. When power pellet is eaten, Pacman can eat Ghost
-// describe('<Ghost />', () => {
-//     it(`When power pellet is eaten, Pacman can eat Ghost`, () => {
-//         const component = shallow(<Ghosts subtractLife={subtractLife} pacman={[{x: 20, y: 3}]}/>)
-//         component.instance().state = {...component.instance().state, x: 20, y: 3}
-//         component.instance().props.subtractLife()
-//         expect(pacmanLife).toEqual(2)
-//     })
-// })
+// Test #4. Inky Tracks Pacman
+describe('<Ghost />', () => {
+    it('Inky Tracks Pacman', () => {
+        const component = shallow(<Ghosts pacman={[{x: 15, y: 13}]}/>)
+        component.instance().state.tracking = true
+        expect(component.instance().getTarget(0)).toEqual({x: 15, y: 13})
+    })
+})
 
-// Test #5. When ghost is eaten, ghost goes home
+// Test #5. Clyde Tracks Pacman
+describe('<Ghost />', () => {
+    it('Clyde Tracks Pacman', () => {
+        const component = shallow(<Ghosts pacman={[{x: 10, y: 5}]}/>)
+        component.instance().state.tracking = true
+        expect(component.instance().getTarget(0)).toEqual({x: 10, y: 5})
+    })
+})

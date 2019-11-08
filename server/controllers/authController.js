@@ -53,6 +53,10 @@ module.exports = {
         res.status(200).send({message: 'Logged Out', loggedIn: false})
     },
     getUser(req, res) {
-        res.status(200).send(req.session.user)
+        if (req.session.user) {
+            return res.status(200).send(req.session.user)
+        } else {
+            return res.sendStatus(200)
+        }
     }
 }

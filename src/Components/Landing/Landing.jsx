@@ -83,7 +83,7 @@ class Landing extends React.Component {
                 </div>
                 {(this.props.location.pathname === '/') ? <div className="br-button">
                     <button onClick={() => this.fireAnimationMultiplayer()}className='push--skeuo'></button>
-                    <h1>?</h1>
+                    <h1>2 Player</h1>
                     {/* <h3>Coming Soon!</h3> */}
                 </div> : <div className='home-button'></div>}
             </div>

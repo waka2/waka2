@@ -13,7 +13,7 @@
     "express-session": "^1.17.0",
     "jest-environment-enzyme": "^7.1.2",
     "massive": "^6.1.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
